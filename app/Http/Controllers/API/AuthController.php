@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Presence;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Actions\Fortify\PasswordValidationRules;
@@ -35,8 +36,46 @@ class AuthController extends Controller
                     500
                 );
             }
-            $user = Employee::with(['office', 'presences'])->where('nip', $request->nip)->first();
-            // $user->presences->where('date', Carbon::now())->first();
+            $user = Employee::with(['office'])->where('nip', $request->nip)->first();
+
+            $presence = Presence::all()->where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
+            if (!$presence) {
+                Presence::create([
+                    'employee_id' => $user->nip,
+                    'office_id' => $user->office_id,
+                    'presence_date' => Carbon::now()->format('Y-m-d'),
+                ]);
+                $presence = Presence::all()->where('employee_id', $user->nip);
+                if ($user->device_id == null) {
+                    $user->device_id = $request['device_id'];
+                    $user->update();
+                }
+                if ($user->device_id != $request['device_id']) {
+                    return ResponseFormatter::error(
+                        [
+                            'message' => 'Unauthorized'
+                        ],
+                        'Authentication Failed',
+                        500
+                    );
+                }
+                if (!Hash::check($request->password, $user->password, [])) {
+                    throw new \Exception('Invalid Credentials');
+                }
+
+
+                $tokenResult = $user->createToken('authToken')->plainTextToken;
+                return ResponseFormatter::success(
+                    [
+                        'access_token' => $tokenResult,
+                        'token_type' => 'Bearer',
+                        'user' => $user,
+                        'presences' => $presence
+                    ],
+                    'Authenticated'
+                );
+            }
+            $presence = Presence::all()->where('employee_id', $user->nip);
             if ($user->device_id == null) {
                 $user->device_id = $request['device_id'];
                 $user->update();
@@ -54,15 +93,18 @@ class AuthController extends Controller
                 throw new \Exception('Invalid Credentials');
             }
 
+
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return ResponseFormatter::success(
                 [
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
-                    'user' => $user
+                    'user' => $user,
+                    'presences' => $presence
                 ],
                 'Authenticated'
             );
+
         } catch (\Exception $e) {
             return ResponseFormatter::error(
                 [
@@ -105,9 +147,26 @@ class AuthController extends Controller
     public function fetch(Request $request)
     {
         $user = Auth::user();
-        $user = Employee::with(['office', 'presences'])->where('nip', $user->nip)->first();
+        $user = Employee::with(['office'])->where('nip', $user->nip)->first();
+        $presence = Presence::all()->where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
         if (Auth::check() == true) {
-            return ResponseFormatter::success($user, 'Data profile user berhasil diambil');
+            if (!$presence) {
+                Presence::create([
+                    'employee_id' => $user->nip,
+                    'office_id' => $user->office_id,
+                    'presence_date' => Carbon::now()->format('Y-m-d'),
+                ]);
+                $presence = Presence::all()->where('employee_id', $user->nip);
+                return ResponseFormatter::success([
+                    'user' => $user,
+                    'presences' => $presence
+                ], 'Data profile user berhasil diambil');
+            }
+            $presence = Presence::all()->where('employee_id', $user->nip);
+            return ResponseFormatter::success([
+                'user' => $user,
+                '   ' => $presence
+            ], 'Data profile user berhasil diambil');
         } else {
             return ResponseFormatter::error(Auth::check());
         }

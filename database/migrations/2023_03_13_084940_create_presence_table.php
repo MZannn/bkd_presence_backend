@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('employee_id',30);
             $table->foreign('employee_id')->references('nip')->on('employees')->onDelete('cascade');
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
-            $table->time('attendance_clock')->default('00:00:00');
-            $table->time('attendance_clock_out')->default('00:00:00');
+            $table->time('attendance_clock')->nullable();
+            $table->time('attendance_clock_out')->nullable();
             $table->date('presence_date');
-            $table->string('presence_status');
+            $table->string('attendance_entry_status')->nullable();
+            $table->string('attendance_exit_status')->nullable();
             $table->string('entry_position')->nullable();
             $table->float('entry_distance')->nullable();
             $table->string('exit_position')->nullable();

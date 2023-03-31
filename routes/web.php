@@ -21,16 +21,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('office', OfficeController::class);
         Route::resource('employee', EmployeeController::class);
-        Route::get('/change-Password', [UserController::class, 'index'])->name('changePassword');
+        Route::resource('user', UserController::class);
+        Route::get('/change-Password', [UserController::class, 'changePassword'])->name('changePassword');
         Route::post('/change-Password', [UserController::class, 'updatePasswordAdmin'])->name('changePassword.store');
         Route::get('/import-data-pegawai', [EmployeeController::class, 'toImport'])->name('employee.import');
         Route::post('/import-data-pegawai', [EmployeeController::class, 'import'])->name('employee.import.store');
-        Route::get('/presensi', [PresenceController::class, 'index'])->name('presence.index');
+        Route::resource('presence', PresenceController::class);
+        // Route::get('/presensi', [PresenceController::class, 'index'])->name('presence.index');
     });
 Auth::routes();
 

@@ -15,20 +15,25 @@
                 <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm"><i
                         class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i></a>
             </div>
+
             <div class="col-sm-8">
-                <form action="{{ route('employee.index') }}" method="GET" class="d-sm-flex justify-content-sm-end mb-2">
-                    <label for="office_id" class="col-sm-1 col-form-label d-sm-flex justify-content-sm-end">Kantor</label>
-                    <div class="input-group col-sm-5">
-                        <select class="form-select form-control" name="office_id" id=""
-                            aria-label="Default select example">
-                            <option value="">Pilih Kantor</option>
-                            @foreach ($offices as $office)
-                                <option value="{{ $office->id }}">{{ $office->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-primary input-group-text">Pilih</button>
-                    </div>
-                </form>
+                @if (Auth::user()->roles == 'SUPER ADMIN')
+                    <form action="{{ route('employee.index') }}" method="GET"
+                        class="d-sm-flex justify-content-sm-end mb-2">
+                        <label for="office_id"
+                            class="col-sm-1 col-form-label d-sm-flex justify-content-sm-end">Kantor</label>
+                        <div class="input-group col-sm-5">
+                            <select class="form-select form-control" name="office_id" id=""
+                                aria-label="Default select example">
+                                <option value="">Pilih Kantor</option>
+                                @foreach ($offices as $office)
+                                    <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="btn btn-primary input-group-text">Pilih</button>
+                        </div>
+                    </form>
+                @endif
                 <form action="{{ route('employee.index') }}" method="GET" class="d-sm-flex justify-content-sm-end">
                     <label for="search" class="col-sm-3 col-form-label d-sm-flex justify-content-sm-end">Cari
                         Pegawai</label>
@@ -41,6 +46,7 @@
                 </form>
             </div>
         </div>
+
         <!-- Content Row -->
         <div class="row">
             <div class="card-body">

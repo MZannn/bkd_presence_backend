@@ -58,17 +58,21 @@
                             value="{{ $employee->profile_photo_path }}">
                     </div>
 
-                    <div class="form-group">
-                        <label for="office_id">Kantor</label>
-                        <select class="form-select form-control" name="office_id" id=""
-                            aria-label="Default select example">
-                            <option value="{{ $employee->office_id }}" selected>{{ $employee->office->name }}
-                            </option>
-                            @foreach ($items as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if (Auth::user()->roles == 'SUPER ADMIN')
+                        <div class="form-group">
+                            <label for="office_id">Kantor</label>
+                            <select class="form-select form-control" name="office_id" id=""
+                                aria-label="Default select example">
+                                <option value="{{ $employee->office_id }}" selected>{{ $employee->office->name }}
+                                </option>
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @else
+                        <input type="hidden" name="office_id" value="{{ Auth::user()->office_id }}">
+                    @endif
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
                 </form>

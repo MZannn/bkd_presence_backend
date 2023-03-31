@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'division',
         'roles',
+        'office_id'
     ];
 
     /**
@@ -43,8 +44,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function presences()
+
+    public function office()
     {
-        return $this->hasMany(Presence::class, 'user_id', 'id');
+        return $this->belongsTo(Office::class, 'office_id', 'id');
     }
 }

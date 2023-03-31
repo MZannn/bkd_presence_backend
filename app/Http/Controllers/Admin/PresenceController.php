@@ -3,20 +3,41 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Office;
 use App\Models\Presence;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PresenceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $offices = Office::all();
+        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            if ($request->has('search')) {
+                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            } else if ($request->office_id == null) {
+                $data = Presence::with(['office', 'employee']);
+                if ($data->first() != null) {
+                    $items = Presence::with(['office', 'employee'])->where('office_id', $data->first()->office->id)->paginate(10);
+                    return view('pages.admin.presence.index', compact('items', 'offices'));
+                }
+
+            } else {
+                $items = Presence::with(['office', 'employee'])->where('office_id', $request->office_id)->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            }
+            $items = Presence::with(['office', 'employee'])->paginate(10);
+            return view('pages.admin.employee.index', compact('items', 'offices'));
+        }
         $items = Presence::with('employee')->paginate(10);
-        return view('pages.admin.presence.index',compact('items'));
+        return view('pages.admin.presence.index', compact('items', 'offices'));
     }
 
     /**
@@ -40,7 +61,9 @@ class PresenceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $items = Presence::with(['employee', 'office'])->where('id', $id)->get();
+
+        return view('pages.admin.presence.detail', compact('items'));
     }
 
     /**

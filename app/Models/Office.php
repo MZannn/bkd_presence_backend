@@ -26,4 +26,12 @@ class Office extends Model
     {
         return $this->hasMany(Employee::class, 'office_id', 'id');
     }
+    public function presences()
+    {
+        return $this->hasMany(Presence::class, 'office_id', 'id');
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'office_id', 'id');
+    }
 }

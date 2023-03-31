@@ -6,7 +6,13 @@
          <div class="sidebar-brand-icon">
              <img src="{{ url('admin/img/logo_bkd.png') }}" alt="" width="50">
          </div>
-         <div class="sidebar-brand-text">Admin Presensi BKD</div>
+         <div class="sidebar-brand-text">
+             @if (Auth::user()->roles == 'SUPER ADMIN')
+                 Super Admin
+             @elseif (Auth::user()->roles == 'ADMIN')
+                 Admin
+             @endif
+         </div>
      </a>
 
      <!-- Divider -->
@@ -18,11 +24,13 @@
              <i class="fas fa-fw fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
      </li>
-     <li class="nav-item">
-         <a class="nav-link" href="{{ route('office.index') }}">
-             <i class="fas fa-fw fa-building"></i>
-             <span>Kantor</span></a>
-     </li>
+     @if (Auth::user()->roles == 'SUPER ADMIN')
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('office.index') }}">
+                 <i class="fas fa-fw fa-building"></i>
+                 <span>Kantor</span></a>
+         </li>
+     @endif
      <li class="nav-item">
          <a class="nav-link" href="{{ route('employee.index') }}">
              <i class="fas fa-fw fa-user"></i>
@@ -33,7 +41,13 @@
              <i class="fas fa-fw fa-calendar-check"></i>
              <span>Presensi</span></a>
      </li>
-
+     @if (Auth::user()->roles == 'SUPER ADMIN')
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('user.index') }}">
+                 <i class="fas fa-fw fa-user-tie"></i>
+                 <span>Admin Kantor</span></a>
+         </li>
+     @endif
      <!-- Divider -->
      <hr class="sidebar-divider d-none d-md-block">
 

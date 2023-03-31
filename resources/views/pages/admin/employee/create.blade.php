@@ -49,18 +49,19 @@
                         <input type="file" class="form-control" name='profile_photo_path' placeholder="Foto Profil"
                             value="{{ old('profile_photo_path') }}">
                     </div>
-                    <div class="form-group">
-                        <label for="office_id">Kantor</label>
-                        <select class="form-select form-control" name="office_id" id=""
-                            aria-label="Default select example">
-                            @foreach ($items as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
-
-
-                    </div>
-
+                    @if (Auth::user()->roles == 'SUPER ADMIN')
+                        <div class="form-group">
+                            <label for="office_id">Kantor</label>
+                            <select class="form-select form-control" name="office_id" id=""
+                                aria-label="Default select example">
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @elseif (Auth::user()->roles == 'ADMIN')
+                        <input type="hidden" name="office_id" value="{{ Auth::user()->office_id }}">
+                    @endif
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
                 </form>

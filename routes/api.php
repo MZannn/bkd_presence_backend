@@ -22,6 +22,9 @@ Route::middleware(['auth:sanctum,api'])->group(function () {
     Route::get('user', [AuthController::class, 'fetch']);
     Route::post('user', [AuthController::class, 'updateProfile']);
     Route::post('user/photo', [AuthController::class, 'updatePhoto']);
+    Route::put('presence-in/{id}', [PresenceController::class, 'presenceIn']);
+    Route::put('presence-out/{id}', [PresenceController::class, 'presenceOut']);
+    Route::get('presence-all', [PresenceController::class, 'all']);
 });
 
 Route::post('login', [AuthController::class, 'login']);
