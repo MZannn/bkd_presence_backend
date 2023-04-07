@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('nip',30)->primary()->unique();
             $table->string('name');
             $table->string('password');
-            $table->string('division');
+            $table->string('position');
             $table->string('phone_number')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->string('device_id')->nullable();

@@ -1,0 +1,1 @@
+Hi Admin terdapat pegawai yang mengajukan penggantian device, silahkan cek website admin untuk melihat detailnya. Terima kasih.

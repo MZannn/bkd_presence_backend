@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendEmail;
 use App\Models\Office;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -44,7 +46,7 @@ class UserController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['office_id'] = $request->office_id;
         User::create($data);
-        return redirect()->route('user.index');
+        return redirect()->route('user.index')->with('alert', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -58,25 +60,36 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): Response
+    public function edit(string $id)
     {
-        //
+        $item = User::find($id);
+        return view('pages.admin.user.edit', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
+        $item = User::findOrFail($id);
+        $item->update($data);
+        return redirect()->route('user.index')->with('alert', 'Data Berhasil Diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $id)
     {
-        //
+        $item = User::findOrFail($id);
+        $item->delete();
+        return redirect()->route('user.index')->with('alert', 'Data Berhasil Dihapus');
     }
     public function changePassword()
     {

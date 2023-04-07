@@ -34,10 +34,10 @@
                                     <td width="40%"> {{ $item->roles }} </td>
                                     <td> {{ $item->office->name }} </td>
                                     <td>
-                                        <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
+                                        <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <form action="{{ route('office.destroy', $item->id) }}" method="POST"
+                                        <form action="{{ route('user.destroy', $item->id) }}" method="POST"
                                             class="d-sm-inline">
                                             @csrf
                                             @method('delete')

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\PresenceController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,14 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum,api'])->group(function () {
-    Route::get('presence', [PresenceController::class, 'all']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('user', [AuthController::class, 'fetch']);
-    Route::post('user', [AuthController::class, 'updateProfile']);
-    Route::post('user/photo', [AuthController::class, 'updatePhoto']);
+    Route::get('user', [UserController::class, 'fetch']);
+    Route::post('user/photo', [UserController::class, 'updatePhoto']);
     Route::put('presence-in/{id}', [PresenceController::class, 'presenceIn']);
     Route::put('presence-out/{id}', [PresenceController::class, 'presenceOut']);
-    Route::get('presence-all', [PresenceController::class, 'all']);
+    Route::post('bussiness-trip', [PresenceController::class, 'bussinessTrip']);
+    Route::post('permission-and-sick', [PresenceController::class, 'permissionAndSick']);
+    Route::post('report-change-device', [UserController::class, 'reportChangeDevice']);
 });
 
 Route::post('login', [AuthController::class, 'login']);

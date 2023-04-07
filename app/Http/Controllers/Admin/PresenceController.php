@@ -19,8 +19,30 @@ class PresenceController extends Controller
     {
         $offices = Office::all();
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
-            if ($request->has('search')) {
+            if ($request->has('search') && $request->start_date != null && $request->end_date != null) {
+                if ($request->start_date == $request->end_date) {
+                    $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                    return view('pages.admin.presence.index', compact('items', 'offices'));
+                }
+                $request->validate([
+                    'start_date' => 'required|date|before:end_date',
+                    'end_date' => 'required|date|after:start_date'
+                ]);
+                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            } else if ($request->has('search')) {
                 $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            } else if ($request->has('start_date') && $request->has('end_date')) {
+                if ($request->start_date == $request->end_date) {
+                    $items = Presence::with(['office', 'employee'])->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                    return view('pages.admin.presence.index', compact('items', 'offices'));
+                }
+                $request->validate([
+                    'start_date' => 'required|date|before:end_date',
+                    'end_date' => 'required|date|after:start_date'
+                ]);
+                $items = Presence::with(['office', 'employee'])->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
                 return view('pages.admin.presence.index', compact('items', 'offices'));
             } else if ($request->office_id == null) {
                 $data = Presence::with(['office', 'employee']);
@@ -28,13 +50,39 @@ class PresenceController extends Controller
                     $items = Presence::with(['office', 'employee'])->where('office_id', $data->first()->office->id)->paginate(10);
                     return view('pages.admin.presence.index', compact('items', 'offices'));
                 }
-
             } else {
                 $items = Presence::with(['office', 'employee'])->where('office_id', $request->office_id)->paginate(10);
                 return view('pages.admin.presence.index', compact('items', 'offices'));
             }
             $items = Presence::with(['office', 'employee'])->paginate(10);
-            return view('pages.admin.employee.index', compact('items', 'offices'));
+            return view('pages.admin.presence.index', compact('items', 'offices'));
+        }else{
+            if ($request->has('search') && $request->start_date != null && $request->end_date != null) {
+                if ($request->start_date == $request->end_date) {
+                    $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                    return view('pages.admin.presence.index', compact('items', 'offices'));
+                }
+                $request->validate([
+                    'start_date' => 'required|date|before:end_date',
+                    'end_date' => 'required|date|after:start_date'
+                ]);
+                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            } else if ($request->has('search')) {
+                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            } else if ($request->has('start_date') && $request->has('end_date')) {
+                if ($request->start_date == $request->end_date) {
+                    $items = Presence::with(['office', 'employee'])->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                    return view('pages.admin.presence.index', compact('items', 'offices'));
+                }
+                $request->validate([
+                    'start_date' => 'required|date|before:end_date',
+                    'end_date' => 'required|date|after:start_date'
+                ]);
+                $items = Presence::with(['office', 'employee'])->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
+                return view('pages.admin.presence.index', compact('items', 'offices'));
+            }
         }
         $items = Presence::with('employee')->paginate(10);
         return view('pages.admin.presence.index', compact('items', 'offices'));

@@ -18,12 +18,12 @@ class EmployeeImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Employee([
-            'nip'=> $row['nip'],
-            'name'=> $row['name'],
-            'division'=> $row['division'],
-            'phone_number'=> $row['phone_number'],
-            'office_id'=> Auth::user()->office_id ?? $row['office_id'],
+            'nip'=> strval($row['nip']),
+            'name'=> strval($row['nama']),
+            'position'=> strval($row['jabatan']),
+            'phone_number'=> strval($row['no_hp']),
             'password'=> Hash::make($row['password']),
+            'office_id'=> Auth::user()->office_id ?? $row['id_kantor'],
         ]);
     }
 }

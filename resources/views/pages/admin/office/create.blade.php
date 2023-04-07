@@ -30,15 +30,20 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Alamat Kantor</label>
-                        <input type="text" class="form-control" name='address' value="{{ old('address') }}">
+                        <input type="text" class="form-control" name='address' id="address" value="{{ old('address') }}">
                     </div>
                     <div class="form-group">
                         <label for="latitude">Latitude</label>
-                        <input type="text" class="form-control" name='latitude' value="{{ old('latitude') }}">
+                        <input type="text" class="form-control" name='latitude' id="latitude" value="{{ old('latitude') }}">
                     </div>
                     <div class="form-group">
                         <label for="longitude">Longitude</label>
-                        <input type="text" class="form-control" name='longitude' value="{{ old('longitude') }}">
+                        <input type="text" class="form-control" name='longitude' id="longitude" value="{{ old('longitude') }}">
+                    </div>
+                    <div id="map" style="height: 400px; width: 100%;" class="form-group">
+                        <iframe width="600" height="450" frameborder="0" style="border:0"
+                            src="https://www.google.com/maps/embed/v1/place?q={{ $location }}&zoom=15&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE"
+                            allowfullscreen></iframe>
                     </div>
 
                     <button type="submit" class="btn btn-primary px-5">Submit</button>

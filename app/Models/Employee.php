@@ -16,7 +16,7 @@ class Employee extends Model
         'nip',
         'name',
         'password',
-        'division',
+        'position',
         'phone_number',
         'profile_photo_path',
         'office_id',

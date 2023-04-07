@@ -48,6 +48,22 @@
                  <span>Admin Kantor</span></a>
          </li>
      @endif
+
+     <li class="nav-item">
+         <a class="nav-link" href="{{ route('permissionAndSick') }}">
+             <i class="fas fa-fw fa-virus"></i>
+             <span>Izin dan Sakit</span></a>
+     </li>
+     <li class="nav-item">
+         <a class="nav-link" href="{{ route('bussinessTrip') }}">
+             <i class="fas fa-fw fa-briefcase"></i>
+             <span>Perjalanan Dinas</span></a>
+     </li>
+     <li class="nav-item">
+         <a class="nav-link" href="{{ route('reportChangeDevice') }}">
+             <i class="fas fa-fw fa-mobile"></i>
+             <span>Penggantian Device</span></a>
+     </li>
      <!-- Divider -->
      <hr class="sidebar-divider d-none d-md-block">
 

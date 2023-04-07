@@ -67,7 +67,7 @@ class EmployeeController extends Controller
             'nip' => 'required|string|max:30',
             'password' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'division' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'profile_photo_path' => 'image|max:2048',
             'office_id' => 'required|numeric',
@@ -79,7 +79,7 @@ class EmployeeController extends Controller
             );
         }
         Employee::create($data);
-        return redirect()->route('employee.index');
+        return redirect()->route('employee.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -108,7 +108,7 @@ class EmployeeController extends Controller
         $data = $request->validate([
             'nip' => 'required|string|max:30',
             'name' => 'required|string|max:255',
-            'division' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'profile_photo_path' => 'image|max:2048',
             'office_id' => 'required|numeric',
@@ -121,7 +121,7 @@ class EmployeeController extends Controller
         }
         // dd($data);
         DB::table('employees')->where('nip', $id)->update($data);
-        return redirect()->route('employee.index');
+        return redirect()->route('employee.index')->with('alert', 'Data berhasil diubah');
     }
 
     /**
@@ -130,7 +130,7 @@ class EmployeeController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         DB::table('employees')->where('nip', $id)->delete();
-        return redirect()->route('employee.index');
+        return redirect()->route('employee.index')->with('alert', 'Data berhasil dihapus');
     }
 
     public function toImport()
@@ -141,6 +141,6 @@ class EmployeeController extends Controller
     {
         $file = $request->file('file');
         Excel::import(new EmployeeImport, $file);
-        return redirect()->route('employee.index');
+        return redirect()->route('employee.index')->with('alert', 'Data berhasil diimport');
     }
 }

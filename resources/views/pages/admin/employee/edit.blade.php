@@ -40,8 +40,8 @@
                         <input type="text" class="form-control" name='name' value="{{ $employee->name }}">
                     </div>
                     <div class="form-group">
-                        <label for="division">Divisi</label>
-                        <input type="text" class="form-control" name='division' value="{{ $employee->division }}">
+                        <label for="position">Jabatan</label>
+                        <input type="text" class="form-control" name='position' value="{{ $employee->position }}">
                     </div>
                     <div class="form-group">
                         <label for="phone_number">No Hp</label>

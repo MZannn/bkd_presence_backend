@@ -24,7 +24,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.office.create');
+        return view('pages.admin.office.create', ['location' => null]);
     }
 
     /**
@@ -40,7 +40,7 @@ class OfficeController extends Controller
         ]);
 
         $office = Office::create($request->all());
-        return redirect()->route('office.index');
+        return redirect()->route('office.index')->with('alert', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -73,7 +73,7 @@ class OfficeController extends Controller
         ]);
         $item = Office::findOrFail($id);
         $item->update($request->all());
-        return redirect()->route('office.index');
+        return redirect()->route('office.index')->with('alert', 'Data Berhasil Diubah');
     }
 
     /**
@@ -83,6 +83,6 @@ class OfficeController extends Controller
     {
         $item = Office::findOrFail($id);
         $item->delete();
-        return redirect()->route('office.index');
+        return redirect()->route('office.index')->with('alert', 'Data Berhasil Dihapus');
     }
 }

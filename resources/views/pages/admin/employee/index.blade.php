@@ -4,7 +4,11 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pegawai {{ $items->first()->office->name ?? 'Tidak Ditemukan' }}
+            <h1 class="h3 mb-0 text-gray-800">Pegawai @if (Auth::user()->roles == 'SUPER ADMIN')
+                    {{ $items->first()->office->name ?? 'Tidak Ditemukan' }}
+                @else
+                    {{ Auth::user()->office->name ?? 'Tidak Ditemukan' }}
+                @endif
             </h1>
             <a href="{{ route('employee.create') }}" class="btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white">
@@ -56,7 +60,7 @@
                             <tr>
                                 <th>NIP</th>
                                 <th>Nama</th>
-                                <th>Divisi</th>
+                                <th>Jabatan</th>
                                 <th>No Hp</th>
                                 <th>Kantor</th>
                                 <th>Foto</th>
@@ -68,9 +72,9 @@
                                 <tr>
                                     <td> {{ $item->nip }} </td>
                                     <td> {{ $item->name }} </td>
-                                    <td> {{ $item->division }} </td>
+                                    <td width="15%"> {{ $item->position }} </td>
                                     <td> {{ $item->phone_number }} </td>
-                                    <td> {{ $item->office->name }}</td>
+                                    <td width="15%"> {{ $item->office->name }}</td>
 
                                     <td width="10%"> <img src="{{ Storage::url($item->profile_photo_path) }}"
                                             alt="" style="width: 150px" class="img-thumbnail"></td>

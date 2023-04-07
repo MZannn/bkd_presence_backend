@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\BussinessTripController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OfficeController;
+use App\Http\Controllers\Admin\PermissionAndSickController;
+use App\Http\Controllers\Admin\ReportChangeDeviceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PresenceController;
 use Illuminate\Support\Facades\Route;
@@ -32,10 +35,12 @@ Route::prefix('/')
         Route::get('/import-data-pegawai', [EmployeeController::class, 'toImport'])->name('employee.import');
         Route::post('/import-data-pegawai', [EmployeeController::class, 'import'])->name('employee.import.store');
         Route::resource('presence', PresenceController::class);
-        // Route::get('/presensi', [PresenceController::class, 'index'])->name('presence.index');
+        Route::get('/bussiness-trip', [BussinessTripController::class, 'index'])->name('bussinessTrip');
+        Route::get('/bussiness-trip/{id}', [BussinessTripController::class, 'edit'])->name('bussinessTrip.edit');
+        Route::post('/bussiness-trip', [BussinessTripController::class, 'validation'])->name('bussinessTrip.validation');
+        Route::get('/permission-and-sick', [PermissionAndSickController::class, 'index'])->name('permissionAndSick');
+        Route::post('/permission-and-sick', [PermissionAndSickController::class, 'validation'])->name('permissionAndSick.validation');
+        Route::get('/report-change-device', [ReportChangeDeviceController::class, 'index'])->name('reportChangeDevice');
+        Route::post('/report-change-device', [ReportChangeDeviceController::class, 'approved'])->name('reportChangeDevice.approved');
     });
-Auth::routes();
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Auth::routes(['register' => false]);

@@ -38,14 +38,14 @@ class AuthController extends Controller
             }
             $user = Employee::with(['office'])->where('nip', $request->nip)->first();
 
-            $presence = Presence::all()->where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
-            if (!$presence) {
+            $presence = Presence::where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
+            if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
                 Presence::create([
                     'employee_id' => $user->nip,
                     'office_id' => $user->office_id,
                     'presence_date' => Carbon::now()->format('Y-m-d'),
                 ]);
-                $presence = Presence::all()->where('employee_id', $user->nip);
+                $presence = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->paginate(5);
                 if ($user->device_id == null) {
                     $user->device_id = $request['device_id'];
                     $user->update();
@@ -70,12 +70,12 @@ class AuthController extends Controller
                         'access_token' => $tokenResult,
                         'token_type' => 'Bearer',
                         'user' => $user,
-                        'presences' => $presence
+                        'presences' => $presence->items()
                     ],
                     'Authenticated'
                 );
             }
-            $presence = Presence::all()->where('employee_id', $user->nip);
+            $presence = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->paginate(5);
             if ($user->device_id == null) {
                 $user->device_id = $request['device_id'];
                 $user->update();
@@ -100,7 +100,7 @@ class AuthController extends Controller
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
                     'user' => $user,
-                    'presences' => $presence
+                    'presences' => $presence->items()
                 ],
                 'Authenticated'
             );
@@ -140,56 +140,6 @@ class AuthController extends Controller
                 'Update Profile Failed',
                 500
             );
-        }
-    }
-
-    // fetch user
-    public function fetch(Request $request)
-    {
-        $user = Auth::user();
-        $user = Employee::with(['office'])->where('nip', $user->nip)->first();
-        $presence = Presence::all()->where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
-        if (Auth::check() == true) {
-            if (!$presence) {
-                Presence::create([
-                    'employee_id' => $user->nip,
-                    'office_id' => $user->office_id,
-                    'presence_date' => Carbon::now()->format('Y-m-d'),
-                ]);
-                $presence = Presence::all()->where('employee_id', $user->nip);
-                return ResponseFormatter::success([
-                    'user' => $user,
-                    'presences' => $presence
-                ], 'Data profile user berhasil diambil');
-            }
-            $presence = Presence::all()->where('employee_id', $user->nip);
-            return ResponseFormatter::success([
-                'user' => $user,
-                '   ' => $presence
-            ], 'Data profile user berhasil diambil');
-        } else {
-            return ResponseFormatter::error(Auth::check());
-        }
-    }
-
-    // update photo
-    public function updatePhoto(Request $request)
-    {
-        $validator = Validator::make($request->all(), ['file' => 'required|image|max:2048']);
-
-        if ($validator->fails()) {
-            return ResponseFormatter::error([
-                'error' => $validator->errors(),
-            ], 'Upload photo fails', 400);
-        }
-
-        if ($request->file('file')) {
-            $file = $request->file->store('assets/user', 'public');
-
-            $user = Auth::user();
-            $user->profile_photo_path = $file;
-            $user->update();
-            return ResponseFormatter::success([$file], 'File successfully Uploaded');
         }
     }
 
