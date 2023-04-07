@@ -70,11 +70,11 @@ class UserController extends Controller
 
     public function reportChangeDevice(Request $request)
     {
-        // if (ReportChangeDevice::where('employee_id', $request->employee_id)->exists()) {
-        //     return ResponseFormatter::error([
-        //         'error' => 'Laporan perubahan device sudah diajukan',
-        //     ], 'Laporan perubahan device sudah diajukan', 400);
-        // }
+        if (ReportChangeDevice::where('employee_id', $request->employee_id)->exists()) {
+            return ResponseFormatter::error([
+                'error' => 'Laporan perubahan device sudah diajukan',
+            ], 'Laporan perubahan device sudah diajukan', 400);
+        }
         $data = $request->validate([
             'employee_id' => 'required',
             'office_id' => 'required',
