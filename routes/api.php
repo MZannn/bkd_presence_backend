@@ -17,16 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum,api'])->group(function () {
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('user', [UserController::class, 'fetch']);
-    Route::post('user/photo', [UserController::class, 'updatePhoto']);
-    Route::put('presence-in/{id}', [PresenceController::class, 'presenceIn']);
-    Route::put('presence-out/{id}', [PresenceController::class, 'presenceOut']);
-    Route::post('bussiness-trip', [PresenceController::class, 'bussinessTrip']);
-    Route::post('permission-and-sick', [PresenceController::class, 'permissionAndSick']);
-    Route::post('report-change-device', [UserController::class, 'reportChangeDevice']);
-});
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('user', [UserController::class, 'fetch']);
+        Route::post('user/photo', [UserController::class, 'updatePhoto']);
+        Route::put('presence-in/{id}', [PresenceController::class, 'presenceIn']);
+        Route::put('presence-out/{id}', [PresenceController::class, 'presenceOut']);
+        Route::post('bussiness-trip', [PresenceController::class, 'bussinessTrip']);
+        Route::post('permission-and-sick', [PresenceController::class, 'permissionAndSick']);
+        Route::post('report-change-device', [UserController::class, 'reportChangeDevice']);
+    });
 
 Route::post('login', [AuthController::class, 'login']);
 Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');

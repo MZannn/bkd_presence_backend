@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     public function fetch(Request $request)
     {
-        $user = Auth::user()->load('office');
+        $user = Auth::user();
         $presence = Presence::where('employee_id', $user->nip)
             ->where('presence_date', Carbon::now()->format('Y-m-d'))
             ->first();
