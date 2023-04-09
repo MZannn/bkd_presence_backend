@@ -19,9 +19,12 @@ class Employee extends Model
         'position',
         'phone_number',
         'profile_photo_path',
+        'device_id',
         'office_id',
     ];
-    
+    public $incrementing = false;
+
+    protected $keyType = 'string';
     protected $table = 'employees';
     protected $hidden = [
         'password',
