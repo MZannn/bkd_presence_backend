@@ -78,6 +78,7 @@ class EmployeeController extends Controller
                 'public'
             );
         }
+        $data['password'] = Hash::make($data['password']);
         Employee::create($data);
         return redirect()->route('employee.index')->with('success', 'Data berhasil ditambahkan');
     }
