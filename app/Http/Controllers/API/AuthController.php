@@ -62,7 +62,7 @@ class AuthController extends Controller
                 );
             }
 
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
+            $tokenResult = $user->createToken('auth_token')->plainTextToken;
 
             return ResponseFormatter::success(
                 [
