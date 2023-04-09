@@ -33,7 +33,7 @@ class AuthController extends Controller
                         'message' => 'Unauthorized'
                     ],
                     'Authentication Failed',
-                    500
+                    401
                 );
             }
             $user = Employee::with(['office'])->where('nip', $request->nip)->first();
@@ -45,66 +45,33 @@ class AuthController extends Controller
                     'office_id' => $user->office_id,
                     'presence_date' => Carbon::now()->format('Y-m-d'),
                 ]);
-                $presence = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->paginate(5);
-                if ($user->device_id == null) {
-                    $user->device_id = $request['device_id'];
-                    $user->update();
-                }
-                if ($user->device_id != $request['device_id']) {
-                    return ResponseFormatter::error(
-                        [
-                            'message' => 'Unauthorized'
-                        ],
-                        'Authentication Failed',
-                        500
-                    );
-                }
-                if (!Hash::check($request->password, $user->password, [])) {
-                    throw new \Exception('Invalid Credentials');
-                }
-
-
-                $tokenResult = $user->createToken('authToken')->plainTextToken;
-                return ResponseFormatter::success(
-                    [
-                        'access_token' => $tokenResult,
-                        'token_type' => 'Bearer',
-                        'user' => $user,
-                        'presences' => $presence->items()
-                    ],
-                    'Authenticated'
-                );
             }
-            $presence = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->paginate(5);
+
+            // Check if device ID matches
             if ($user->device_id == null) {
-                $user->device_id = $request['device_id'];
+                $user->device_id = $request->device_id;
                 $user->update();
             }
-            if ($user->device_id != $request['device_id']) {
+            if ($user->device_id != $request->device_id) {
                 return ResponseFormatter::error(
                     [
                         'message' => 'Unauthorized'
                     ],
-                    'Authentication Failed',
-                    500
+                    'Device ID mismatch',
+                    401
                 );
             }
-            if (!Hash::check($request->password, $user->password, [])) {
-                throw new \Exception('Invalid Credentials');
-            }
-
 
             $tokenResult = $user->createToken('authToken')->plainTextToken;
+
             return ResponseFormatter::success(
                 [
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
                     'user' => $user,
-                    'presences' => $presence->items()
                 ],
                 'Authenticated'
             );
-
         } catch (\Exception $e) {
             return ResponseFormatter::error(
                 [
@@ -115,6 +82,7 @@ class AuthController extends Controller
             );
         }
     }
+
 
     // edit user
     public function updateProfile(Request $request)
