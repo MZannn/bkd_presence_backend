@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Validator;
 
 class PresenceController extends Controller
 {
+    public function all(Request $request)
+    {
+        $user = Auth::user();
+        $presence = Presence::where('employee_id', $user->nip)
+            ->orderBy('presence_date', 'desc');
+        return ResponseFormatter::success(
+            $presence->items()
+            ,
+            'Data Presensi berhasil diambil'
+        );
+    }
     public function presenceIn(Request $request, $id)
     {
         $data = $request->all();
