@@ -17,10 +17,16 @@ class PresenceController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-        $presence = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
-        $presence->update($data);
-        $user = Auth::user()->load(['office', 'presence']);
-        return ResponseFormatter::success($user, 'Presensi Masuk berhasil');
+        $presenceIn = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
+        $presenceIn->update($data);
+        $user = Auth::user()->load('office');
+        $presence = Presence::where('employee_id', $user->nip)
+            ->orderBy('presence_date', 'desc')
+            ->paginate(5);
+        return ResponseFormatter::success([
+            'user' => $user,
+            'presences' => $presence->items()
+        ], 'Presensi Masuk berhasil');
     }
 
     public function presenceOut(Request $request, $id)
