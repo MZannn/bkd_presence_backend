@@ -19,7 +19,7 @@ class PresenceController extends Controller
         $presence = Presence::where('employee_id', $user->nip)
             ->orderBy('presence_date', 'desc');
         return ResponseFormatter::success(
-            $presence->items()
+            ['presences' => $presence->items()]
             ,
             'Data Presensi berhasil diambil'
         );
