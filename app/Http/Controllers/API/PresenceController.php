@@ -16,9 +16,7 @@ class PresenceController extends Controller
     public function all(Request $request)
     {
         $user = Auth::user();
-        $presence = Presence::where('employee_id', $user->nip)
-            ->orderBy('presence_date', 'desc');
-            dd($presence);
+        $presence = Presence::where('employee_id',$user->nip)->orderBy('presence_date','desc')->get();
         return ResponseFormatter::success(
             ['presences' => $presence->items()]
             ,
