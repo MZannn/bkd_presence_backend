@@ -19,7 +19,8 @@ class PresenceController extends Controller
         $user = Auth::user();
         $presence = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
         $presence->update($data);
-        return ResponseFormatter::success($presence, 'Presensi Masuk berhasil');
+        $user = Auth::user()->load(['office', 'presence']);
+        return ResponseFormatter::success($user, 'Presensi Masuk berhasil');
     }
 
     public function presenceOut(Request $request, $id)
