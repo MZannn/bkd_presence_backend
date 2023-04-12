@@ -27,7 +27,7 @@ class PresenceController extends Controller
     public function detailPresence(Request $request, $id)
     {
         $user = Auth::user();
-        $presence = Presence::where('employee_id',$user->nip)->where('id', $id)->first();
+        $presence = Presence::where('employee_id', $user->nip)->where('id', $id)->first();
         return ResponseFormatter::success(
             [
                 'detail_presence' => $presence
@@ -55,9 +55,16 @@ class PresenceController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-        $presence = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
-        $presence->update($data);
-        return ResponseFormatter::success($presence, 'Presensi Keluar berhasil');
+        $presenceOut = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
+        $presenceOut->update($data);
+        $user = Auth::user()->load('office');
+        $presence = Presence::where('employee_id', $user->nip)
+            ->orderBy('presence_date', 'desc')
+            ->paginate(5);
+        return ResponseFormatter::success([
+            'user' => $user,
+            'presences' => $presence->items()
+        ], 'Presensi Keluar berhasil');
     }
 
     public function bussinessTrip(Request $request)
