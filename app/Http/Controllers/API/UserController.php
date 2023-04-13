@@ -46,7 +46,35 @@ class UserController extends Controller
         ], 'Data profile user berhasil diambil');
     }
 
+    public function updateProfile(Request $request)
+    {
+        try {
+            $data = $request->all();
+            if ($request->hasFile('profile_photo_path')) {
+                $data['profile_photo_path'] = $request->file('profile_photo_path')->store(
+                    'assets/employee',
+                    'public'
+                );
+            }
+            $user = Auth::user()->load('office');
+            $user->update($data);
+            $presences = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->get();
 
+            return ResponseFormatter::success([
+                'user' => $user,
+                'presences' => $presences
+            ], 'Profile updated');
+        } catch (\Throwable $th) {
+            return ResponseFormatter::error(
+                [
+                    'message' => 'Something went wrong',
+                    'error' => $th
+                ],
+                'Update Profile Failed',
+                500
+            );
+        }
+    }
     // update photo
     public function updatePhoto(Request $request)
     {

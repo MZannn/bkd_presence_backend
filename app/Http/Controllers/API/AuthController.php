@@ -83,34 +83,6 @@ class AuthController extends Controller
         }
     }
 
-
-    // edit user
-    public function updateProfile(Request $request)
-    {
-        try {
-            $data = $request->all();
-            if ($request->hasFile('profile_photo_path')) {
-                $data['profile_photo_path'] = $request->file('profile_photo_path')->store(
-                    'assets/employee',
-                    'public'
-                );
-            }
-            $user = Auth::user();
-            $user->update($data);
-
-            return ResponseFormatter::success($user, 'Profile updated');
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error(
-                [
-                    'message' => 'Something went wrong',
-                    'error' => $th
-                ],
-                'Update Profile Failed',
-                500
-            );
-        }
-    }
-
     // logout
     public function logout(Request $request)
     {
