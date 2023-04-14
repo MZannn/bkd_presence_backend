@@ -112,24 +112,39 @@ class PresenceController extends Controller
 
     public function permissionAndSick(Request $request)
     {
-        if (PermissionAndSick::where('employee_id', $request->employee_id)->where('date', $request->date)->exists()) {
-            dd('sudah');
-            return ResponseFormatter::error([
-                'error' => 'Izin atau sakit sudah diajukan',
-            ], 'Izin atau sakit', 400);
-        }
-        $data = $request->validate([
-            'employee_id' => 'required',
-            'office_id' => 'required',
-            'presence_id' => 'required',
-            'date' => 'required|date',
-            'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
-        ]);
-        dd($data);
-        if ($request->has('file')) {
-            $data['file'] = $request->file('file')->store('assets/permission_and_sick', 'public');
+        try {
+            $request->validate([
+                'employee_id' => 'required',
+                'office_id' => 'required',
+                'presence_id' => 'required',
+                'date' => 'required|date',
+                'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
+            ]);
+
+            if (
+                PermissionAndSick::where('employee_id', $request->employee_id)
+                    ->where('date', $request->date)->exists()
+            ) {
+                return ResponseFormatter::error([
+                    'error' => 'Izin atau sakit sudah diajukan',
+                ], 'Izin atau sakit sudah diajukan', 400);
+            }
+
+            $data = $request->all();
+
+            if ($request->hasFile('file')) {
+                $data['file'] = $request->file('file')->store('assets/permission_and_sick', 'public');
+            }
+
             $permissionAndSick = PermissionAndSick::create($data);
+
+            return ResponseFormatter::success($permissionAndSick, 'Berhasil mengajukan izin atau sakit');
+
+        } catch (\Exception $exception) {
+            return ResponseFormatter::error([
+                'error' => $exception->getMessage(),
+            ], 'Terjadi kesalahan', 500);
         }
-        return ResponseFormatter::success($permissionAndSick, 'Berhasil mengajukan izin atau sakit');
     }
+
 }
