@@ -81,7 +81,7 @@
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
                                                 <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary"
-                                                    download="false">
+                                                    >
                                                     PDF
                                                 </a>
                                             @else
