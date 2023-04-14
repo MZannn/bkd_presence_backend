@@ -125,6 +125,7 @@ class PresenceController extends Controller
             'date' => 'required|date',
             'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
         ]);
+        dd($data);
         if ($request->has('file')) {
             $data['file'] = $request->file('file')->store('assets/permission_and_sick', 'public');
             $permissionAndSick = PermissionAndSick::create($data);
