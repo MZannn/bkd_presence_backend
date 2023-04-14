@@ -113,6 +113,7 @@ class PresenceController extends Controller
     public function permissionAndSick(Request $request)
     {
         if (PermissionAndSick::where('employee_id', $request->employee_id)->where('date', $request->date)->exists()) {
+            dd('sudah');
             return ResponseFormatter::error([
                 'error' => 'Izin atau sakit sudah diajukan',
             ], 'Izin atau sakit', 400);
