@@ -81,8 +81,8 @@ class BussinessTripController extends Controller
                 $end_date = Carbon::parse($request->end_date);
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
-                    dd($presence);
                     if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
+                        dd($presence);
                         Presence::create([
                             'employee_id' => $request->employee_id,
                             'office_id' => $request->office_id,
