@@ -52,16 +52,12 @@
                         <label for="profile_photo_path">Foto</label>
                         <div class="">
                             <img src="{{ Storage::url($employee->profile_photo_path) }}" alt=""
-                            style="max-height: 150px; margin-bottom:10px;" class="img-thumbnail">
+                                style="max-height: 150px; margin-bottom:10px;" class="img-thumbnail">
                         </div>
                         <input type="file" class="form-control" name='profile_photo_path' placeholder="Foto Profil"
-                        value="{{ $employee->profile_photo_path }}">
+                            value="{{ $employee->profile_photo_path }}">
                     </div>
-                    <div class="form-group">
-                        <label for="device_id">ID Device</label>
-                        <input type="number" class="form-control" name='device_id'
-                            value="{{ $employee->device_id }}" readonly>
-                    </div>
+
 
                     @if (Auth::user()->roles == 'SUPER ADMIN')
                         <div class="form-group">
@@ -78,6 +74,11 @@
                     @else
                         <input type="hidden" name="office_id" value="{{ Auth::user()->office_id }}">
                     @endif
+                    <div class="form-group">
+                        <label for="device_id">ID Device</label>
+                        <input type="number" class="form-control" name='device_id' value="{{ $employee->device_id }}"
+                            readonly>
+                    </div>
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
                 </form>
