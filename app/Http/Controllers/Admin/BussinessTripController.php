@@ -62,7 +62,7 @@ class BussinessTripController extends Controller
                                 'attendance_entry_status' => $request->status,
                                 'attendance_exit_status' => $request->status,
                             ]);
-                        } else {
+                        } else if ($presence && Carbon::parse($request->start_date)->isWeekday()) {
                             Presence::findOrFail($request->presence_id)->update([
                                 'attendance_clock' => $request->start_time,
                                 'attendance_clock_out' => $request->end_time,
@@ -70,6 +70,8 @@ class BussinessTripController extends Controller
                                 'attendance_entry_status' => $request->status,
                                 'attendance_exit_status' => $request->status,
                             ]);
+                        } else if (Carbon::parse($request->start_date)->isWeekend()) {
+                            return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena hari libur');
                         }
                     }
                 } else {
