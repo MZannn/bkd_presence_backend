@@ -41,7 +41,7 @@ class BussinessTripController extends Controller
                     ]);
                     BussinessTrip::findOrFail($data->id)->delete();
                     return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil divalidasi');
-                } else if ($request->start_time >= '13:30:00' && $request->end_time <= '17:00:00') {
+                } else if ($request->start_time >= '13:30:00' && $request->end_time <= '15:30:00') {
                     Presence::findOrFail($request->presence_id)->update([
                         'attendance_clock_out' => $request->end_time,
                         'presence_date' => $request->end_date,
@@ -51,6 +51,21 @@ class BussinessTripController extends Controller
 
                     return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil divalidasi');
                 } else {
+                    $presence = Presence::where('id', $request->presence_id)->first();
+                    if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
+                        Presence::create(
+                            [
+                                'employee_id' => $request->employee_id,
+                                'office_id' => $request->office_id,
+                                'attendance_clock' => $request->start_time,
+                                'attendance_clock_out' => $request->end_time,
+                                'presence_date' => $request->start_date,
+                                'attendance_entry_status' => $request->status,
+                                'attendance_exit_status' => $request->status,
+                            ]
+                        );
+                        
+                    }
                     Presence::findOrFail($request->presence_id)->update([
                         'attendance_clock' => $request->start_time,
                         'attendance_clock_out' => $request->end_time,
@@ -66,6 +81,7 @@ class BussinessTripController extends Controller
                 $end_date = Carbon::parse($request->end_date);
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
+                    dd($presence);
                     if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
                         Presence::create([
                             'employee_id' => $request->employee_id,

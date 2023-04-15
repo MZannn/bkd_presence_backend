@@ -101,6 +101,7 @@
                                                     {{ $item->status }}
                                                 </option>
                                                 <option value="HADIR">HADIR</option>
+                                                <option value="TOLAK">TOLAK</option>
                                             </select>
                                         </td>
                                         <td width="13%">
