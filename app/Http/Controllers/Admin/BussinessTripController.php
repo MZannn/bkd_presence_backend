@@ -80,7 +80,7 @@ class BussinessTripController extends Controller
                 $end_date = Carbon::parse($request->end_date);
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
-                    if (!$presence && Carbon::parse($date)->format('l') != 'Saturday' && Carbon::parse($date)->format('l') != 'Sunday') {
+                    if (!$presence && Carbon::parse($date)->isWeekday()) {
                         Presence::create([
                             'employee_id' => $request->employee_id,
                             'office_id' => $request->office_id,
@@ -90,8 +90,7 @@ class BussinessTripController extends Controller
                             'attendance_entry_status' => $request->status,
                             'attendance_exit_status' => $request->status,
                         ]);
-                    } else {
-
+                    } else if ($presence && Carbon::parse($date)->isWeekday()) {
                         $presence->update([
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
