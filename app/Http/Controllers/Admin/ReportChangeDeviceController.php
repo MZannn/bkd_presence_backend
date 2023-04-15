@@ -14,7 +14,7 @@ class ReportChangeDeviceController extends Controller
     {
         if (Auth::user()->roles == 'SUPER ADMIN') {
             $items = ReportChangeDevice::with(['office', 'employee'])->paginate(10);
-        }else{
+        } else {
             $items = ReportChangeDevice::with(['office', 'employee'])->where('office_id', Auth::user()->office_id)->paginate(10);
         }
         return view('pages.admin.report-change-device.index', compact('items'));
@@ -27,7 +27,12 @@ class ReportChangeDeviceController extends Controller
                 'device_id' => null
             ]);
             ReportChangeDevice::findOrFail($request->id)->delete();
-            return redirect()->back()->with('success', 'Berhasil menyetujui permintaan');
+            return redirect()->route('report-change-device.index')->with('success', 'Berhasil Menyetujui Permintaan');
+        } else if ($request->status == 'REJECTED') {
+            ReportChangeDevice::findOrFail($request->id)->delete();
+            return redirect()->route('report-change-device.index')->with('success', 'Berhasil Menolak Permintaan');
+        } else {
+            return redirect()->route('report-change-device.index')->with('error', 'Gagal Menyetujui Permintaan');
         }
     }
 }
