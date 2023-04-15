@@ -52,7 +52,7 @@ class BussinessTripController extends Controller
                     return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil divalidasi');
                 } else {
                     $presence = Presence::where('id', $request->presence_id)->first();
-                    if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
+                    if (!$presence && Carbon::parse($request->start_date)->format('l') != 'Saturday' && Carbon::parse($request->start_date)->format('l') != 'Sunday') {
                         Presence::create(
                             [
                                 'employee_id' => $request->employee_id,
@@ -103,6 +103,9 @@ class BussinessTripController extends Controller
                 BussinessTrip::findOrFail($data->id)->delete();
                 return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
             }
+        } else if ($request->status == 'TOLAK') {
+            BussinessTrip::findOrFail($data->id)->delete();
+            return redirect()->route('bussinessTrip')->with('alert', 'Permintaan perjalanan dinas ditolak');
         } else {
             return redirect()->route('bussinessTrip')->with('alert', 'Data pending tidak bisa di validasi');
         }
