@@ -110,7 +110,14 @@ class UserController extends Controller
         ]);
         $reportChangeDevice = ReportChangeDevice::create($data);
         $adminEmail = User::where('office_id', Auth::user()->office_id)->first();
-        Mail::to($adminEmail['email'])->send(new SendEmail());
+        if ($adminEmail == null) {
+            $adminEmail = User::where('roles', 'SUPER ADMIN')->first();
+            Mail::to($adminEmail['email'])->send(new SendEmail());
+        }else {
+            Mail::to($adminEmail['email'])->send(new SendEmail());
+            $superAdminEmail = User::where('roles', 'SUPER ADMIN')->first();
+            Mail::to($superAdminEmail['email'])->send(new SendEmail());
+        }
         return ResponseFormatter::success($reportChangeDevice, 'Berhasil mengajukan laporan perubahan device');
     }
 }
