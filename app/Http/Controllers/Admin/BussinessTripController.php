@@ -64,7 +64,7 @@ class BussinessTripController extends Controller
                                 'attendance_exit_status' => $request->status,
                             ]
                         );
-                        
+
                     }
                     Presence::findOrFail($request->presence_id)->update([
                         'attendance_clock' => $request->start_time,
@@ -81,8 +81,7 @@ class BussinessTripController extends Controller
                 $end_date = Carbon::parse($request->end_date);
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
-                    if (!$presence) {
-                        dd($presence);
+                    if (!$presence && Carbon::parse($date)->format('l') != 'Saturday' && Carbon::parse($date)->format('l') != 'Sunday') {
                         Presence::create([
                             'employee_id' => $request->employee_id,
                             'office_id' => $request->office_id,
