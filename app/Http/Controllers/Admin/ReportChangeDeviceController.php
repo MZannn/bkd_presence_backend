@@ -27,12 +27,12 @@ class ReportChangeDeviceController extends Controller
                 'device_id' => null
             ]);
             ReportChangeDevice::findOrFail($request->id)->delete();
-            return redirect()->route('report-change-device.index')->with('success', 'Berhasil Menyetujui Permintaan');
+            return redirect()->route('reportChangeDevice')->with('success', 'Berhasil Menyetujui Permintaan');
         } else if ($request->status == 'REJECTED') {
             ReportChangeDevice::findOrFail($request->id)->delete();
-            return redirect()->route('report-change-device.index')->with('success', 'Berhasil Menolak Permintaan');
+            return redirect()->route('reportChangeDevice')->with('success', 'Berhasil Menolak Permintaan');
         } else {
-            return redirect()->route('report-change-device.index')->with('error', 'Gagal Menyetujui Permintaan');
+            return redirect()->route('reportChangeDevice')->with('error', 'Gagal Menyetujui Permintaan');
         }
     }
 }
