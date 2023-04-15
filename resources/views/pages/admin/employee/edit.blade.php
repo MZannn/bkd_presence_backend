@@ -76,8 +76,7 @@
                     @endif
                     <div class="form-group">
                         <label for="device_id">ID Device</label>
-                        <input type="number" class="form-control" name='device_id' value="{{ $employee->device_id }}"
-                            readonly>
+                        <input type="text" class="form-control" name='device_id' value="{{ $employee->device_id }}" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
