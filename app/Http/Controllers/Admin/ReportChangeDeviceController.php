@@ -39,11 +39,12 @@ class ReportChangeDeviceController extends Controller
                 'device_id' => null
             ]);
             $client->messages->create(
-                $request->input($phone_number),
-                array(
-                    'from' => "whatsapp:$from",
-                    'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
-                )
+                $from,
+                [
+                    'from' => $from,
+                    'body' => 'Permintaan Penggantian Device Anda Telah Disetujui',
+                    'to' => $phone_number, // Nomor telepon tujuan dengan format internasional
+                ]
             );
 
             ReportChangeDevice::findOrFail($request->id)->delete();
