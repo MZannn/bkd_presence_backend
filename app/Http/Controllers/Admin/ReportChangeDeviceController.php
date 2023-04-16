@@ -38,11 +38,10 @@ class ReportChangeDeviceController extends Controller
             $employee->update([
                 'device_id' => null
             ]);
-            dd($phone_number);
             $client->messages->create(
                 $request->input($phone_number),
                 array(
-                    'from' => $from,
+                    'from' => "whatsapp:$from",
                     'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
                 )
             );
