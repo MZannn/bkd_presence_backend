@@ -23,34 +23,32 @@ class ReportChangeDeviceController extends Controller
 
     public function approved(Request $request)
     {
-        try {
-            $sid = getenv("TWILIO_ACCOUNT_SID") ?: config('twilio.account_sid');
-            $token = getenv("TWILIO_AUTH_TOKEN") ?: config('twilio.auth_token');
-            $from = getenv("TWILIO_FROM") ?: config('twilio.from');
-            $client = new Client($sid, $token);
-            if ($request->status == 'APPROVED') {
-                $employee = Employee::where('nip', $request->employee_id);
-                $employee->update([
-                    'device_id' => null
-                ]);
-                $client->messages->create(
-                    $request->input($employee->phone_number),
-                    array(
-                        'from' => $from,
-                        'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
-                    )
-                );
 
-                ReportChangeDevice::findOrFail($request->id)->delete();
-                return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menyetujui Permintaan');
-            } else if ($request->status == 'REJECTED') {
-                ReportChangeDevice::findOrFail($request->id)->delete();
-                return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menolak Permintaan');
-            } else {
-                return redirect()->route('reportChangeDevice')->with('alert', 'Gagal Menyetujui Permintaan');
-            }
-        } catch (\Throwable $th) {
-            dd($th);
+        $sid = getenv("TWILIO_ACCOUNT_SID") ?: config('twilio.account_sid');
+        $token = getenv("TWILIO_AUTH_TOKEN") ?: config('twilio.auth_token');
+        $from = getenv("TWILIO_FROM") ?: config('twilio.from');
+        $client = new Client($sid, $token);
+        if ($request->status == 'APPROVED') {
+            $employee = Employee::where('nip', $request->employee_id);
+            $employee->update([
+                'device_id' => null
+            ]);
+            $client->messages->create(
+                $request->input($employee->phone_number),
+                array(
+                    'from' => $from,
+                    'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
+                )
+            );
+
+            ReportChangeDevice::findOrFail($request->id)->delete();
+            return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menyetujui Permintaan');
+        } else if ($request->status == 'REJECTED') {
+            ReportChangeDevice::findOrFail($request->id)->delete();
+            return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menolak Permintaan');
+        } else {
+            return redirect()->route('reportChangeDevice')->with('alert', 'Gagal Menyetujui Permintaan');
         }
+
     }
 }
