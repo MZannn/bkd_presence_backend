@@ -28,9 +28,9 @@ class ReportChangeDeviceController extends Controller
         $token = config('twilio.auth_token');
         $from = config('twilio.from');
         $client = new Client($sid, $token);
-        $employee = Employee::where('nip', $request->employee_id);
-        dd($employee->phone_number);
         if ($request->status == 'APPROVED') {
+            $employee = Employee::where('nip', $request->employee_id);
+            dd($employee->phone_number);
             $employee->update([
                 'device_id' => null
             ]);
