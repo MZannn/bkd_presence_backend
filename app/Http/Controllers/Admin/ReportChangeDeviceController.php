@@ -26,7 +26,7 @@ class ReportChangeDeviceController extends Controller
 
         $sid = config('twilio.account_sid');
         $token = config('twilio.auth_token');
-        $from = config('twilio.from');
+        $from = "+14155238886";
         $client = new Client($sid, $token);
         if ($request->status == 'APPROVED') {
             $employee = Employee::where('nip', $request->employee_id)->first();
@@ -35,14 +35,13 @@ class ReportChangeDeviceController extends Controller
             if (substr($phone_number, 0, 2) === '08') {
                 $phone_number = '+62' . substr($phone_number, 1);
             }
-            dd("whatsapp:$phone_number");
-            // $employee->update([
-            //     'device_id' => null
-            // ]);
-            $message = $client->messages
+            $employee->update([
+                'device_id' => null
+            ]);
+            $client->messages
                 ->create(
                     "whatsapp:$phone_number",
-                    // to
+                    
                     [
                         "from" => "whatsapp:$from",
                         "body" => "Permintaan Penggantian Device Anda Telah Disetujui"
