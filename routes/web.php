@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/')
-    ->middleware(['auth'])
+    ->middleware(['web','auth'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('office', OfficeController::class);
