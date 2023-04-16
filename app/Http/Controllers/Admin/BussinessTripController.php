@@ -83,9 +83,10 @@ class BussinessTripController extends Controller
                 // untuk request lebih dari 1 hari
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
+                $exists = Presence::where('presence_date', '>=', $request->start_date)->where('presence_date', '<=', $request->end_date)->where('attendance_entry_status', "HADIR")->exists();
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
-                    if (!$presence && Carbon::parse($date)->isWeekday()) {
+                    if (!$presence && Carbon::parse($date)->isWeekday() && !$exists) {
                         Presence::create([
                             'employee_id' => $request->employee_id,
                             'office_id' => $request->office_id,
@@ -95,7 +96,7 @@ class BussinessTripController extends Controller
                             'attendance_entry_status' => $request->status,
                             'attendance_exit_status' => $request->status,
                         ]);
-                    } else if ($presence && Carbon::parse($date)->isWeekday()) {
+                    } else if ($presence && Carbon::parse($date)->isWeekday() && !$exists) {
                         $presence->update([
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
