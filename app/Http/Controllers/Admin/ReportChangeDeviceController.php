@@ -30,7 +30,7 @@ class ReportChangeDeviceController extends Controller
         $client = new Client($sid, $token);
         if ($request->status == 'APPROVED') {
             $employee = Employee::where('nip', $request->employee_id)->first();
-            dd($employee);
+            dd($employee->phone_number);
             // $employee->update([
             //     'device_id' => null
             // ]);
