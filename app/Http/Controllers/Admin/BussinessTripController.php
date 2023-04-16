@@ -51,7 +51,7 @@ class BussinessTripController extends Controller
                     ]);
                 } else {
                     $presence = Presence::where('id', $request->presence_id)->first();
-                    $exists = Presence::where('presence_date',$request->start_date)->exists();
+                    $exists = Presence::where('presence_date', $request->start_date)->where('attendance_entry_status', "HADIR")->exists();
                     // untuk request 1 hari dan hari kerja
                     if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
                         Presence::create([
@@ -74,6 +74,9 @@ class BussinessTripController extends Controller
                     } else if (Carbon::parse($request->start_date)->isWeekend()) {
                         BussinessTrip::findOrFail($data->id)->delete();
                         return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena hari libur');
+                    } else if ($exists) {
+                        BussinessTrip::findOrFail($data->id)->delete();
+                        return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
                     }
                 }
             } else {
