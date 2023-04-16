@@ -42,7 +42,7 @@
                     </div>
                     <div id="map" style="height: 400px; width: 100%;" class="form-group">
                         <iframe width="600" height="450" frameborder="0" style="border:0"
-                            src="https://www.google.com/maps/embed/v1/place?q={{ $location }}&zoom=15&key=AIzaSyAHYs6ut7rMMi8y4t6ja0OYaOgsXr8jXXs"
+                            src="https://www.google.com/maps/embed/v1/place?q={{ $location }}&zoom=15&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE"
                             allowfullscreen></iframe>
                     </div>
 
