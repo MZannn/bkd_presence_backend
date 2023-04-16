@@ -24,7 +24,7 @@
  </script>
 
  <script
-     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE&callback=initMap&language=id"
+     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHYs6ut7rMMi8y4t6ja0OYaOgsXr8jXXs&callback=initMap&language=id"
      async defer></script>
  <script>
      // Initialize Google Maps

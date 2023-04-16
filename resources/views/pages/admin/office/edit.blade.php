@@ -42,9 +42,9 @@
                         <input type="text" class="form-control" name='longitude' value="{{ $item->longitude }}" id="longitude">
                     </div>
                     <div id="map" style="height: 400px; width: 100%;" class="form-group">
-                        <embed src="https://www.google.com/maps/embed/v1/place?q={{ $item->latitude }},{{ $item->longitude }}&zoom=15&center={{ $item->latitude }},{{ $item->longitude }}&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE" type="">
+                        <embed src="https://www.google.com/maps/embed/v1/place?q={{ $item->latitude }},{{ $item->longitude }}&zoom=15&center={{ $item->latitude }},{{ $item->longitude }}&key=AIzaSyAHYs6ut7rMMi8y4t6ja0OYaOgsXr8jXXs" type="">
                         <iframe width="600" height="450" frameborder="0" style="border:0"
-                            src="https://www.google.com/maps/embed/v1/place?q={{ $item->latitude }},{{ $item->longitude }}&zoom=15&center={{ $item->latitude }},{{ $item->longitude }}&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE"
+                            src="https://www.google.com/maps/embed/v1/place?q={{ $item->latitude }},{{ $item->longitude }}&zoom=15&center={{ $item->latitude }},{{ $item->longitude }}&key=AIzaSyAHYs6ut7rMMi8y4t6ja0OYaOgsXr8jXXs"
                             allowfullscreen></iframe>
                     </div>
                     <button type="submit" class="btn btn-primary px-5">Ubah</button>
