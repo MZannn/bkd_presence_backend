@@ -31,16 +31,16 @@ class ReportChangeDeviceController extends Controller
         if ($request->status == 'APPROVED') {
             $employee = Employee::where('nip', $request->employee_id);
             dd($employee->phone_number);
-            $employee->update([
-                'device_id' => null
-            ]);
-            $client->messages->create(
-                $request->input($employee->phone_number),
-                array(
-                    'from' => $from,
-                    'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
-                )
-            );
+            // $employee->update([
+            //     'device_id' => null
+            // ]);
+            // $client->messages->create(
+            //     $request->input($employee->phone_number),
+            //     array(
+            //         'from' => $from,
+            //         'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
+            //     )
+            // );
 
             ReportChangeDevice::findOrFail($request->id)->delete();
             return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menyetujui Permintaan');
