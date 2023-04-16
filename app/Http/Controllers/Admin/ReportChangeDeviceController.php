@@ -50,7 +50,7 @@ class ReportChangeDeviceController extends Controller
                 return redirect()->route('reportChangeDevice')->with('alert', 'Gagal Menyetujui Permintaan');
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th);
         }
     }
 }
