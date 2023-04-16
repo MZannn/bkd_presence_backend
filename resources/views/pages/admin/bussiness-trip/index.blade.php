@@ -83,8 +83,7 @@
                                         <td> {{ $item->start_time }} - {{ $item->end_time }} </td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
-                                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary"
-                                                    download="false">
+                                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary">
                                                     PDF
                                                 </a>
                                             @else
