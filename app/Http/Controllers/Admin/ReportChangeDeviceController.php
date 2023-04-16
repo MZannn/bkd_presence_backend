@@ -30,17 +30,21 @@ class ReportChangeDeviceController extends Controller
         $client = new Client($sid, $token);
         if ($request->status == 'APPROVED') {
             $employee = Employee::where('nip', $request->employee_id)->first();
-            dd($employee->phone_number);
-            // $employee->update([
-            //     'device_id' => null
-            // ]);
-            // $client->messages->create(
-            //     $request->input($employee->phone_number),
-            //     array(
-            //         'from' => $from,
-            //         'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
-            //     )
-            // );
+            $phone_number = $employee->phone_number;
+
+            if (substr($phone_number, 0, 2) === '08') {
+                $phone_number = '+62' . substr($phone_number, 1);
+            }
+            $employee->update([
+                'device_id' => null
+            ]);
+            $client->messages->create(
+                $request->input($phone_number),
+                array(
+                    'from' => $from,
+                    'body' => 'Permintaan Penggantian Device Anda Telah Disetujui'
+                )
+            );
 
             ReportChangeDevice::findOrFail($request->id)->delete();
             return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menyetujui Permintaan');
