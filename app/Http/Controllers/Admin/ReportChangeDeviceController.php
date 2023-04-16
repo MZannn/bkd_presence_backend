@@ -24,9 +24,9 @@ class ReportChangeDeviceController extends Controller
     public function approved(Request $request)
     {
 
-        $sid = getenv("TWILIO_ACCOUNT_SID") ?: config('twilio.account_sid');
-        $token = getenv("TWILIO_AUTH_TOKEN") ?: config('twilio.auth_token');
-        $from = getenv("TWILIO_FROM") ?: config('twilio.from');
+        $sid = config('twilio.account_sid');
+        $token = config('twilio.auth_token');
+        $from = config('twilio.from');
         $client = new Client($sid, $token);
         if ($request->status == 'APPROVED') {
             $employee = Employee::where('nip', $request->employee_id);
