@@ -39,17 +39,15 @@ class ReportChangeDeviceController extends Controller
             // $employee->update([
             //     'device_id' => null
             // ]);
-            // $message = $client->messages
-            //     ->create(
-            //         "whatsapp:$phone_number",
-            //         // to
-            //         [
-            //             "from" => "whatsapp:$from",
-            //             "body" => "Permintaan Penggantian Device Anda Telah Disetujui"
-            //         ]
-            //     );
-
-            // dd($message);
+            $message = $client->messages
+                ->create(
+                    "whatsapp:$phone_number",
+                    // to
+                    [
+                        "from" => "whatsapp:$from",
+                        "body" => "Permintaan Penggantian Device Anda Telah Disetujui"
+                    ]
+                );
 
             ReportChangeDevice::findOrFail($request->id)->delete();
             return redirect()->route('reportChangeDevice')->with('alert', 'Berhasil Menyetujui Permintaan');
