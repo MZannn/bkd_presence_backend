@@ -38,6 +38,7 @@ class ReportChangeDeviceController extends Controller
             $employee->update([
                 'device_id' => null
             ]);
+            dd($phone_number);
             $client->messages->create(
                 $request->input($phone_number),
                 array(
