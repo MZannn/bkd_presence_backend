@@ -29,7 +29,7 @@
                 <td> {{ $item->office->name }}</td>
                 <td> {{ $working_days }}</td>
                 <td>
-                    {{ $attendance }}
+                    {{ $total_hadir }}
                 </td>
                 <td>
                     {{ $item->where('attendance_entry_status', 'IZIN')->count() }}
