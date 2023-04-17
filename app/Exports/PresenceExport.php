@@ -48,7 +48,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         }
 
         foreach ($presences as $presence) {
-            if (strtoupper($presence->attendance_entry_status) === 'HADIR' || strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
+            if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                 $attendance_counts['hadir']++;
             } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
                 $attendance_counts['izin']++;
@@ -57,6 +57,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             } elseif (strtoupper($presence->attendance_entry_status) == null || strtoupper($presence->attendance_exit_status) == null) {
                 $attendance_counts['tidak_hadir']++;
             } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
+                $attendance_counts['hadir']++;
                 $attendance_counts['terlambat']++;
             }
         }
