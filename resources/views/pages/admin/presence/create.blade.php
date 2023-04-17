@@ -25,7 +25,8 @@
                 <form action="{{ route('presence.export') }}" method="post">
                     @csrf
                     <p>Tambahan Libur (Opsional/Boleh Tidak Diisi)</p>
-                    <div class="form-group col-sm-5">
+                    <div class = "row">
+                        <div class="form-group col-sm-5">
                         <label for="start_date" class="col-form-label">Dari
                             Tanggal -
                         </label>
@@ -36,7 +37,8 @@
                         </label>
                         <input type="date" class="form-control" placeholder="" name="end_date">
                     </div>
-                    <button type="submit" class="btn btn-primary px-5">Submit</button>
+                        </div>
+                    <button type="submit" class="btn btn-success px-5">S</button>
                 </form>
             </div>
         </div>
