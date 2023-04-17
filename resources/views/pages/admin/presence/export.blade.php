@@ -13,6 +13,15 @@
         </tr>
     </thead>
     <tbody>
+        @php
+            $total_hadir = 0;
+        @endphp
+        @foreach ($attendance_counts as $date => $count)
+            @php
+                $attendance = $count > 0 ? 'HADIR' : 'TIDAK HADIR';
+                $total_hadir += $attendance === 'HADIR' ? 1 : 0;
+            @endphp
+        @endforeach
         @foreach ($items as $item)
             <tr>
                 <td> {{ $item->employee->nip }} </td>
@@ -20,7 +29,7 @@
                 <td> {{ $item->office->name }}</td>
                 <td> {{ $working_days }}</td>
                 <td>
-                    {{ $item->where('attendance_entry_status', 'HADIR')->where('attendance_exit_status', 'HADIR')->count() }}
+                    {{ $attendance }}
                 </td>
                 <td>
                     {{ $item->where('attendance_entry_status', 'IZIN')->count() }}

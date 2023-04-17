@@ -6,9 +6,6 @@ use App\Exports\PresenceExport;
 use App\Http\Controllers\Controller;
 use App\Models\Office;
 use App\Models\Presence;
-use Carbon\Carbon;
-use DateTimeZone;
-use Grei\TanggalMerah;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -99,26 +96,6 @@ class PresenceController extends Controller
     public function create()
     {
         $items = Presence::with(['employee', 'office'])->get();
-        $start_date = Carbon::now()->startOfMonth()->format('Y-m-d');
-        $end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
-        $calculator = new TanggalMerah();
-        $tz = new DateTimeZone('Asia/Jakarta');
-        $calculator->set_timezone($tz);
-
-        $working_days = 0;
-        $current_date = Carbon::parse($start_date);
-        while ($current_date->lte(Carbon::parse($end_date))) {
-            $calculator->set_date($current_date->toDateString());
-            if (!$calculator->is_holiday() && $current_date->isWeekday()) {
-                dd($calculator->event);
-                $working_days++;
-            }
-            $current_date->addDay();
-        }
-
-        // $total_working_days = $presence->filter(function ($p) use ($calculator) {
-        //     return !$calculator->is_holiday($p->presence_date) && Carbon::parse($p->presence_date)->isWeekday();
-        // })->count();
         return view('pages.admin.presence.create', compact('items'));
     }
 

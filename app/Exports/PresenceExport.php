@@ -22,34 +22,40 @@ class PresenceExport implements FromView
         $start_date = $this->request->start_date;
         $end_date = $this->request->end_date;
         // Mengambil data presensi dari database
-        $presence = Presence::with(['office', 'employee'])
+        $presences = Presence::with(['office', 'employee'])
             ->whereBetween('presence_date', [$start_date, $end_date])
             ->get();
 
-
+        // Menghitung jumlah hari kerja
         $calculator = new TanggalMerah();
         $tz = new DateTimeZone('Asia/Jakarta');
         $calculator->set_timezone($tz);
 
         $working_days = 0;
+        $attendance_counts = [];
         $current_date = Carbon::parse($start_date);
         while ($current_date->lte(Carbon::parse($end_date))) {
             $calculator->set_date($current_date->toDateString());
             if (!$calculator->is_holiday() && $current_date->isWeekday()) {
                 $working_days++;
+                $attendance_counts[$current_date->toDateString()] = 0;
             }
             $current_date->addDay();
         }
 
-        $total_working_days = $presence->filter(function ($p) use ($calculator) {
-            return !$calculator->is_holiday($p->presence_date) && Carbon::parse($p->presence_date)->isWeekday();
-        })->count();
+        foreach ($presences as $presence) {
+            $date = $presence->presence_date->toDateString();
+            if (isset($attendance_counts[$date]) && $presence->attendance_entry_status === 'HADIR' && $presence->attendance_exit_status === 'HADIR') {
+                $attendance_counts[$date]++;
+            }
+        }
 
         return view('pages.admin.presence.export', [
-            'items' => $presence,
+            'items' => $presences,
+            'attendance_counts' => $attendance_counts,
             'working_days' => $working_days,
-            'total_working_days' => $total_working_days,
         ]);
     }
+
 
 }
