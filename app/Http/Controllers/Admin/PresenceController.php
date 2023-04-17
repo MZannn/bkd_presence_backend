@@ -110,7 +110,7 @@ class PresenceController extends Controller
         while ($current_date->lte(Carbon::parse($end_date))) {
             $calculator->set_date($current_date->toDateString());
             if (!$calculator->is_holiday() && $current_date->isWeekday()) {
-                dd($calculator->is_holiday());
+                dd($calculator->event);
                 $working_days++;
             }
             $current_date->addDay();
