@@ -38,10 +38,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary ml-3 col-sm-3"><i class="fa fa-search"></i></button>
                 </form>
-
             </div>
-            @if (Auth::user()->roles == 'SUPER ADMIN')
-                <div class="col-sm-8">
+            <div class="col-sm-8">
+                @if (Auth::user()->roles == 'SUPER ADMIN')
                     <form action="{{ route('presence.index') }}" method="GET"
                         class="d-sm-flex justify-content-sm-end mb-2">
                         <label for="office_id"
@@ -61,8 +60,10 @@
                         @csrf
 
                     </form>
-                </div>
-            @endif
+                @endif
+                    <a href="{{ route('presence.create') }}" class="btn btn-success shadow-sm"><i
+                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Pegawai</i></a>
+            </div>
         </div>
         <!-- Content Row -->
         <div class="row">

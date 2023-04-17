@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PresenceExport;
 use App\Http\Controllers\Controller;
 use App\Models\Office;
 use App\Models\Presence;
@@ -9,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PresenceController extends Controller
 {
@@ -56,7 +58,7 @@ class PresenceController extends Controller
             }
             $items = Presence::with(['office', 'employee'])->paginate(10);
             return view('pages.admin.presence.index', compact('items', 'offices'));
-        }else{
+        } else {
             if ($request->has('search') && $request->start_date != null && $request->end_date != null) {
                 if ($request->start_date == $request->end_date) {
                     $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->whereBetween('presence_date', [$request->start_date, $request->end_date])->paginate(10);
@@ -93,7 +95,8 @@ class PresenceController extends Controller
      */
     public function create()
     {
-        //
+        $items = Presence::with(['employee', 'office'])->get();
+        return view('pages.admin.presence.create', compact('items'));
     }
 
     /**
@@ -136,5 +139,14 @@ class PresenceController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+        return Excel::download(new PresenceExport($request), 'rekapan presensi.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
