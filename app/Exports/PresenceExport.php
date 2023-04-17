@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Presence;
-use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -24,12 +23,21 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection(): Collection
     {
-        // Mengambil data pegawai dari database
-        $employees = Employee::all();
+        // Mengambil data presensi dari database
+        $presences = Presence::with(['office', 'employee'])
+            ->whereBetween('presence_date', [$this->start_date, $this->end_date])
+            ->get();
 
         // Menghitung jumlah hari kerja
         $calculator = new TanggalMerah();
         $working_days = 0;
+        $attendance_counts = [
+            'hadir' => 0,
+            'izin' => 0,
+            'sakit' => 0,
+            'tidak_hadir' => 0,
+            'terlambat' => 0,
+        ];
         $current_date = Carbon::parse($this->start_date);
         while ($current_date->lte(Carbon::parse($this->end_date))) {
             $calculator->set_date($current_date->toDateString());
@@ -39,53 +47,35 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $current_date->addDay();
         }
 
-        $data = [];
-        foreach ($employees as $employee) {
-            // Mengambil data presensi dari database untuk setiap pegawai
-            $presences = Presence::with(['office'])
-                ->where('employee_id', $employee->id)
-                ->whereBetween('presence_date', [$this->start_date, $this->end_date])
-                ->get();
-
-            $attendance_counts = [
-                'hadir' => 0,
-                'izin' => 0,
-                'sakit' => 0,
-                'tidak_hadir' => 0,
-                'terlambat' => 0,
-            ];
-
-            foreach ($presences as $presence) {
-                if ($presence->attendance_entry_status === 'HADIR' || strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && $presence->attendance_exit_status === 'HADIR') {
-                    $attendance_counts['hadir']++;
-                } elseif ($presence->attendance_entry_status === 'IZIN' || $presence->attendance_exit_status === 'IZIN') {
-                    $attendance_counts['izin']++;
-                } elseif ($presence->attendance_entry_status === 'SAKIT' || $presence->attendance_exit_status === 'SAKIT') {
-                    $attendance_counts['sakit']++;
-                } elseif ($presence->attendance_entry_status == null || $presence->attendance_exit_status == null) {
-                    $attendance_counts['tidak_hadir']++;
-                } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
-                    $attendance_counts['terlambat']++;
-                }
+        foreach ($presences as $presence) {
+            if ($presence->attendance_entry_status === 'HADIR' || strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && $presence->attendance_exit_status === 'HADIR') {
+                $attendance_counts['hadir']++;
+            } elseif ($presence->attendance_entry_status === 'IZIN' || $presence->attendance_exit_status === 'IZIN') {
+                $attendance_counts['izin']++;
+            } elseif ($presence->attendance_entry_status === 'SAKIT' || $presence->attendance_exit_status === 'SAKIT') {
+                $attendance_counts['sakit']++;
+            } elseif ($presence->attendance_entry_status == null || $presence->attendance_exit_status == null) {
+                $attendance_counts['tidak_hadir']++;
+            } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
+                $attendance_counts['terlambat']++;
             }
+        }
 
-            $data[] = [
-                'nip' => $employee->nip,
-                'nama' => $employee->name,
-                'kantor' => $presences->isNotEmpty() ? $presences[0]->office->name : '-',
+        return collect([
+            [
+                'nip' => $presence->employee->nip,
+                'nama' => $presence->employee->name,
+                'kantor' => $presence->office->name,
                 'hari_kerja' => $working_days,
                 'hadir' => $attendance_counts['hadir'],
                 'izin' => $attendance_counts['izin'],
                 'sakit' => $attendance_counts['sakit'],
                 'tidak_hadir' => $attendance_counts['tidak_hadir'],
                 'terlambat' => $attendance_counts['terlambat'],
-                'persentase_kehadiran' => $working_days > 0 ? round($attendance_counts['hadir'] / $working_days * 100, 2) : 0,
-            ];
-        }
-    
-        return collect($data);
+                'persentase_kehadiran' => ($attendance_counts['hadir'] / $working_days) * 100,
+            ]
+        ]);
     }
-    
     public function headings(): array
     {
         return [
@@ -101,7 +91,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Persentase Kehadiran',
         ];
     }
-    
+
     public function map($row): array
     {
         return [
@@ -117,4 +107,4 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['persentase_kehadiran'],
         ];
     }
-}    
+}
