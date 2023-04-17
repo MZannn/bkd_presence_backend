@@ -102,7 +102,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['hadir'],
             $row['izin'],
             $row['sakit'],
-            $row['tidak_hadir'],
+            "'" . $row['tidak_hadir'],
             $row['terlambat'],
             $row['persentase_kehadiran'],
         ];
