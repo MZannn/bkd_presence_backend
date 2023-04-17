@@ -42,5 +42,6 @@ Route::prefix('/')
         Route::post('/permission-and-sick', [PermissionAndSickController::class, 'validation'])->name('permissionAndSick.validation');
         Route::get('/report-change-device', [ReportChangeDeviceController::class, 'index'])->name('reportChangeDevice');
         Route::post('/report-change-device', [ReportChangeDeviceController::class, 'approved'])->name('reportChangeDevice.approved');
+        Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
     });
 Auth::routes(['register' => false]);
