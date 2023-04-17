@@ -28,12 +28,13 @@ class PresenceExport implements FromView
 
 
         $calculator = new TanggalMerah();
+        $tz = new DateTimeZone('Asia/Jakarta');
+        $calculator->set_timezone($tz);
 
         $working_days = 0;
         $current_date = Carbon::parse($start_date);
         while ($current_date->lte(Carbon::parse($end_date))) {
-            dd($calculator);
-            if (!$calculator->is_holiday() && $current_date->isWeekday()) {
+            if (!$calculator->is_holiday($current_date) && $current_date->isWeekday()) {
                 $working_days++;
             }
             $current_date->addDay();
@@ -42,7 +43,7 @@ class PresenceExport implements FromView
         $total_working_days = $presence->filter(function ($p) use ($calculator) {
             return !$calculator->is_holiday($p->presence_date) && Carbon::parse($p->presence_date)->isWeekday();
         })->count();
-        
+
         return view('pages.admin.presence.export', [
             'items' => $presence,
             'working_days' => $working_days,
