@@ -33,6 +33,7 @@ class PresenceExport implements FromView
         $current_date = Carbon::parse($start_date);
         while ($current_date->lte(Carbon::parse($end_date))) {
             $calculator = $current_date;
+            
             if (!$calculator->is_holiday() && $current_date->isWeekday()) {
                 $working_days++;
             }
