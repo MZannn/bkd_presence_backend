@@ -110,7 +110,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function columnFormats(): array
     {
         return [
-            'A' => '0000000000000000000',
+            'A' => '@',
         ];
     }
 }
