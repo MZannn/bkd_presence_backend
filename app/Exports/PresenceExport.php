@@ -1,4 +1,5 @@
 <?php
+// PresenceExport.php
 namespace App\Exports;
 
 use App\Models\Presence;
@@ -11,13 +12,11 @@ use Grei\TanggalMerah;
 
 class PresenceExport implements FromCollection, WithHeadings, WithMapping
 {
-    protected $nip;
     protected $start_date;
     protected $end_date;
 
-    public function __construct($nip, $start_date, $end_date)
+    public function __construct($start_date, $end_date)
     {
-        $this->nip = $nip;
         $this->start_date = $start_date;
         $this->end_date = $end_date;
     }
@@ -26,7 +25,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     {
         // Mengambil data presensi dari database
         $presences = Presence::with(['office', 'employee'])
-            ->where('nip', $this->nip)
             ->whereBetween('presence_date', [$this->start_date, $this->end_date])
             ->get();
 
@@ -65,15 +63,16 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
         return collect([
             [
-                'nip' => $this->nip,
-                'nama' => $presences->first()->employee->name,
-                'kantor' => $presences->first()->office->name,
+                'nip' => $presence->employee->nip,
+                'nama' => $presence->employee->name,
+                'kantor' => $presence->office->name,
                 'hari_kerja' => $working_days,
                 'hadir' => $attendance_counts['hadir'],
                 'izin' => $attendance_counts['izin'],
                 'sakit' => $attendance_counts['sakit'],
                 'tidak_hadir' => $attendance_counts['tidak_hadir'],
-                'terlambat' => $attendance_counts['terlambat'],
+                ' terlambat' => $attendance_counts['terlambat'],
+                'persentase_kehadiran' => ($attendance_counts['hadir'] / $working_days) * 100,
             ]
         ]);
     }
@@ -88,7 +87,8 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Izin',
             'Sakit',
             'Tidak Hadir',
-            'Terlambat'
+            'Terlambat',
+            'Persentase Kehadiran',
         ];
     }
 
@@ -104,6 +104,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['sakit'],
             $row['tidak_hadir'],
             $row['terlambat'],
+            $row['persentase_kehadiran'],
         ];
     }
 }
