@@ -60,21 +60,22 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 $attendance_counts['hadir']++;
                 $attendance_counts['terlambat']++;
             }
-            return collect([
-                [
-                    'nip' => $presence->employee->nip,
-                    'nama' => $presence->employee->name,
-                    'kantor' => $presence->office->name,
-                    'hari_kerja' => $working_days,
-                    'hadir' => $attendance_counts['hadir'],
-                    'izin' => $attendance_counts['izin'],
-                    'sakit' => $attendance_counts['sakit'],
-                    'tidak_hadir' => $attendance_counts['tidak_hadir'],
-                    'terlambat' => $attendance_counts['terlambat'],
-                    'persentase_kehadiran' => ($attendance_counts['hadir'] / $working_days) * 100,
-                ]
-            ]);
         }
+
+        return collect([
+            [
+                'nip' => sprintf('%019s', $presence->employee->nip),
+                'nama' => $presence->employee->name,
+                'kantor' => $presence->office->name,
+                'hari_kerja' => $working_days,
+                'hadir' => $attendance_counts['hadir'],
+                'izin' => $attendance_counts['izin'],
+                'sakit' => $attendance_counts['sakit'],
+                'tidak_hadir' => $attendance_counts['tidak_hadir'],
+                'terlambat' => $attendance_counts['terlambat'],
+                'persentase_kehadiran' => ($attendance_counts['hadir'] / $working_days) * 100,
+            ]
+        ]);
     }
     public function headings(): array
     {
@@ -110,7 +111,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function columnFormats(): array
     {
         return [
-            'A' => '@',
+            'A' => '0000000000000000000',
         ];
     }
 }
