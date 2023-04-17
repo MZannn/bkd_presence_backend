@@ -18,7 +18,7 @@
                 <td> {{ $item->employee->nip }} </td>
                 <td> {{ $item->employee->name }} </td>
                 <td> {{ $item->office->name }}</td>
-                <td> {{ $working_days }}</td>
+                <td> {{ $total_working_days }}</td>
                 <td>
                     {{ $item->where('attendance_entry_status', 'HADIR')->where('attendance_exit_status', 'HADIR')->count() }}
                 </td>
