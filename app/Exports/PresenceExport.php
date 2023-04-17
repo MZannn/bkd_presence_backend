@@ -45,7 +45,7 @@ class PresenceExport implements FromView
 
         foreach ($presences as $presence) {
             $date = Carbon::parse($presence->presence_date)->toDateString();
-            if (isset($attendance_counts[$date]) && $presence->attendance_entry_status === 'HADIR' && $presence->attendance_exit_status === 'HADIR') {
+            if (isset($attendance_counts[$date]) && $presence->attendance_entry_status === 'HADIR' || $presence->attendance_entry_status === 'Terlambat' && $presence->attendance_exit_status === 'HADIR') {
                 $attendance_counts[$date]++;
             }
         }
