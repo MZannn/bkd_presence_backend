@@ -61,10 +61,9 @@
 
                     </form>
                 @endif
-                <div class="col-sm-2 d-sm-flex justify-content-sm-end">
-                    <a href="{{ route('presence.create') }}" class="btn btn-success shadow-sm "><i
-                            class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Pegawai</i></a>
-                </div>
+                <a href="{{ route('presence.create') }}"
+                    class="btn btn-success shadow-sm d-sm-flex justify-content-sm-end col-sm-2"><i
+                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Pegawai</i></a>
             </div>
         </div>
         <!-- Content Row -->
