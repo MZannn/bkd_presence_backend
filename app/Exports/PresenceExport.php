@@ -71,7 +71,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 'izin' => $attendance_counts['izin'],
                 'sakit' => $attendance_counts['sakit'],
                 'tidak_hadir' => $attendance_counts['tidak_hadir'],
-                ' terlambat' => $attendance_counts['terlambat'],
+                'terlambat' => $attendance_counts['terlambat'],
                 'persentase_kehadiran' => ($attendance_counts['hadir'] / $working_days) * 100,
             ]
         ]);
