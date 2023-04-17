@@ -95,7 +95,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
         return [
-            strval($row['nip']),
+            "'".strval($row['nip']),
             $row['nama'],
             $row['kantor'],
             $row['hari_kerja'],
