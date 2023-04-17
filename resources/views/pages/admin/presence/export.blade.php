@@ -32,13 +32,13 @@
                     {{ $total_hadir }}
                 </td>
                 <td>
-                    {{ $employee->where('attendance_entry_status', 'IZIN')->count() }}
+                    {{-- {{ $employee->where('attendance_entry_status', 'IZIN')->count() }} --}}
                 </td>
                 <td>
-                    {{ $item->where('attendance_entry_status', 'SAKIT')->count() }}
+                    {{-- {{ $item->where('attendance_entry_status', 'SAKIT')->count() }} --}}
                 </td>
                 <td>
-                    {{ $item->where('attendance_entry_status', null)->count() }}
+                    {{-- {{ $item->where('attendance_entry_status', null)->count() }} --}}
                 </td>
                 <td>
                     -
