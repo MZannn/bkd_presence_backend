@@ -22,17 +22,17 @@
                 $total_hadir += $attendance === 'HADIR' ? 1 : 0;
             @endphp
         @endforeach
-        @foreach ($items as $item)
+        @foreach ($employees as $employee)
             <tr>
-                <td> {{ $item->employee->nip }} </td>
-                <td> {{ $item->employee->name }} </td>
-                <td> {{ $item->office->name }}</td>
+                <td> {{ $employee->nip }} </td>
+                <td> {{ $employee->name }} </td>
+                <td> {{ $employee->office->name }}</td>
                 <td> {{ $working_days }}</td>
                 <td>
                     {{ $total_hadir }}
                 </td>
                 <td>
-                    {{ $item->where('attendance_entry_status', 'IZIN')->count() }}
+                    {{ $employee->where('attendance_entry_status', 'IZIN')->count() }}
                 </td>
                 <td>
                     {{ $item->where('attendance_entry_status', 'SAKIT')->count() }}

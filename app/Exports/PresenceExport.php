@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Employee;
 use App\Models\Presence;
 use Carbon\Carbon;
 use DateTimeZone;
@@ -21,6 +22,7 @@ class PresenceExport implements FromView
     {
         $start_date = $this->request->start_date;
         $end_date = $this->request->end_date;
+        $employees = Employee::with(['office'])->get();
         // Mengambil data presensi dari database
         $presences = Presence::with(['office', 'employee'])
             ->whereBetween('presence_date', [$start_date, $end_date])
@@ -51,7 +53,7 @@ class PresenceExport implements FromView
         }
 
         return view('pages.admin.presence.export', [
-            'items' => $presences,
+            'employees' => $employees,
             'attendance_counts' => $attendance_counts,
             'working_days' => $working_days,
         ]);
