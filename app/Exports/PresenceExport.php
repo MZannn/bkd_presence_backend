@@ -30,20 +30,18 @@ class PresenceExport implements FromView
         $calculator = new TanggalMerah();
 
         $working_days = 0;
-        $total_days = Carbon::parse($start_date)->diffInDays(Carbon::parse($end_date));
-        for ($i = 0; $i <= $total_days; $i++) {
-            $current_date = Carbon::parse($start_date)->addDays($i);
-            if (!$calculator->is_holiday($current_date)) {
+        $current_date = Carbon::parse($start_date);
+        while ($current_date->lte(Carbon::parse($end_date))) {
+            if (!$calculator->is_holiday($current_date) && $current_date->isWeekday()) {
                 $working_days++;
             }
+            $current_date->addDay();
         }
 
-        $total_working_days = 0;
-        foreach ($presence as $p) {
-            if (!$calculator->is_holiday($p->presence_date)) {
-                $total_working_days++;
-            }
-        }
+        $total_working_days = $presence->filter(function ($p) use ($calculator) {
+            return !$calculator->is_holiday($p->presence_date) && Carbon::parse($p->presence_date)->isWeekday();
+        })->count();
+        
         return view('pages.admin.presence.export', [
             'items' => $presence,
             'working_days' => $working_days,
