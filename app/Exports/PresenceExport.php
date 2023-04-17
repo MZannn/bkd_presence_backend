@@ -64,7 +64,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
         return collect([
             [
-                'nip' => $presence->employee->nip,
+                'nip' => strval($presence->employee->nip),
                 'nama' => $presence->employee->name,
                 'kantor' => $presence->office->name,
                 'hari_kerja' => $working_days,
@@ -96,7 +96,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
         return [
-            $row['nip'],
+            strval($row['nip']),
             $row['nama'],
             $row['kantor'],
             $row['hari_kerja'],
