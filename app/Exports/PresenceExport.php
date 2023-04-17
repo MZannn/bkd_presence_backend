@@ -62,7 +62,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             }
             return collect([
                 [
-                    'nip' => str_pad($presence->employee->nip, 19, '0', STR_PAD_LEFT),
+                    'nip' =>$presence->employee->nip,
                     'nama' => $presence->employee->name,
                     'kantor' => $presence->office->name,
                     'hari_kerja' => $working_days,
