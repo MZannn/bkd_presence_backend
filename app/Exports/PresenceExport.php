@@ -71,7 +71,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 $attendance_counts[$nip]['sakit']++;
             } elseif (strtoupper($presence->attendance_entry_status) == null || strtoupper($presence->attendance_exit_status) == null) {
                 $attendance_counts[$nip]['tidak_hadir']++;
-            } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
+            } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
                 $attendance_counts[$nip]['hadir']++;
                 $attendance_counts[$nip]['terlambat']++;
                 $entry_time = Carbon::parse($presence->attendance_clock);

@@ -24,7 +24,6 @@
             <div class="card-body">
                 <form action="{{ route('presence.export') }}" method="post">
                     @csrf
-                    <p>Tambahan Libur (Opsional/Boleh Tidak Diisi)</p>
                     <div class = "row">
                         <div class="form-group col-sm-5">
                         <label for="start_date" class="col-form-label">Dari
