@@ -60,11 +60,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'persentase_kehadiran' => 0,
                 ];
             }
-
-            // $calculator->set_date($presence->presence_date);
-            // if (!$calculator->is_holiday() && Carbon::parse($presence->presence_date)->isWeekday()) {
-            //     $working_days++;
-            // }
+            $total_late = 0;
 
             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                 $attendance_counts[$nip]['hadir']++;
@@ -77,9 +73,17 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
                 $attendance_counts[$nip]['hadir']++;
                 $attendance_counts[$nip]['terlambat']++;
+                $entry_time = Carbon::parse($presence->attendance_entry_time);
+                $entry_limit = Carbon::parse($presence->attendance_entry_limit);
+                // Jika waktu masuk terlambat
+                if ($entry_time->isAfter($entry_limit)) {
+                    $late_duration = $entry_time->diffInMinutes($entry_limit);
+                    $total_late += $late_duration;
+                }
             }
 
             $attendance_counts[$nip]['hari_kerja'] = $working_days;
+            $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
             $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;
         }
 
@@ -98,6 +102,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Sakit',
             'Tidak Hadir',
             'Terlambat',
+            'Terlambat Dalam Menit',
             'Persentase Kehadiran',
         ];
     }
@@ -114,6 +119,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['sakit'],
             $row['tidak_hadir'],
             $row['terlambat'],
+            $row['total_terlambat_dalam_menit'],
             $row['persentase_kehadiran'],
         ];
     }
