@@ -74,8 +74,8 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' || strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
                 $attendance_counts[$nip]['hadir']++;
                 $attendance_counts[$nip]['terlambat']++;
-                $entry_time = Carbon::parse($presence->attendance_entry_time);
-                $entry_limit = Carbon::parse($presence->attendance_entry_limit);
+                $entry_time = Carbon::parse($presence->attendance_clock);
+                $entry_limit = Carbon::now()->setTime(8, 0, 0);
                 // Jika waktu masuk terlambat
                 if ($entry_time->isAfter($entry_limit)) {
                     $late_duration = $entry_time->diffInMinutes($entry_limit);
