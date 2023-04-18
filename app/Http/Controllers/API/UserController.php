@@ -23,17 +23,17 @@ class UserController extends Controller
     {
         $user = Auth::user()->load('office');
         $presence = Presence::where('employee_id', $user->nip)
-            ->where('presence_date', Carbon::now()->format('Y-m-d'))
+            ->where('presence_date', Carbon::today())
             ->first();
         $isHoliday = new TanggalMerah();
-        $isHoliday->set_date(Carbon::now()->format('Ymd'));
+        $isHoliday->set_date(Carbon::today()->format('Ymd'));
         $isHoliday = $isHoliday->is_holiday();
-        dd(!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday' && $isHoliday == false);
-        if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday' && $isHoliday == false) {
+
+        if (!$presence && Carbon::today()->isWeekday() && !$isHoliday) {
             Presence::create([
                 'employee_id' => $user->nip,
                 'office_id' => $user->office_id,
-                'presence_date' => Carbon::now()->format('Y-m-d'),
+                'presence_date' => Carbon::today()->toDateString(),
             ]);
             $presence = Presence::where('employee_id', $user->nip)
                 ->orderBy('presence_date', 'desc')
@@ -43,6 +43,7 @@ class UserController extends Controller
                 'presences' => $presence->items()
             ], 'Data profile user berhasil diambil');
         }
+
         $presence = Presence::where('employee_id', $user->nip)
             ->orderBy('presence_date', 'desc')
             ->paginate(5);
@@ -51,6 +52,7 @@ class UserController extends Controller
             'presences' => $presence->items()
         ], 'Data profile user berhasil diambil');
     }
+
 
     public function updateProfile(Request $request)
     {
