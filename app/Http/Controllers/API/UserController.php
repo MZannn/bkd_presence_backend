@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Grei\TanggalMerah;
 
 class UserController extends Controller
 {
@@ -24,7 +25,11 @@ class UserController extends Controller
         $presence = Presence::where('employee_id', $user->nip)
             ->where('presence_date', Carbon::now()->format('Y-m-d'))
             ->first();
-        if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday') {
+        $isHoliday = new TanggalMerah();
+        $isHoliday->set_date(Carbon::now()->format('Ymd'));
+        $isHoliday = $isHoliday->is_holiday();
+        // $isHoliday = 
+        if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday' && !$isHoliday) {
             Presence::create([
                 'employee_id' => $user->nip,
                 'office_id' => $user->office_id,

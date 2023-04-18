@@ -30,7 +30,6 @@ Route::middleware('auth:sanctum')
         Route::post('permission-and-sick', [PresenceController::class, 'permissionAndSick']);
         Route::post('report-change-device', [UserController::class, 'reportChangeDevice']);
         Route::get('detail-presence/{id}', [PresenceController::class, 'detailPresence']);
-        Route::post('change-password', [UserController::class, 'changePassword']);
     });
 
 Route::post('login', [AuthController::class, 'login']);
