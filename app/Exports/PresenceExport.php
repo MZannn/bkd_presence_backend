@@ -34,10 +34,20 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         // Menghitung jumlah hari kerja
         $calculator = new TanggalMerah();
         $attendance_counts = [];
+        $working_days = 0;
+        $current_date = Carbon::parse($this->start_date);
+        while ($current_date->lte(Carbon::parse($this->end_date))) {
+            $calculator->set_date($current_date->toDateString());
+            if (!$calculator->is_holiday() && $current_date->isWeekday()) {
+                $working_days++;
+            }
+            $current_date->addDay();
+        }
         foreach ($presences as $presence) {
             $nip = $presence->employee->nip;
+
             if (!isset($attendance_counts[$nip])) {
-                $working_days = 0;
+
                 $attendance_counts[$nip] = [
                     'nip' => sprintf('%019s', $nip),
                     'nama' => $presence->employee->name,
