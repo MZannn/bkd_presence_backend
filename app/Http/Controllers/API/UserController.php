@@ -121,32 +121,5 @@ class UserController extends Controller
         }
         return ResponseFormatter::success($reportChangeDevice, 'Berhasil mengajukan laporan perubahan device');
     }
-    public function changePassword(Request $request)
-    {
-        // Validasi inputan
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
-        ]);
 
-        if ($validator->fails()) {
-            return ResponseFormatter::error([
-                'error' => $validator->errors(),
-            ], 'Update password gagal', 401);
-        }
-
-        // Cek apakah password lama cocok dengan password user saat ini
-        $user = Auth::user();
-        if (!Hash::check($request->input('old_password'), $user->password)) {
-            return ResponseFormatter::error([
-                'error' => 'Password lama tidak cocok',
-            ], 'Password lama tidak cocok', 401);
-        }
-
-        // Update password user
-        $user->password = Hash::make($request->input('new_password'));
-        $user->save();
-
-        return ResponseFormatter::success($user, 'Password berhasil diubah');
-    }
 }
