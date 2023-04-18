@@ -36,6 +36,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         $attendance_counts = [];
         $working_days = 0;
         $current_date = Carbon::parse($this->start_date);
+        $total_late = 0;
         while ($current_date->lte(Carbon::parse($this->end_date))) {
             $calculator->set_date($current_date->toDateString());
             if (!$calculator->is_holiday() && $current_date->isWeekday()) {
@@ -60,7 +61,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'persentase_kehadiran' => 0,
                 ];
             }
-            $total_late = 0;
+
 
             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                 $attendance_counts[$nip]['hadir']++;
