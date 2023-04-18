@@ -41,8 +41,8 @@ class AuthController extends Controller
             $isHoliday = new TanggalMerah();
             $isHoliday->set_date(Carbon::now()->format('Ymd'));
             $isHoliday = $isHoliday->is_holiday();
-            dd($isHoliday);
             $presence = Presence::where('employee_id', $user->nip)->where('presence_date', Carbon::now()->format('Y-m-d'))->first();
+
             if (!$presence && Carbon::now()->format('l') != 'Saturday' && Carbon::now()->format('l') != 'Sunday' && !$isHoliday) {
                 Presence::create([
                     'employee_id' => $user->nip,
