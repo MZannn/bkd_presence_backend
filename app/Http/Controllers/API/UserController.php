@@ -28,7 +28,6 @@ class UserController extends Controller
         $isHoliday = new TanggalMerah();
         $isHoliday->set_date(Carbon::today()->format('Ymd'));
         $isHoliday = $isHoliday->is_holiday();
-
         if (!$presence && Carbon::today()->isWeekday() && !$isHoliday) {
             Presence::create([
                 'employee_id' => $user->nip,
