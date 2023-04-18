@@ -61,10 +61,10 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 ];
             }
 
-            $calculator->set_date($presence->presence_date);
-            if (!$calculator->is_holiday() && Carbon::parse($presence->presence_date)->isWeekday()) {
-                $working_days++;
-            }
+            // $calculator->set_date($presence->presence_date);
+            // if (!$calculator->is_holiday() && Carbon::parse($presence->presence_date)->isWeekday()) {
+            //     $working_days++;
+            // }
 
             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                 $attendance_counts[$nip]['hadir']++;
