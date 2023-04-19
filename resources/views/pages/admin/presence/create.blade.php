@@ -24,20 +24,21 @@
             <div class="card-body">
                 <form action="{{ route('presence.export') }}" method="post">
                     @csrf
-                    <div class = "row">
+                    <div class="row">
                         <div class="form-group col-sm-5">
-                        <label for="start_date" class="col-form-label">Dari
-                            Tanggal -
-                        </label>
-                        <input type="date" class="form-control" placeholder="" name="start_date">
-                    </div>
-                    <div class="form-group col-sm-5">
-                        <label for="end_date" class="col-form-label">Hingga Tanggal
-                        </label>
-                        <input type="date" class="form-control" placeholder="" name="end_date">
-                    </div>
+                            <label for="start_date" class="col-form-label">Dari
+                                Tanggal -
+                            </label>
+                            <input type="date" class="form-control" placeholder="" name="start_date">
                         </div>
-                    <button type="submit" class="btn btn-success px-5">S</button>
+                        <div class="form-group col-sm-5">
+                            <label for="end_date" class="col-form-label">Hingga Tanggal
+                            </label>
+                            <input type="date" class="form-control" placeholder="" name="end_date">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success px-5"><i
+                            class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Pegawai</i></button>
                 </form>
             </div>
         </div>
