@@ -31,7 +31,7 @@
                                 <tr>
                                     <td> {{ $item->id }} </td>
                                     <td width="20%"> {{ $item->email }} </td>
-                                    <td width="40%"> {{ $item->roles }} </td>
+                                    <td> {{ $item->roles }} </td>
                                     <td> {{ $item->office->name }} </td>
                                     <td width="15%">
                                         <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info">
