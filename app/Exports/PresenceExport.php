@@ -97,7 +97,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 $attendance_counts[$nip]['tidak_hadir']++;
                             }
                         } else if ($attendance_date->notEqualTo($presence->presence_date)) {
-                            $attendance_counts[$nip]['tidak_hadir']++;
+                            $attendance_counts[$nip]['tidak_hadir']+1;
                         }
                     }
                     $attendance_date->addDay();
