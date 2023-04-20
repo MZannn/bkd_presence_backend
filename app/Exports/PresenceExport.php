@@ -96,11 +96,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             } else {
                                 $attendance_counts[$nip]['tidak_hadir']++;
                             }
-                        } else {
+                        } else if ($attendance_date->notEqualTo($presence->presence_date)) {
                             $attendance_counts[$nip]['tidak_hadir']++;
                         }
-                        $attendance_date->addDay();
                     }
+                    $attendance_date->addDay();
                 }
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
