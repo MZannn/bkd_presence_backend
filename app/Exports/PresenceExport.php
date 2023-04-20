@@ -64,6 +64,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'sakit' => 0,
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
+                    'total_terlambat_dalam_menit' => 0,
                     'persentase_kehadiran' => 0,
                 ];
             }
