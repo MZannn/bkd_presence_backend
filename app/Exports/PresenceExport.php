@@ -58,6 +58,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'nip' => sprintf('%019s', $nip),
                     'nama' => $employee->name,
                     'kantor' => $employee->office->name,
+                    'hari_kerja' => 0,
                     'hadir' => 0,
                     'izin' => 0,
                     'sakit' => 0,
