@@ -73,35 +73,33 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 $attendance_date = Carbon::parse($this->start_date);
                 while ($attendance_date->lte(Carbon::parse($this->end_date))) {
                     if ($presence->employee_id === $nip) {
-                        $presence_date = Carbon::parse($presence->presence_date);
-                        if ($attendance_date->isSameDay($presence_date)) {
-                            $today = Presence::where('employee_id', $nip)
-                                ->where('presence_date', $attendance_date)
-                                ->first();
-                            if (!$today) {
-                                $attendance_counts[$nip]['tidak_hadir']++;
-                            } else if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
-                                $attendance_counts[$nip]['hadir']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
-                                $attendance_counts[$nip]['izin']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
-                                $attendance_counts[$nip]['sakit']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
-                                $attendance_counts[$nip]['hadir']++;
-                                $attendance_counts[$nip]['terlambat']++;
-                                $entry_time = Carbon::parse($presence->attendance_clock);
-                                $entry_limit = Carbon::now()->setTime(8, 0, 0);
-                                // Jika waktu masuk terlambat
-                                if ($entry_time->isAfter($entry_limit)) {
-                                    $late_duration = $entry_time->diffInMinutes($entry_limit);
-                                    $total_late += $late_duration;
-                                }
-                            } elseif (strtoupper($presence->attendance_entry_status) == null && strtoupper($presence->attendance_exit_status) == null) {
-                                $attendance_counts[$nip]['tidak_hadir']++;
-                            } else {
-                                $attendance_counts[$nip]['tidak_hadir']++;
+                        $today = Presence::where('employee_id', $nip)
+                            ->where('presence_date', $attendance_date)
+                            ->first();
+                        if (!$today) {
+                            $attendance_counts[$nip]['tidak_hadir']++;
+                        } else if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
+                            $attendance_counts[$nip]['hadir']++;
+                        } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
+                            $attendance_counts[$nip]['izin']++;
+                        } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
+                            $attendance_counts[$nip]['sakit']++;
+                        } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
+                            $attendance_counts[$nip]['hadir']++;
+                            $attendance_counts[$nip]['terlambat']++;
+                            $entry_time = Carbon::parse($presence->attendance_clock);
+                            $entry_limit = Carbon::now()->setTime(8, 0, 0);
+                            // Jika waktu masuk terlambat
+                            if ($entry_time->isAfter($entry_limit)) {
+                                $late_duration = $entry_time->diffInMinutes($entry_limit);
+                                $total_late += $late_duration;
                             }
+                        } elseif (strtoupper($presence->attendance_entry_status) == null && strtoupper($presence->attendance_exit_status) == null) {
+                            $attendance_counts[$nip]['tidak_hadir']++;
+                        } else {
+                            $attendance_counts[$nip]['tidak_hadir']++;
                         }
+
                     }
                     $attendance_date->addDay();
                 }
