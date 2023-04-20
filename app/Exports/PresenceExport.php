@@ -72,7 +72,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             foreach ($presences as $presence) {
                 $attendance_date = Carbon::parse($this->start_date);
                 while ($attendance_date->lte(Carbon::parse($this->end_date))) {
-                    if ($presence->employee_id === $nip && Carbon::parse($presence->presence_date)->eq($attendance_date)) {
+                    if ($presence->employee_id === $nip) {
                         $today = Presence::where('employee_id', $nip)
                             ->where('presence_date', $attendance_date)
                             ->first();
