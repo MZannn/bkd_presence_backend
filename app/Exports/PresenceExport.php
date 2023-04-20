@@ -68,7 +68,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             }
 
             foreach ($presences as $presence) {
-                if ($presence->employee_id == $nip) {
+                if ($presence->employee_id === $nip) {
                     if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                         $attendance_counts[$nip]['hadir']++;
                     } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
