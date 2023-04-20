@@ -2,6 +2,7 @@
 // PresenceExport.php
 namespace App\Exports;
 
+use App\Models\Employee;
 use App\Models\Presence;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -30,7 +31,9 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             ->select('presences.*', 'employees.nip')
             ->orderBy('employees.nip')
             ->get();
-
+        $employees = Employee::with('office')
+            ->orderBy('nip')
+            ->get();
         // Menghitung jumlah hari kerja
         $calculator = new TanggalMerah();
         $attendance_counts = [];
@@ -45,49 +48,51 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $current_date->addDay();
         }
         foreach ($presences as $presence) {
-            $nip = $presence->employee->nip;
+            foreach ($employees as $employee) {
+                $nip = $employee->nip;
 
-            if (!isset($attendance_counts[$nip])) {
+                if (!isset($attendance_counts[$nip])) {
 
-                $attendance_counts[$nip] = [
-                    'nip' => sprintf('%019s', $nip),
-                    'nama' => $presence->employee->name,
-                    'kantor' => $presence->office->name,
-                    'hadir' => 0,
-                    'izin' => 0,
-                    'sakit' => 0,
-                    'tidak_hadir' => 0,
-                    'terlambat' => 0,
-                    'persentase_kehadiran' => 0,
-                ];
-            }
-
-
-            if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
-                $attendance_counts[$nip]['hadir']++;
-            } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
-                $attendance_counts[$nip]['izin']++;
-            } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
-                $attendance_counts[$nip]['sakit']++;
-            } elseif (strtoupper($presence->attendance_entry_status) == null || strtoupper($presence->attendance_exit_status) == null) {
-                $attendance_counts[$nip]['tidak_hadir']++;
-            } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
-                $attendance_counts[$nip]['hadir']++;
-                $attendance_counts[$nip]['terlambat']++;
-                $entry_time = Carbon::parse($presence->attendance_clock);
-                $entry_limit = Carbon::now()->setTime(8, 0, 0);
-                // Jika waktu masuk terlambat
-                if ($entry_time->isAfter($entry_limit)) {
-                    $late_duration = $entry_time->diffInMinutes($entry_limit);
-                    $total_late += $late_duration;
+                    $attendance_counts[$nip] = [
+                        'nip' => sprintf('%019s', $nip),
+                        'nama' => $employee->name,
+                        'kantor' => $presence->office->name,
+                        'hadir' => 0,
+                        'izin' => 0,
+                        'sakit' => 0,
+                        'tidak_hadir' => 0,
+                        'terlambat' => 0,
+                        'persentase_kehadiran' => 0,
+                    ];
                 }
-            } else {
-                $attendance_counts[$nip]['tidak_hadir']++;
-            }
 
-            $attendance_counts[$nip]['hari_kerja'] = $working_days;
-            $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
-            $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;
+
+                if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
+                    $attendance_counts[$nip]['hadir']++;
+                } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
+                    $attendance_counts[$nip]['izin']++;
+                } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
+                    $attendance_counts[$nip]['sakit']++;
+                } elseif (strtoupper($presence->attendance_entry_status) == null || strtoupper($presence->attendance_exit_status) == null) {
+                    $attendance_counts[$nip]['tidak_hadir']++;
+                } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
+                    $attendance_counts[$nip]['hadir']++;
+                    $attendance_counts[$nip]['terlambat']++;
+                    $entry_time = Carbon::parse($presence->attendance_clock);
+                    $entry_limit = Carbon::now()->setTime(8, 0, 0);
+                    // Jika waktu masuk terlambat
+                    if ($entry_time->isAfter($entry_limit)) {
+                        $late_duration = $entry_time->diffInMinutes($entry_limit);
+                        $total_late += $late_duration;
+                    }
+                } else {
+                    $attendance_counts[$nip]['tidak_hadir']++;
+                }
+
+                $attendance_counts[$nip]['hari_kerja'] = $working_days;
+                $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
+                $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;
+            }
         }
 
         return collect(array_values($attendance_counts));
