@@ -102,8 +102,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             $attendance_counts[$nip]['tidak_hadir']++;
                         }
 
-                    }else if (!$today && !$todayIsHoliday->is_holiday() && $attendance_date->isWeekday()){
-                        $attendance_counts[$nip]['tidak_hadir']++;
                     }
                     $attendance_date->addDay();
                 }
