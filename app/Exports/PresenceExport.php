@@ -99,7 +99,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                         $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
                         $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;
                     }
-                    $current_date->addDay();
+                    $attendance_date->addDay();
                 }
 
             }
