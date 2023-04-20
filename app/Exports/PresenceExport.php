@@ -71,7 +71,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
             foreach ($presences as $presence) {
                 $attendance_date = Carbon::parse($this->start_date);
-                while ($attendance_date->lte(Carbon::parse($this->end_date))) {
+                for ($attendance_date; $attendance_date < Carbon::parse($this->end_date); $attendance_date->addDay()) {
                     if ($presence->employee_id === $nip) {
                         $presence_date = Carbon::parse($presence->presence_date);
                         if ($attendance_date->eq($presence_date)) {
@@ -100,7 +100,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             $attendance_counts[$nip]['tidak_hadir']++;
                         }
                     }
-                    $attendance_date->addDay();
                 }
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
