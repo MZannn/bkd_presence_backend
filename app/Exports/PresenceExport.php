@@ -47,26 +47,27 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             }
             $current_date->addDay();
         }
-        foreach ($presences as $presence) {
-            foreach ($employees as $employee) {
-                $nip = $employee->nip;
-
-                if (!isset($attendance_counts[$nip])) {
-
-                    $attendance_counts[$nip] = [
-                        'nip' => sprintf('%019s', $nip),
-                        'nama' => $employee->name,
-                        'kantor' => $presence->office->name,
-                        'hadir' => 0,
-                        'izin' => 0,
-                        'sakit' => 0,
-                        'tidak_hadir' => 0,
-                        'terlambat' => 0,
-                        'persentase_kehadiran' => 0,
-                    ];
-                }
+        foreach ($employees as $employee) {
 
 
+            $nip = $employee->nip;
+
+            if (!isset($attendance_counts[$nip])) {
+
+                $attendance_counts[$nip] = [
+                    'nip' => sprintf('%019s', $nip),
+                    'nama' => $employee->name,
+                    'kantor' => $employee->office->name,
+                    'hadir' => 0,
+                    'izin' => 0,
+                    'sakit' => 0,
+                    'tidak_hadir' => 0,
+                    'terlambat' => 0,
+                    'persentase_kehadiran' => 0,
+                ];
+            }
+
+            foreach ($presences as $presence) {
                 if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                     $attendance_counts[$nip]['hadir']++;
                 } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
