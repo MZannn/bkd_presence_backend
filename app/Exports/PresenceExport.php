@@ -73,7 +73,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 $attendance_date = Carbon::parse($this->start_date);
                 while ($attendance_date->lte(Carbon::parse($this->end_date))) {
                     $today = Presence::where('employee_id', $nip)
-                        ->where('presence_date', $attendance_date)
+                        ->where('presence_date', $attendance_date->toDateString())
                         ->first();
                     $todayIsHoliday = new TanggalMerah;
                     $todayIsHoliday->set_date($attendance_date->toDateString());
