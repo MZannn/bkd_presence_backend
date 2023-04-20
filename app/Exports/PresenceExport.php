@@ -77,9 +77,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                         $attendance_counts[$nip]['izin']++;
                     } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
                         $attendance_counts[$nip]['sakit']++;
-                    } elseif (strtoupper($presence->attendance_entry_status) == null || strtoupper($presence->attendance_exit_status) == null) {
-                        $attendance_counts[$nip]['tidak_hadir']++;
-                    } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'TERLAMBAT') {
+                    } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                         $attendance_counts[$nip]['hadir']++;
                         $attendance_counts[$nip]['terlambat']++;
                         $entry_time = Carbon::parse($presence->attendance_clock);
@@ -89,6 +87,8 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             $late_duration = $entry_time->diffInMinutes($entry_limit);
                             $total_late += $late_duration;
                         }
+                    } elseif (strtoupper($presence->attendance_entry_status) == null && strtoupper($presence->attendance_exit_status) == null) {
+                        $attendance_counts[$nip]['tidak_hadir']++;
                     } else {
                         $attendance_counts[$nip]['tidak_hadir']++;
                     }
