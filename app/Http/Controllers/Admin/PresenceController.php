@@ -97,7 +97,8 @@ class PresenceController extends Controller
     public function create()
     {
         $items = Presence::with(['employee', 'office'])->get();
-        return view('pages.admin.presence.create', compact('items'));
+        $offices = Office::all();
+        return view('pages.admin.presence.create', compact('items', 'offices'));
     }
 
     /**
@@ -144,8 +145,14 @@ class PresenceController extends Controller
 
     public function export(Request $request)
     {
+        $request->validate([
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required|date|after:start_date',
+            'office_id' => 'required'
+        ]);
+        $office_id = $request->input('office_id');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        return Excel::download(new PresenceExport($start_date, $end_date), 'rekapan presensi.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new PresenceExport($office_id, $start_date, $end_date), 'rekapan presensi.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

@@ -15,9 +15,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $start_date;
     protected $end_date;
+    protected $office_id;
 
-    public function __construct($start_date, $end_date)
+    public function __construct($office_id, $start_date, $end_date)
     {
+        $this->office_id = $office_id;
         $this->start_date = $start_date;
         $this->end_date = $end_date;
     }
@@ -26,12 +28,14 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     {
         // Mengambil data presensi dan pegawai dari database
         $presences = Presence::with(['office', 'employee'])
+            ->where('office_id', $this->office_id)
             ->whereBetween('presence_date', [$this->start_date, $this->end_date])
             ->join('employees', 'employees.nip', '=', 'presences.employee_id')
             ->select('presences.*', 'employees.nip')
             ->orderBy('employees.nip')
             ->get();
         $employees = Employee::with('office')
+            ->where('office_id', $this->office_id)
             ->orderBy('nip')
             ->get();
         // Menghitung jumlah hari kerja
@@ -91,11 +95,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                     $late_duration = $entry_time->diffInMinutes($entry_limit);
                                     $total_late += $late_duration;
                                 }
-                            } 
-                        } 
+                            }
+                        }
                     }
                 }
-                $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'] - $attendance_counts[$nip]['izin'] -  $attendance_counts[$nip]['sakit'];
+                $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'] - $attendance_counts[$nip]['izin'] - $attendance_counts[$nip]['sakit'];
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
                 $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;

@@ -65,7 +65,7 @@
                 <div class="row d-sm-flex justify-content-sm-end">
                     <a href="{{ route('presence.create') }}"
                     class="btn btn-success shadow-sm d-sm-flex justify-content-sm-end col-sm-3 mr-4"><i
-                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Pegawai</i></a>
+                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Rekapan Presensi</i></a>
                     </div>
             </div>
         </div>
