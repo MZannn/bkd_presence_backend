@@ -91,16 +91,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                     $late_duration = $entry_time->diffInMinutes($entry_limit);
                                     $total_late += $late_duration;
                                 }
-                            } elseif (strtoupper($presence->attendance_entry_status) == null && strtoupper($presence->attendance_exit_status) == null) {
-                                $attendance_counts[$nip]['tidak_hadir']++;
-                            } else {
-                                $attendance_counts[$nip]['tidak_hadir']++;
-                            }
-                        } else if ($attendance_date->notEqualTo($presence->presence_date)) {
-                            $attendance_counts[$nip]['tidak_hadir']++;
-                        }
+                            } 
+                        } 
                     }
                 }
+                $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'] - $attendance_counts[$nip]['izin'] -  $attendance_counts[$nip]['sakit'];
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
                 $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] / $working_days) * 100;
