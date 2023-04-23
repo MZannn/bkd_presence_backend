@@ -50,7 +50,7 @@ class BussinessTripController extends Controller
                         'attendance_exit_status' => "PERJALANAN DINAS",
                     ]);
                 } else {
-                    $presence = Presence::where('id', $request->presence_id)->first();
+                    $presence = Presence::where('id', $request->presence_id)->where('presence_date', $request->start_date)->where('employee_id', $request->employee_id)->first();
                     $exists = Presence::where('presence_date', $request->start_date)->where('attendance_entry_status', "HADIR")->exists();
                     // untuk request 1 hari dan hari kerja
                     if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
@@ -78,6 +78,7 @@ class BussinessTripController extends Controller
                         BussinessTrip::findOrFail($data->id)->delete();
                         return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
                     }
+                    BussinessTrip::findOrFail($data->id)->delete();
                     return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
                 }
             } else {
