@@ -50,7 +50,8 @@ class BussinessTripController extends Controller
                         'attendance_exit_status' => "PERJALANAN DINAS",
                     ]);
                 } else {
-                    $presence = Presence::where('presence_date', $request->start_date)
+                    $presence = Presence::where('id', $request->presence_id)
+                        ->where('presence_date', $request->start_date)
                         ->where('employee_id', $request->employee_id)
                         ->first();
                     $exists = Presence::where('presence_date', $request->start_date)
