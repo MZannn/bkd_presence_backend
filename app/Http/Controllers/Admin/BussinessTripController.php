@@ -84,7 +84,6 @@ class BussinessTripController extends Controller
                         BussinessTrip::findOrFail($data->id)->delete();
                         return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
                     }
-                    dd(!$presence && !$exists);
                     BussinessTrip::findOrFail($data->id)->delete();
                     return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
                 }
