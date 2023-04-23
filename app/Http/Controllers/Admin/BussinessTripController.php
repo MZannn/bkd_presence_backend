@@ -77,9 +77,8 @@ class BussinessTripController extends Controller
                             'attendance_entry_status' => "PERJALANAN DINAS",
                             'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
-                        dd(!$presence && !$exists);
-                        BussinessTrip::findOrFail($data->id)->delete();
-                        return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
+
+                        dd($presence);
                     } else if (Carbon::parse($request->start_date)->isWeekend()) {
                         BussinessTrip::findOrFail($data->id)->delete();
                         return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena hari libur');
@@ -87,7 +86,9 @@ class BussinessTripController extends Controller
                         BussinessTrip::findOrFail($data->id)->delete();
                         return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
                     }
-
+                    dd(!$presence && !$exists);
+                    BussinessTrip::findOrFail($data->id)->delete();
+                    return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
                 }
             } else {
                 // untuk request lebih dari 1 hari
