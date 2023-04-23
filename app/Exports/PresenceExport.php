@@ -70,7 +70,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
                     'total_terlambat_dalam_menit' => 0,
-                    'persentase_kehadiran' => 0,
                 ];
             }
 
@@ -105,7 +104,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'] - $attendance_counts[$nip]['izin'] - $attendance_counts[$nip]['sakit'] - $attendance_counts[$nip]['perjalanan_dinas'];
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
-                $attendance_counts[$nip]['persentase_kehadiran'] = ($attendance_counts[$nip]['hadir'] + $attendance_counts[$nip]['perjalanan_dinas'] / $working_days) * 100;
             }
         }
 
@@ -126,7 +124,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Tidak Hadir',
             'Terlambat',
             'Terlambat Dalam Menit',
-            'Persentase Kehadiran',
         ];
     }
 
@@ -144,7 +141,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['tidak_hadir'],
             $row['terlambat'],
             $row['total_terlambat_dalam_menit'],
-            $row['persentase_kehadiran'],
         ];
     }
 
