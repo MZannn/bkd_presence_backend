@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Presence;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -153,6 +154,8 @@ class PresenceController extends Controller
         $office_id = $request->input('office_id');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        return Excel::download(new PresenceExport($office_id, $start_date, $end_date), 'rekapan presensi.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $date = Carbon::parse($start_date);
+        $month = $date->format('F');
+        return Excel::download(new PresenceExport($office_id, $start_date, $end_date), 'rekapan presensi - ' . $month . ' ' . $date->format('Y') . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
