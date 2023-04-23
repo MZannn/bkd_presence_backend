@@ -99,7 +99,7 @@
                                                 <option value="{{ $item->status }}" selected>
                                                     {{ $item->status }}
                                                 </option>
-                                                <option value="HADIR">HADIR</option>
+                                                <option value="KONFIRMASI">KONFIRMASI</option>
                                                 <option value="TOLAK">TOLAK</option>
                                             </select>
                                         </td>

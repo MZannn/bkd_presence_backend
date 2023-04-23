@@ -35,19 +35,19 @@ class BussinessTripController extends Controller
             ->where('employee_id', $request->employee_id)
             ->firstOrFail();
 
-        if ($request->status == 'HADIR') {
+        if ($request->status == 'KONFIRMASI') {
             if ($request->start_date == $request->end_date) {
                 if ($request->end_time <= '13:30:00') {
                     Presence::findOrFail($request->presence_id)->update([
                         'attendance_clock' => $request->start_time,
                         'presence_date' => $request->start_date,
-                        'attendance_entry_status' => $request->status,
+                        'attendance_entry_status' => "PERJALANAN DINAS",
                     ]);
                 } else if ($request->start_time >= '13:30:00' && $request->end_time <= '15:30:00') {
                     Presence::findOrFail($request->presence_id)->update([
                         'attendance_clock_out' => $request->end_time,
                         'presence_date' => $request->end_date,
-                        'attendance_exit_status' => $request->status,
+                        'attendance_exit_status' => "PERJALANAN DINAS",
                     ]);
                 } else {
                     $presence = Presence::where('id', $request->presence_id)->first();
@@ -60,16 +60,16 @@ class BussinessTripController extends Controller
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
                             'presence_date' => $request->start_date,
-                            'attendance_entry_status' => $request->status,
-                            'attendance_exit_status' => $request->status,
+                            'attendance_entry_status' => "PERJALANAN DINAS",
+                            'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
                     } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
                         Presence::findOrFail($request->presence_id)->update([
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
                             'presence_date' => $request->start_date,
-                            'attendance_entry_status' => $request->status,
-                            'attendance_exit_status' => $request->status,
+                            'attendance_entry_status' => "PERJALANAN DINAS",
+                            'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
                     } else if (Carbon::parse($request->start_date)->isWeekend()) {
                         BussinessTrip::findOrFail($data->id)->delete();
@@ -93,15 +93,15 @@ class BussinessTripController extends Controller
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
                             'presence_date' => $date->format('Y-m-d'),
-                            'attendance_entry_status' => $request->status,
-                            'attendance_exit_status' => $request->status,
+                            'attendance_entry_status' => "PERJALANAN DINAS",
+                            'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
                     } else if ($presence && Carbon::parse($date)->isWeekday() && !$exists) {
                         $presence->update([
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
-                            'attendance_entry_status' => $request->status,
-                            'attendance_exit_status' => $request->status,
+                            'attendance_entry_status' => "PERJALANAN DINAS",
+                            'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
                     }
                 }
