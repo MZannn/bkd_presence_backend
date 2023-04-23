@@ -40,7 +40,6 @@
                 </form>
             </div>
             <div class="col-sm-8">
-                
                 @if (Auth::user()->roles == 'SUPER ADMIN')
                     <form action="{{ route('presence.index') }}" method="GET"
                         class="d-sm-flex justify-content-sm-end mb-2">
@@ -57,16 +56,12 @@
                             <button type="submit" class="btn btn-primary input-group-text">Pilih</button>
                         </div>
                     </form>
-                    <form action="{{ route('presence.index') }}" method="GET" class="d-sm-flex justify-content-sm-end">
-                        @csrf
-
-                    </form>
                 @endif
                 <div class="row d-sm-flex justify-content-sm-end">
                     <a href="{{ route('presence.create') }}"
-                    class="btn btn-success shadow-sm d-sm-flex justify-content-sm-end col-sm-3 mr-4"><i
-                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Rekapan Presensi</i></a>
-                    </div>
+                        class="btn btn-success shadow-sm d-sm-flex justify-content-sm-end col-sm-4 mr-4"><i
+                            class="fas fa-file-import fa-md text-white mx-2 my-2"> Export Data Rekapan Presensi</i></a>
+                </div>
             </div>
         </div>
         <!-- Content Row -->
