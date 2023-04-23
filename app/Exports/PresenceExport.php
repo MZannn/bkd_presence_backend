@@ -28,7 +28,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     {
         // Mengambil data presensi dan pegawai dari database
         $presences = Presence::with(['office', 'employee'])
-            ->where('office_id', $this->office_id)
+            ->where('presences.office_id', $this->office_id)
             ->whereBetween('presence_date', [$this->start_date, $this->end_date])
             ->join('employees', 'employees.nip', '=', 'presences.employee_id')
             ->select('presences.*', 'employees.nip')
