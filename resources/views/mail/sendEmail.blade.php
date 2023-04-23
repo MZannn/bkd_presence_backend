@@ -1,1 +1,1 @@
-Hi Admin terdapat pegawai yang mengajukan penggantian device, silahkan cek website admin untuk melihat detailnya. Terima kasih.
+Hi Admin terdapat pegawai yang mengajukan penggantian device, silahkan cek website admin untuk melihat detailnya. https://zandev.site .Terima kasih.
