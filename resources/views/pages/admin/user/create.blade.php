@@ -37,8 +37,7 @@
                         <select class="form-select form-control" name="roles" id=""
                             aria-label="Default select example">
                             <option value="">Pilih Role</option>
-                            <option value="ADMIN">Admin</option>
-                            <option value="OFFICE HEAD">Kepala Kantor</option>
+                            <option value="ADMIN">Admin</option> 
                         </select>
                     </div>
                     <div class="form-group">

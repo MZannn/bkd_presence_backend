@@ -64,8 +64,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'kantor' => $employee->office->name,
                     'hari_kerja' => 0,
                     'hadir' => 0,
-                    'izin' => 0,
-                    'sakit' => 0,
+                    'izin_atau_sakit' => 0,
                     'perjalanan_dinas' => 0,
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
@@ -81,10 +80,8 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                         if ($attendance_date->eq($presence_date)) {
                             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                                 $attendance_counts[$nip]['hadir']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' || strtoupper($presence->attendance_exit_status) === 'IZIN') {
-                                $attendance_counts[$nip]['izin']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
-                                $attendance_counts[$nip]['sakit']++;
+                            } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' && strtoupper($presence->attendance_exit_status) === 'IZIN' || strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
+                                $attendance_counts[$nip]['izin_atau_sakit']++;
                             } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                                 $attendance_counts[$nip]['hadir']++;
                                 $attendance_counts[$nip]['terlambat']++;
@@ -101,7 +98,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                         }
                     }
                 }
-                $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'] - $attendance_counts[$nip]['izin'] - $attendance_counts[$nip]['sakit'] - $attendance_counts[$nip]['perjalanan_dinas'];
+                $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'];
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
                 $attendance_counts[$nip]['total_terlambat_dalam_menit'] = $total_late;
             }
@@ -118,8 +115,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Kantor',
             'Hari Kerja',
             'Hadir',
-            'Izin',
-            'Sakit',
+            'Izin Atau Sakit',
             'Perjalanan Dinas',
             'Tidak Hadir',
             'Terlambat',
@@ -135,8 +131,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['kantor'],
             $row['hari_kerja'],
             $row['hadir'],
-            $row['izin'],
-            $row['sakit'],
+            $row['izin_atau_sakit'],
             $row['perjalanan_dinas'],
             $row['tidak_hadir'],
             $row['terlambat'],
