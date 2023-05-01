@@ -7,6 +7,7 @@ use App\Models\BussinessTrip;
 use App\Models\Office;
 use App\Models\Presence;
 use Carbon\Carbon;
+use Grei\TanggalMerah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,9 +94,11 @@ class BussinessTripController extends Controller
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
                 $exists = Presence::where('presence_date', '>=', $request->start_date)->where('presence_date', '<=', $request->end_date)->where('attendance_entry_status', "HADIR")->exists();
+                $isHoliday = new TanggalMerah();
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
+                    $isHoliday->set_date($date->toDateString());
                     $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
-                    if (!$presence && Carbon::parse($date)->isWeekday() && !$exists) {
+                    if (!$presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
                         Presence::create([
                             'employee_id' => $request->employee_id,
                             'office_id' => $request->office_id,
@@ -105,7 +108,7 @@ class BussinessTripController extends Controller
                             'attendance_entry_status' => "PERJALANAN DINAS",
                             'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
-                    } else if ($presence && Carbon::parse($date)->isWeekday() && !$exists) {
+                    } else if ($presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
                         $presence->update([
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,

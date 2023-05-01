@@ -66,6 +66,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'hadir' => 0,
                     'izin_atau_sakit' => 0,
                     'perjalanan_dinas' => 0,
+                    'cuti' => 0,
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
                     'total_terlambat_dalam_menit' => 0,
@@ -94,6 +95,8 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 }
                             } elseif (strtoupper($presence->attendance_entry_status) === 'PERJALANAN DINAS' || strtoupper($presence->attendance_exit_status) === 'PERJALANAN DINAS') {
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
+                            } elseif (strtoupper($presence->attendance_entry_status) === 'CUTI' && strtoupper($presence->attendance_exit_status) === 'CUTI') {
+                                $attendance_counts[$nip]['cuti']++;
                             }
                         }
                     }
@@ -117,6 +120,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             'Hadir',
             'Izin Atau Sakit',
             'Perjalanan Dinas',
+            'Cuti',
             'Tidak Hadir',
             'Terlambat',
             'Terlambat Dalam Menit',
@@ -133,6 +137,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['hadir'],
             $row['izin_atau_sakit'],
             $row['perjalanan_dinas'],
+            $row['cuti'],
             $row['tidak_hadir'],
             $row['terlambat'],
             $row['total_terlambat_dalam_menit'],
