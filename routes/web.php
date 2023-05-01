@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PermissionAndSickController;
 use App\Http\Controllers\Admin\ReportChangeDeviceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PresenceController;
+use App\Http\Controllers\Admin\VacationController;
 use Illuminate\Support\Facades\Route;
 
 
