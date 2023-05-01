@@ -18,12 +18,12 @@ class BussinessTripController extends Controller
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $items = BussinessTrip::with(['employee', 'office', 'presence'])->paginate(10);
             if ($request->has('search')) {
-                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                $items = BussinessTrip::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
             }
         } else {
             $items = BussinessTrip::with(['employee', 'office', 'presence'])->where('office_id', Auth::user()->office_id)->paginate(10);
             if ($request->has('search')) {
-                $items = Presence::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->where('office_id', Auth::user()->office_id)->paginate(10);
+                $items = BussinessTrip::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->where('office_id', Auth::user()->office_id)->paginate(10);
             }
         }
         return view('pages.admin.bussiness-trip.index', compact('items', 'offices'));
