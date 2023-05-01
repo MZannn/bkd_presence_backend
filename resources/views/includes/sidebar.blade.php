@@ -61,7 +61,7 @@
      </li>
      <li class="nav-item">
          <a class="nav-link" href="{{ route('bussinessTrip') }}">
-             <i class="fas fa-fw fa-island-tropical"></i>
+             <i class="fad fa-fw fa-island-tropical"></i>
              <span>Cuti</span></a>
      </li>
      <li class="nav-item">
