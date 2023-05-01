@@ -40,7 +40,6 @@ class OfficeController extends Controller
             'radius' => 'required|numeric',
         ]);
         $request['radius'] = $request['radius'] / 1000; // convert to km
-        dd($request->all());
         Office::create($request->all());
         return redirect()->route('office.index')->with('alert', 'Data Berhasil Ditambahkan');
     }
