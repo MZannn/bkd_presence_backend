@@ -29,6 +29,6 @@ class DashboardController extends Controller
             $vacation = Vacation::with(['office', 'employee'])->where('office_id', Auth::user()->office_id)->get();
             $reportChangeDevice = ReportChangeDevice::with(['office', 'employee'])->where('office_id', Auth::user()->office_id)->get();
         }
-        return view('pages.admin.dashboard', compact('employee', 'bussinessTrip','permissionAndSick', 'reportChangeDevice'));
+        return view('pages.admin.dashboard', compact('employee', 'bussinessTrip','permissionAndSick', 'reportChangeDevice', 'vacation'));
     }
 }
