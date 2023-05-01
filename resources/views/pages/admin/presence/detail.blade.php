@@ -26,6 +26,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <th width="20%">Nama</th>
+                            <td>
+                                {{ $item->employee->name }}
+                            </td>
+                        </tr>
+                        <tr>
                             <th width="20%">Kantor</th>
                             <td>
                                 {{ $item->office->name }}
