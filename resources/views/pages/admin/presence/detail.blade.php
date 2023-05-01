@@ -70,7 +70,7 @@
                         <tr>
                             <th width="20%">Jarak Presensi Masuk</th>
                             <td>
-                                {{ $item->entry_distance }}m
+                                {{ $item->entry_distance }} m
                             </td>
                         </tr>
                         <tr>
@@ -82,7 +82,7 @@
                         <tr>
                             <th width="20%">Jarak Presensi Keluar</th>
                             <td>
-                                {{ $item->exit_distance }}m
+                                {{ $item->exit_distance }} m
                             </td>
                         </tr>
                     @endforeach
