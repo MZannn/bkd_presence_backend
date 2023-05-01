@@ -37,9 +37,10 @@ class OfficeController extends Controller
             'address' => 'required|max:255',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'radius' => 'required|numeric',
         ]);
-
-        $office = Office::create($request->all());
+        $request['radius'] = $request['radius'] / 1000; // convert to km
+        Office::create($request->all());
         return redirect()->route('office.index')->with('alert', 'Data Berhasil Ditambahkan');
     }
 
@@ -70,7 +71,9 @@ class OfficeController extends Controller
             'address' => 'required|max:255',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'radius' => 'required|numeric',
         ]);
+        $request['radius'] = $request['radius'] / 1000; // convert to km
         $item = Office::findOrFail($id);
         $item->update($request->all());
         return redirect()->route('office.index')->with('alert', 'Data Berhasil Diubah');

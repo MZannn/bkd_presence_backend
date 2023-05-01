@@ -41,6 +41,10 @@
                         <label for="longitude">Longitude</label>
                         <input type="text" class="form-control" name='longitude' value="{{ $item->longitude }}" id="longitude">
                     </div>
+                    <div class="form-group">
+                        <label for="radius">Radius Presensi</label>
+                        <input type="number" class="form-control" name='radius' id="radius" value="{{ old('radius') }}" placeholder="Radius Dalam satuan meter">
+                    </div>
                     <div id="map" style="height: 400px; width: 100%;" class="form-group">
                         <embed src="https://www.google.com/maps/embed/v1/place?q={{ $item->latitude }},{{ $item->longitude }}&zoom=15&center={{ $item->latitude }},{{ $item->longitude }}&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE" type="">
                         <iframe width="600" height="450" frameborder="0" style="border:0"

@@ -23,11 +23,12 @@
                                 <th>Alamat</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
+                                <th>Radius Presensi</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                             @forelse ($items as $item)
                                 <tr>
                                     <td> {{ $item->id }} </td>
@@ -35,7 +36,8 @@
                                     <td width="40%"> {{ $item->address }} </td>
                                     <td> {{ $item->latitude }} </td>
                                     <td> {{ $item->longitude }} </td>
-                                    <td width = "15%">
+                                    <td> {{ $item->radius * 1000 }} </td>
+                                    <td width="15%">
                                         <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
