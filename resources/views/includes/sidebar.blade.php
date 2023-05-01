@@ -60,7 +60,7 @@
              <span>Perjalanan Dinas</span></a>
      </li>
      <li class="nav-item">
-         <a class="nav-link" href="{{ route('bussinessTrip') }}">
+         <a class="nav-link" href="{{ route('vacation') }}">
              <i class="fas fa-fw fa-map"></i>
              <span>Cuti</span></a>
      </li>
