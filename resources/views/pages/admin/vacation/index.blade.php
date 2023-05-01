@@ -56,15 +56,15 @@
                                 <th>Nama</th>
                                 <th>Kantor</th>
                                 <th>Tanggal Mulai - Tanggal Berakhir</th>
-                                <th>Jam Mulai - Jam Berakhir</th>
-                                <th>Surat Dinas</th>
+                                <th>Alasan Cuti</th>
+                                <th>Surat Cuti</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($items as $item)
-                                <form action="{{ route('bussinessTrip.validation') }}" method="POST"
+                                <form action="{{ route('vacation.validation') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <tr>
