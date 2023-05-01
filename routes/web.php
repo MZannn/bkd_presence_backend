@@ -43,5 +43,7 @@ Route::prefix('/')
         Route::get('/report-change-device', [ReportChangeDeviceController::class, 'index'])->name('reportChangeDevice');
         Route::post('/report-change-device', [ReportChangeDeviceController::class, 'approved'])->name('reportChangeDevice.approved');
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
+        Route::get('/vacation', [VacationController::class, 'index'])->name('vacation');
+        Route::post('/vacation', [VacationController::class, 'validation'])->name('vacation.validation');
     });
 Auth::routes(['register' => false]);
