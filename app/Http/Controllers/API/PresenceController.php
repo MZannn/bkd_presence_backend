@@ -177,8 +177,7 @@ class PresenceController extends Controller
                 'presence_id' => 'required',
                 'start_date' => 'required|date|before:end_date',
                 'end_date' => 'required|date|after:start_date',
-                'start_time' => 'required',
-                'end_time' => 'required',
+                'reason' => 'required',
                 'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
             ]);
 
