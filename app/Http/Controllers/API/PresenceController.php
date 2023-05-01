@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BussinessTrip;
 use App\Models\PermissionAndSick;
 use App\Models\Presence;
+use App\Models\Vacation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -144,6 +145,48 @@ class PresenceController extends Controller
             return ResponseFormatter::error([
                 'error' => $exception->getMessage(),
             ], 'Terjadi kesalahan', 500);
+        }
+    }
+
+    public function vacation(Request $request)
+    {
+        if (Vacation::where('employee_id', $request->employee_id)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
+            return ResponseFormatter::error([
+                'error' => 'Permintaan Cuti sudah diajukan',
+            ], 'Permintaan Cuti sudah diajukan', 400);
+        }
+        if ($request->start_date == $request->end_date) {
+            $data = $request->validate([
+                'employee_id' => 'required',
+                'office_id' => 'required',
+                'presence_id' => 'required',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date',
+                'reason' => 'required',
+                'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
+            ]);
+            if ($request->has('file')) {
+                $data['file'] = $request->file('file')->store('assets/vacation', 'public');
+                $vacation = Vacation::create($data);
+            }
+            return ResponseFormatter::success($vacation, 'Berhasil mengajukan Cuti');
+        } else {
+            $data = $request->validate([
+                'employee_id' => 'required',
+                'office_id' => 'required',
+                'presence_id' => 'required',
+                'start_date' => 'required|date|before:end_date',
+                'end_date' => 'required|date|after:start_date',
+                'start_time' => 'required',
+                'end_time' => 'required',
+                'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
+            ]);
+
+            if ($request->has('file')) {
+                $data['file'] = $request->file('file')->store('assets/vacation', 'public');
+                $vacation = Vacation::create($data);
+            }
+            return ResponseFormatter::success($vacation, 'Berhasil mengajukan Cuti');
         }
     }
 
