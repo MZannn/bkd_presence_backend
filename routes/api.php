@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('user', [UserController::class, 'fetch']);
         Route::get('presence', [PresenceController::class, 'all']);
-        Route::post('user/photo', [UserController::class, 'updatePhoto']);
         Route::post('user', [UserController::class, 'updateProfile']);
         Route::put('presence-in/{id}', [PresenceController::class, 'presenceIn']);
         Route::put('presence-out/{id}', [PresenceController::class, 'presenceOut']);

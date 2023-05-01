@@ -82,27 +82,6 @@ class UserController extends Controller
             );
         }
     }
-    // update photo
-    public function updatePhoto(Request $request)
-    {
-        $validator = Validator::make($request->all(), ['file' => 'required|image|max:2048']);
-
-        if ($validator->fails()) {
-            return ResponseFormatter::error([
-                'error' => $validator->errors(),
-            ], 'Upload photo fails', 400);
-        }
-
-        if ($request->file('file')) {
-            $file = $request->file->store('assets/user', 'public');
-
-            $user = Auth::user();
-            $user->profile_photo_path = $file;
-            $user->update();
-            return ResponseFormatter::success([$file], 'File successfully Uploaded');
-        }
-    }
-
     public function reportChangeDevice(Request $request)
     {
         if (ReportChangeDevice::where('employee_id', $request->employee_id)->exists()) {

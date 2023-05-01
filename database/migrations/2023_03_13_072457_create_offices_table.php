@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->double('latitude');
             $table->double('longitude');
+            $table->double('radius');
             $table->softDeletes();
             $table->timestamps();
         });
