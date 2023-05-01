@@ -36,7 +36,7 @@
                                     <td width="40%"> {{ $item->address }} </td>
                                     <td> {{ $item->latitude }} </td>
                                     <td> {{ $item->longitude }} </td>
-                                    <td> {{ $item->radius * 1000 }} </td>
+                                    <td> {{ $item->radius * 1000 }} m</td>
                                     <td width="15%">
                                         <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
