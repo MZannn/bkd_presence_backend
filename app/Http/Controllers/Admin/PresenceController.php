@@ -51,7 +51,7 @@ class PresenceController extends Controller
             } else if ($request->office_id == null) {
                 $data = Presence::with(['office', 'employee']);
                 if ($data->first() != null) {
-                    $items = Presence::with(['office', 'employee'])->where('office_id', $data->first()->office->id)->paginate(10);
+                    $items = Presence::with(['office', 'employee'])->where('office_id', $data->first()->office->id)->orderBy('presence_date')->paginate(10);
                     return view('pages.admin.presence.index', compact('items', 'offices'));
                 }
             } else {
