@@ -55,7 +55,7 @@ class PresenceController extends Controller
                     return view('pages.admin.presence.index', compact('items', 'offices'));
                 }
             } else {
-                $items = Presence::with(['office', 'employee'])->where('office_id', $request->office_id)->paginate(10);
+                $items = Presence::with(['office', 'employee'])->where('office_id', $request->office_id)->orderBy('presence_date')->paginate(10);
                 return view('pages.admin.presence.index', compact('items', 'offices'));
             }
             $items = Presence::with(['office', 'employee'])->paginate(10);
