@@ -58,7 +58,7 @@ class PresenceController extends Controller
                 $items = Presence::with(['office', 'employee'])->where('office_id', $request->office_id)->orderBy('presence_date')->paginate(10);
                 return view('pages.admin.presence.index', compact('items', 'offices'));
             }
-            $items = Presence::with(['office', 'employee'])->paginate(10);
+            $items = Presence::with(['office', 'employee'])->orderBy('presence_date')->paginate(10);
             return view('pages.admin.presence.index', compact('items', 'offices'));
         } else {
             if ($request->has('search') && $request->start_date != null && $request->end_date != null) {
@@ -88,7 +88,7 @@ class PresenceController extends Controller
                 return view('pages.admin.presence.index', compact('items', 'offices'));
             }
         }
-        $items = Presence::with('employee')->paginate(10);
+        $items = Presence::with('employee')->orderBy('presence_date')->paginate(10);
         return view('pages.admin.presence.index', compact('items', 'offices'));
     }
 
