@@ -169,10 +169,10 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupload');
         }
     }
-    public function editTemplate($id)
+    public function editTemplate(Request $request)
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
-            $item = Template::findOrFail($id);
+            $item = Template::all()->first();
             return view('pages.admin.employee.changeTemplate', compact('item'));
         }
     }
