@@ -11,9 +11,7 @@ class TemplateController extends Controller
 {
     public function index()
     {
-        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
-            return view('pages.admin.employee.insertTemplate');
-        }
+        return view('pages.admin.employee.insertTemplate');
     }
     public function store(Request $request)
     {
