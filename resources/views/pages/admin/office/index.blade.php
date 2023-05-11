@@ -41,11 +41,14 @@
                                         <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
+                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete{{ $item->id }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                         <form action="{{ route('office.destroy', $item->id) }}" method="POST"
                                             class="d-sm-inline">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger">
+                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->id}})">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
