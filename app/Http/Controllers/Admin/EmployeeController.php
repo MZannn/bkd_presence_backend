@@ -163,7 +163,7 @@ class EmployeeController extends Controller
             ]);
             if ($request->hasFile('file')) {
                 $ext = $request->file('file')->getClientOriginalExtension();
-                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai" . $ext, 'public');
+                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai." . $ext, 'public');
             }
             Template::create($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupload');
