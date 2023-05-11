@@ -15,8 +15,8 @@
                     Tambah Pegawai</i></a>
         </div>
         <div class="row d-sm-flex justify-content-sm-between">
-            <div class="col-sm-4 mb-2">
-                <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm"><i
+            <div class="col-sm-4">
+                <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm mb-2"><i
                         class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i>
                 </a>
                 @if (Auth::user()->roles == 'ADMIN')
