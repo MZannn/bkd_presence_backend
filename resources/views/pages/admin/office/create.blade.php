@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group row " style="margin-left: -12px">
                         <div class="col-3">
-                            <label for="start_work">Jam Mulai Kerja</label>
+                            <label for="start_work">Jam Mulai Kehadiran</label>
                             <input type="time" class="form-control" name='start_work' value="{{ old('start_work') }}">
                         </div>
                         <div class="col-3">
