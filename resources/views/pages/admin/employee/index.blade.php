@@ -29,11 +29,9 @@
                             Tambahkan Template Import Data Pegawai
                         </a>
                     @else
-                        @foreach ($template as $t)
-                            <a href="{{ route('employee.changeTemplate', $t->id) }}" class="btn btn-success">
-                                Ganti Template Import Data Pegawai
-                            </a>
-                        @endforeach
+                        <a href="{{ route('employee.changeTemplate', $template->count()) }}" class="btn btn-success">
+                            Ganti Template Import Data Pegawai
+                        </a>
                     @endif
                 @endif
             </div>
