@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -171,7 +172,6 @@ class EmployeeController extends Controller
     public function editTemplate($id)
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
-            dd($id);
             $item = Template::findOrFail($id);
             return view('pages.admin.employee.changeTemplate', compact('item'));
         }
@@ -185,7 +185,11 @@ class EmployeeController extends Controller
             ]);
             if ($request->hasFile('file')) {
                 $ext = $request->file('file')->getClientOriginalExtension();
-                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai" . $ext, 'public');
+                $fileName = "Template File Import Pegawai." . $ext;
+                if (Storage::disk('public')->exists('assets/template/' . $fileName)) {
+                    Storage::disk('public')->delete('assets/template/' . $fileName);
+                }
+                $data['file'] = $request->file('file')->storeAs('assets/template', $fileName, 'public');
             }
             Template::findOrFail($id)->update($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupdate');
