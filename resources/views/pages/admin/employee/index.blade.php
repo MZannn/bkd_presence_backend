@@ -20,7 +20,7 @@
                         class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i>
                 </a>
                 @if (Auth::user()->roles == 'ADMIN')
-                    <a href="{{ url(Storage::url($template->file)) }}" class="btn btn-success">
+                    <a href="{{ url(Storage::url($template->first()->file)) }}" class="btn btn-success">
                         Template Import Data Pegawai
                     </a>
                 @elseif (Auth::user()->roles == 'SUPER ADMIN')
