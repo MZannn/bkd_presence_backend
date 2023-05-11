@@ -169,6 +169,7 @@ class EmployeeController extends Controller
     public function editTemplate($id)
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            dd($id);
             $item = Template::findOrFail($id);
             return view('pages.admin.employee.changeTemplate', compact('item'));
         }
