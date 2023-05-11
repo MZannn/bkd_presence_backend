@@ -27,19 +27,19 @@ class EmployeeController extends Controller
             $template = Template::all();
             if ($request->has('search')) {
                 $items = Employee::with('office')->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
-                return view('pages.admin.employee.index', compact('items', 'offices','template'));
+                return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
             } else if ($request->office_id == null) {
                 $data = Employee::with('office');
                 if ($data->first() != null) {
                     $items = Employee::with('office')->where('office_id', $data->first()->office->id)->paginate(10);
-                    return view('pages.admin.employee.index', compact('items', 'offices','template'));
+                    return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
                 }
             } else {
                 $items = Employee::with('office')->where('office_id', $request->office_id)->paginate(10);
-                return view('pages.admin.employee.index', compact('items', 'offices','template'));
+                return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
             }
             $items = Employee::with('office')->paginate(10);
-            return view('pages.admin.employee.index', compact('items', 'offices','template'));
+            return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
         }
         if (Auth::user() && Auth::user()->roles == 'ADMIN') {
             if ($request->has('search')) {
@@ -145,5 +145,10 @@ class EmployeeController extends Controller
         $file = $request->file('file');
         Excel::import(new EmployeeImport, $file);
         return redirect()->route('employee.index')->with('alert', 'Data berhasil diimport');
+    }
+
+    public function insertTemplate()
+    {
+        return view('pages.admin.employee.insertTemplate');
     }
 }
