@@ -24,7 +24,7 @@
                         Template Import Data Pegawai
                     </a>
                 @elseif (Auth::user()->roles == 'SUPER ADMIN')
-                    @if ($template->file != null)
+                    @if ($template != null)
                         <a href="{{ route('employee.insertTemplate') }}" class="btn btn-success">
                             Tambahkan Template Import Data Pegawai
                         </a>
