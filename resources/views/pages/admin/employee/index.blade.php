@@ -38,6 +38,11 @@
                         </div>
                     </form>
                 @endif
+                {{-- @if (Auth::user()->roles == 'ADMIN')
+                    <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-success">
+                        Template Import Data Pegawai
+                    </a>
+                @endif --}}
                 <form action="{{ route('employee.index') }}" method="GET" class="d-sm-flex justify-content-sm-end">
                     <label for="search" class="col-sm-3 col-form-label d-sm-flex justify-content-sm-end">Cari
                         Pegawai</label>
