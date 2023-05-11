@@ -161,7 +161,8 @@ class EmployeeController extends Controller
                 'file' => 'required|file|mimes:xls,xlsx,csv|max:2048',
             ]);
             if ($request->hasFile('file')) {
-                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai", 'public');
+                $ext = $request->file('file')->getClientOriginalExtension();
+                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai" . $ext, 'public');
             }
             Template::create($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupload');
@@ -183,7 +184,8 @@ class EmployeeController extends Controller
                 'file' => 'required|file|mimes:xls,xlsx,csv|max:2048',
             ]);
             if ($request->hasFile('file')) {
-                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai", 'public');
+                $ext = $request->file('file')->getClientOriginalExtension();
+                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai" . $ext, 'public');
             }
             Template::findOrFail($id)->update($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupdate');
