@@ -133,12 +133,3 @@
         })
     }
 </script>
-<!-- Kode JavaScript untuk menampilkan nama file yang dipilih -->
-<script>
-    const fileInput = document.getElementById('filename');
-    const fileName = document.querySelector('.file-name');
-
-    fileInput.addEventListener('change', function() {
-        fileName.textContent = this.files[0].name;
-    });
-</script>

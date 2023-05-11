@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="file">Template File Import</label>
                         <input type="hidden" name="id" value="{{ $item->id }}">
-                        <input type="file" class="form-control" name='file' id="filename"
+                        <input type="file" class="form-control" name='file'
                             placeholder="template file import" value="{{ $item->file }}">
                     </div>
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
