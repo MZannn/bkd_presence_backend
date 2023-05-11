@@ -25,12 +25,11 @@
                             Template Import Data Pegawai
                         </a>
                     @endif
-                @elseif (Auth::user()->roles == 'SUPER ADMIN')
-                    @if ($template->count() == 0)
+                    @if (Auth::user()->roles() == "SUPER ADMIN" && $template->count() == 0)
                         <a href="{{ route('employee.insertTemplate') }}" class="btn btn-success">
                             Tambahkan Template Import Data Pegawai
                         </a>
-                    @else
+                    @elseif (Auth::user()->roles() == "SUPER ADMIN" && $template->count() > 0)
                         <a href="{{ route('employee.changeTemplate', $template->count()) }}" class="btn btn-success">
                             Ganti Template Import Data Pegawai
                         </a>
