@@ -7,7 +7,7 @@ use App\Models\Template;
 use Auth;
 use Illuminate\Http\Request;
 
-class templateController extends Controller
+class TemplateController extends Controller
 {
     public function index()
     {

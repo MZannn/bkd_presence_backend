@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionAndSickController;
 use App\Http\Controllers\Admin\ReportChangeDeviceController;
+use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PresenceController;
 use App\Http\Controllers\Admin\VacationController;
@@ -46,10 +47,10 @@ Route::prefix('/')
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
         Route::get('/vacation', [VacationController::class, 'index'])->name('vacation');
         Route::post('/vacation', [VacationController::class, 'validation'])->name('vacation.validation');
-        Route::get('/insert-template',[templateController::class,'index'])->name('employee.insertTemplate');
-        Route::post('/insert-template',[templateController::class,'store'])->name('employee.storeTemplate');
-        Route::get('/change-template',[templateController::class,'edit'])->name('employee.changeTemplate');
-        Route::post('/change-template',[templateController::class,'update'])->name('employee.updateTemplate');
+        Route::get('/insert-template',[TemplateController::class,'index'])->name('employee.insertTemplate');
+        Route::post('/insert-template',[TemplateController::class,'store'])->name('employee.storeTemplate');
+        Route::get('/change-template',[TemplateController::class,'edit'])->name('employee.changeTemplate');
+        Route::post('/change-template',[TemplateController::class,'update'])->name('employee.updateTemplate');
 
 
     });
