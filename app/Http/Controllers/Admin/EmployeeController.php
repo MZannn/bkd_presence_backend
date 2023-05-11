@@ -42,12 +42,13 @@ class EmployeeController extends Controller
             return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
         }
         if (Auth::user() && Auth::user()->roles == 'ADMIN') {
+            $template = Template::all();
             if ($request->has('search')) {
                 $items = Employee::with('office')->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
-                return view('pages.admin.employee.index', compact('items'));
+                return view('pages.admin.employee.index', compact('items', 'template'));
             }
             $items = Employee::with('office')->where('office_id', Auth::user()->office_id)->paginate(10);
-            return view('pages.admin.employee.index', compact('items'));
+            return view('pages.admin.employee.index', compact('items', 'template'));
         }
     }
 
