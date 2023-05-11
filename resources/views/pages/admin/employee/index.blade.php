@@ -25,7 +25,7 @@
                     </a>
                 @elseif (Auth::user()->roles == 'SUPER ADMIN')
                     @if ($template->count() == 0)
-                        <a href="{{ route('insertTemplate') }}" class="btn btn-success">
+                        <a href="{{ url('/insert-template') }}" class="btn btn-success">
                             Tambahkan Template Import Data Pegawai
                         </a>
                     @else
