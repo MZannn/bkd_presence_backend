@@ -29,7 +29,7 @@
                             Tambahkan Template Import Data Pegawai
                         </a>
                     @else
-                        <a href="{{ route('changeTemplate') }}" class="btn btn-success">
+                        <a href="{{ route('employee.changeTemplate') }}" class="btn btn-success">
                             Ganti Template Import Data Pegawai
                         </a>
                     @endif

@@ -149,6 +149,42 @@ class EmployeeController extends Controller
 
     public function insertTemplate()
     {
-        return view('pages.admin.employee.insertTemplate');
+        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            return view('pages.admin.employee.insertTemplate');
+        }
+    }
+    public function storeTemplate(Request $request)
+    {
+        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            $data = $request->validate([
+                'file' => 'required|file|mimes:xls,xlsx,csv|max:2048',
+            ]);
+            if ($request->hasFile('file')) {
+                $data['file'] = $request->file('file')->store('assets/template', 'public');
+            }
+            Template::create($data);
+            return redirect()->route('employee.index')->with('alert', 'File berhasil diupload');
+        }
+    }
+    public function editTemplate($id)
+    {
+        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            $item = Template::findOrFail($id);
+            return view('pages.admin.employee.changeTemplate', compact('item'));
+        }
+    }
+
+    public function updateTemplate(Request $request, $id)
+    {
+        if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
+            $data = $request->validate([
+                'file' => 'required|file|mimes:xls,xlsx,csv|max:2048',
+            ]);
+            if ($request->hasFile('file')) {
+                $data['file'] = $request->file('file')->store('assets/template', 'public');
+            }
+            Template::findOrFail($id)->update($data);
+            return redirect()->route('employee.index')->with('alert', 'File berhasil diupdate');
+        }
     }
 }
