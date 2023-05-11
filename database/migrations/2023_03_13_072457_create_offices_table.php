@@ -18,7 +18,10 @@ return new class extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->double('radius');
-            $table->softDeletes();
+            $table->time('start_work');
+            $table->time('start_break');
+            $table->time('late_tolerance');
+            $table->time('end_work');
             $table->timestamps();
         });
     }
