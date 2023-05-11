@@ -80,7 +80,7 @@
                                         <td> {{ $item->office->name }} </td>
                                         <td width="15%"> {{ $item->start_date }} - {{ $item->end_date }}
                                         </td>
-                                        <td> {{ $item->start_time }} - {{ $item->end_time }} </td>
+                                        <td> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }} </td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
                                                 <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary">
