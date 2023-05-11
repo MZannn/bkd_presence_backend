@@ -69,7 +69,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <tr>
-                                        <input type="hidden" name="id" value="{{$item->id}}">
+                                        <input type="hidden" name="id" value="{{ $item->id }}">
                                         <input type="hidden" name="employee_id" value="{{ $item->employee_id }}">
                                         <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                                         <input type="hidden" name="presence_id" value="{{ $item->presence_id }}">
@@ -77,11 +77,10 @@
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td width="15%"> {{ $item->office->name }} </td>
-                                        <td>{{ $item->date }} </td>
+                                        <td>{{ \Carbon\Carbon::parse($item->date)->format('d-m-Y') }} </td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
-                                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary"
-                                                    >
+                                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary">
                                                     PDF
                                                 </a>
                                             @else
