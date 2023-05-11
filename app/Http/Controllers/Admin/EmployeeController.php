@@ -177,7 +177,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function updateTemplate(Request $request, $id)
+    public function updateTemplate(Request $request)
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $data = $request->validate([
@@ -191,7 +191,7 @@ class EmployeeController extends Controller
                 }
                 $data['file'] = $request->file('file')->storeAs('assets/template', $fileName, 'public');
             }
-            Template::findOrFail($id)->update($data);
+            Template::findOrFail($request->id)->update($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupdate');
         }
     }
