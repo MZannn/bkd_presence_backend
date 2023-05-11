@@ -14,7 +14,11 @@ class Office extends Model
         'address',
         'latitude',
         'longitude',
-        'radius'
+        'radius',
+        'start_work',
+        'start_break',
+        'late_tolerance',
+        'end_work',
     ];
 
     protected $hidden = [
