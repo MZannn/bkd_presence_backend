@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\EmployeeImport;
 use App\Models\Employee;
 use App\Models\Office;
+use App\Models\Template;
 use DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,21 +24,22 @@ class EmployeeController extends Controller
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $offices = Office::all();
+            $template = Template::all();
             if ($request->has('search')) {
                 $items = Employee::with('office')->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
-                return view('pages.admin.employee.index', compact('items', 'offices'));
+                return view('pages.admin.employee.index', compact('items', 'offices','template'));
             } else if ($request->office_id == null) {
                 $data = Employee::with('office');
                 if ($data->first() != null) {
                     $items = Employee::with('office')->where('office_id', $data->first()->office->id)->paginate(10);
-                    return view('pages.admin.employee.index', compact('items', 'offices'));
+                    return view('pages.admin.employee.index', compact('items', 'offices','template'));
                 }
             } else {
                 $items = Employee::with('office')->where('office_id', $request->office_id)->paginate(10);
-                return view('pages.admin.employee.index', compact('items', 'offices'));
+                return view('pages.admin.employee.index', compact('items', 'offices','template'));
             }
             $items = Employee::with('office')->paginate(10);
-            return view('pages.admin.employee.index', compact('items', 'offices'));
+            return view('pages.admin.employee.index', compact('items', 'offices','template'));
         }
         if (Auth::user() && Auth::user()->roles == 'ADMIN') {
             if ($request->has('search')) {
