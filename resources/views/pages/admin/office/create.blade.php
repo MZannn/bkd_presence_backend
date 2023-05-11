@@ -51,15 +51,21 @@
                     </div>
                     <div class="form-group row" style="margin-left: -12px">
                         <div class="col-auto">
-                            <label for="start_time" class="d-sm-flex justify-content-end">Dimulai dari jam </label>
-                            <input type="time" class="form-control" name='start_time' value="{{ old('start_work') }}">
-                        </div>
-                        <div class="col-auto" style="margin-left: -15px; margin-right:-15px">
-                            <label for="">-</label>
+                            <label for="start_work">Jam Mulai Kerja</label>
+                            <input type="time" class="form-control" name='start_work' value="{{ old('start_work') }}">
                         </div>
                         <div class="col-auto">
-                            <label for="end_time">Hingga jam </label>
-                            <input type="time" class="form-control" name='end_time' value="{{ old('end_work') }}">
+                            <label for="start_break">Batas Jam Kehadiran</label>
+                            <input type="time" class="form-control" name='start_break' value="{{ old('start_break') }}">
+                        </div>
+                        <div class="col-auto">
+                            <label for="late_tolerance">Batas Toleransi Keterlambatan</label>
+                            <input type="time" class="form-control" name='late_tolerance' value="{{ old('late_tolerance') }}">
+                        </div>
+                        
+                        <div class="col-auto">
+                            <label for="end_work">Jam Selesai Kerja</label>
+                            <input type="time" class="form-control" name='end_work' value="{{ old('end_work') }}">
                         </div>
                     </div>
 
