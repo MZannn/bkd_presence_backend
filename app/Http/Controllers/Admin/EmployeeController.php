@@ -24,8 +24,7 @@ class EmployeeController extends Controller
     {
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $offices = Office::all();
-            $template = Template::all()->first();
-            dd($template);
+            $template = Template::all();
             if ($request->has('search')) {
                 $items = Employee::with('office')->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
                 return view('pages.admin.employee.index', compact('items', 'offices', 'template'));
