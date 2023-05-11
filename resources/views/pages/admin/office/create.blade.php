@@ -49,21 +49,21 @@
                             src="https://www.google.com/maps/embed/v1/place?q={{ $location }}&zoom=15&key=AIzaSyA_KUAyGozVXUuA1h-QzMHxCS8OdKMzEpE"
                             allowfullscreen></iframe>
                     </div>
-                    <div class="form-group row" style="margin-left: -12px">
-                        <div class="col-auto">
+                    <div class="form-group row " style="margin-left: -12px">
+                        <div class="col-3">
                             <label for="start_work">Jam Mulai Kerja</label>
                             <input type="time" class="form-control" name='start_work' value="{{ old('start_work') }}">
                         </div>
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="start_break">Batas Jam Kehadiran</label>
                             <input type="time" class="form-control" name='start_break' value="{{ old('start_break') }}">
                         </div>
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="late_tolerance">Batas Toleransi Keterlambatan</label>
                             <input type="time" class="form-control" name='late_tolerance' value="{{ old('late_tolerance') }}">
                         </div>
                         
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="end_work">Jam Selesai Kerja</label>
                             <input type="time" class="form-control" name='end_work' value="{{ old('end_work') }}">
                         </div>
