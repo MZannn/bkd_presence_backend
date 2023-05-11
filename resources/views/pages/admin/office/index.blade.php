@@ -42,7 +42,7 @@
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                         <form action="{{ route('office.destroy', $item->id) }}" method="POST"
-                                            class="d-sm-inline">
+                                            class="d-sm-inline" id="form-delete-{{$item->id}}">
                                             @csrf
                                             @method('delete')
                                             <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->id}})">
