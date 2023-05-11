@@ -87,7 +87,7 @@
                                     <td> {{ $item->employee->nip }} </td>
                                     <td> {{ $item->employee->name }} </td>
                                     <td> {{ $item->office->name }}</td>
-                                    <td> {{ Carbon::parse($item->presence_date)->format('d-m-Y') }} </td>
+                                    <td> {{ \Carbon\Carbon::parse($item->presence_date)->format('d-m-Y') }} </td>
                                     <td> {{ $item->attendance_entry_status }} </td>
                                     <td> {{ $item->attendance_exit_status }} </td>
                                     <td>
