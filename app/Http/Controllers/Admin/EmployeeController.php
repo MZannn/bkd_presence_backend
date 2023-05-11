@@ -161,7 +161,7 @@ class EmployeeController extends Controller
                 'file' => 'required|file|mimes:xls,xlsx,csv|max:2048',
             ]);
             if ($request->hasFile('file')) {
-                $data['file'] = $request->file('file')->store('assets/template', 'public');
+                $data['file'] = $request->file('file')->storeAs('assets/template', "Template File Import Pegawai", 'public');
             }
             Template::create($data);
             return redirect()->route('employee.index')->with('alert', 'File berhasil diupload');
