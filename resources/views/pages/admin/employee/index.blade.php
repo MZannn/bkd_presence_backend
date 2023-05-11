@@ -20,9 +20,11 @@
                     <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm mb-2"><i
                             class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i>
                     </a>
-                    <a href="{{ url(Storage::url($template->first()->file)) }}" class="btn btn-success">
-                        Template Import Data Pegawai
-                    </a>
+                    @if (Auth::user()->roles == 'ADMIN')
+                        <a href="{{ url(Storage::url($template->first()->file)) }}" class="btn btn-success">
+                            Template Import Data Pegawai
+                        </a>
+                    @endif
                 @elseif (Auth::user()->roles == 'SUPER ADMIN')
                     @if ($template->count() == 0)
                         <a href="{{ route('employee.insertTemplate') }}" class="btn btn-success">
