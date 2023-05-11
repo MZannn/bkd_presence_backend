@@ -29,7 +29,7 @@ class ReportChangeDeviceController extends Controller
         $from = "+14155238886";
         $client = new Client($sid, $token);
         if ($request->status == 'APPROVED') {
-            $employee = Employee::where('nip', $request->employee_id)->first();
+            $employee = Employee::where('nip', $request->nip)->first();
             $phone_number = $employee->phone_number;
 
             if (substr($phone_number, 0, 2) === '08') {

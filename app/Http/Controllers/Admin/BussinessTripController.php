@@ -19,12 +19,12 @@ class BussinessTripController extends Controller
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $items = BussinessTrip::with(['employee', 'office', 'presence'])->paginate(10);
             if ($request->has('search')) {
-                $items = BussinessTrip::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                $items = BussinessTrip::with(['office', 'employee'])->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
             }
         } else {
             $items = BussinessTrip::with(['employee', 'office', 'presence'])->where('office_id', Auth::user()->office_id)->paginate(10);
             if ($request->has('search')) {
-                $items = BussinessTrip::with(['office', 'employee'])->where('employee_id', 'like', '%' . $request->search . '%')->where('office_id', Auth::user()->office_id)->paginate(10);
+                $items = BussinessTrip::with(['office', 'employee'])->where('nip', 'like', '%' . $request->search . '%')->where('office_id', Auth::user()->office_id)->paginate(10);
             }
         }
         return view('pages.admin.bussiness-trip.index', compact('items', 'offices'));
@@ -33,7 +33,7 @@ class BussinessTripController extends Controller
     {
 
         $data = BussinessTrip::where('office_id', $request->office_id)
-            ->where('employee_id', $request->employee_id)
+            ->where('nip', $request->nip)
             ->firstOrFail();
 
         if ($request->status == 'KONFIRMASI') {
@@ -53,16 +53,16 @@ class BussinessTripController extends Controller
                 } else {
                     $presence = Presence::where('id', $request->presence_id)
                         ->where('presence_date', $request->start_date)
-                        ->where('employee_id', $request->employee_id)
+                        ->where('nip', $request->nip)
                         ->first();
                     $exists = Presence::where('presence_date', $request->start_date)
                         ->where('attendance_entry_status', "HADIR")
-                        ->where('employee_id', $request->employee_id)
+                        ->where('nip', $request->nip)
                         ->exists();
                     // untuk request 1 hari dan hari kerja
                     if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
                         Presence::create([
-                            'employee_id' => $request->employee_id,
+                            'nip' => $request->nip,
                             'office_id' => $request->office_id,
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,
@@ -97,10 +97,10 @@ class BussinessTripController extends Controller
                 $isHoliday = new TanggalMerah();
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
                     $isHoliday->set_date($date->toDateString());
-                    $presence = Presence::where('employee_id', $request->employee_id)->where('presence_date', $date->format('Y-m-d'))->first();
+                    $presence = Presence::where('nip', $request->nip)->where('presence_date', $date->format('Y-m-d'))->first();
                     if (!$presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
                         Presence::create([
-                            'employee_id' => $request->employee_id,
+                            'nip' => $request->nip,
                             'office_id' => $request->office_id,
                             'attendance_clock' => $request->start_time,
                             'attendance_clock_out' => $request->end_time,

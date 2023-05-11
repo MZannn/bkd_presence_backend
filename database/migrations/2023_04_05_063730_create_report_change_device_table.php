@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('report_change_device', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_id', 30);
-            $table->foreign('employee_id')->references('nip')->on('employees')->onDelete('cascade');
+            $table->string('nip', 30);
+            $table->foreign('nip')->references('nip')->on('employees')->onDelete('cascade');
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->string('status')->default('PENDING');
             $table->text('reason');

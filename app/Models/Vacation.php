@@ -13,7 +13,7 @@ class Vacation extends Model
     use HasFactory;
     protected $table = 'vacation';
     protected $fillable = [
-        'employee_id',
+        'nip',
         'office_id',
         'presence_id',
         'start_date',
@@ -28,7 +28,7 @@ class Vacation extends Model
     ];
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id', 'nip');
+        return $this->belongsTo(Employee::class, 'nip', 'nip');
     }
     public function office()
     {

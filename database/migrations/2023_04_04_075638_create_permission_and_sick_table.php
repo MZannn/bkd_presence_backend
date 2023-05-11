@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('permission_and_sick', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_id',30);
-            $table->foreign('employee_id')->references('nip')->on('employees')->onDelete('cascade');
+            $table->string('nip',30);
+            $table->foreign('nip')->references('nip')->on('employees')->onDelete('cascade');
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->foreignId('presence_id')->constrained('presences')->onDelete('cascade');
             $table->date('date');

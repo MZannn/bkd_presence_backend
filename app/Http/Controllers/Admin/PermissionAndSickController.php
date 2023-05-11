@@ -16,7 +16,7 @@ class PermissionAndSickController extends Controller
         if (Auth::user() && Auth::user()->roles == 'SUPER ADMIN') {
             $offices = Office::all();
             if ($request->has('search')) {
-                $items = PermissionAndSick::with(['office', 'employee', 'presence'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                $items = PermissionAndSick::with(['office', 'employee', 'presence'])->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
                 return view('pages.admin.permission-and-sick.index', compact('items', 'offices'));
             } else if ($request->office_id == null) {
                 $data = PermissionAndSick::with(['office', 'employee', 'presence']);
@@ -33,7 +33,7 @@ class PermissionAndSickController extends Controller
         }
         if (Auth::user() && Auth::user()->roles == 'ADMIN') {
             if ($request->has('search')) {
-                $items = PermissionAndSick::with(['office', 'employee', 'presence'])->where('employee_id', 'like', '%' . $request->search . '%')->paginate(10);
+                $items = PermissionAndSick::with(['office', 'employee', 'presence'])->where('nip', 'like', '%' . $request->search . '%')->paginate(10);
                 return view('pages.admin.permission-and-sick.index', compact('items'));
             }
             $items = PermissionAndSick::with(['office', 'employee', 'presence'])->where('office_id', Auth::user()->office_id)->paginate(10);
@@ -45,7 +45,7 @@ class PermissionAndSickController extends Controller
     {     
         $request->validate([
             'id'=> 'required',
-            'employee_id' => 'required',
+            'nip' => 'required',
             'office_id' => 'required',
             'presence_id' => 'required',
             'date' => 'required|date',

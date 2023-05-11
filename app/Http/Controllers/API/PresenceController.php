@@ -17,7 +17,7 @@ class PresenceController extends Controller
     public function all(Request $request)
     {
         $user = Auth::user();
-        $presence = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->get();
+        $presence = Presence::where('nip', $user->nip)->orderBy('presence_date', 'desc')->get();
         return ResponseFormatter::success(
             ['presences' => $presence]
             ,
@@ -28,7 +28,7 @@ class PresenceController extends Controller
     public function detailPresence(Request $request, $id)
     {
         $user = Auth::user();
-        $presence = Presence::where('employee_id', $user->nip)->where('id', $id)->first();
+        $presence = Presence::where('nip', $user->nip)->where('id', $id)->first();
         return ResponseFormatter::success(
             [
                 'detail_presence' => $presence
@@ -40,10 +40,10 @@ class PresenceController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-        $presenceIn = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
+        $presenceIn = Presence::all()->where('nip', $user->nip)->where('id', $id)->first();
         $presenceIn->update($data);
         $user = Auth::user()->load('office');
-        $presence = Presence::where('employee_id', $user->nip)
+        $presence = Presence::where('nip', $user->nip)
             ->orderBy('presence_date', 'desc')
             ->paginate(5);
         return ResponseFormatter::success([
@@ -56,10 +56,10 @@ class PresenceController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
-        $presenceOut = Presence::all()->where('employee_id', $user->nip)->where('id', $id)->first();
+        $presenceOut = Presence::all()->where('nip', $user->nip)->where('id', $id)->first();
         $presenceOut->update($data);
         $user = Auth::user()->load('office');
-        $presence = Presence::where('employee_id', $user->nip)
+        $presence = Presence::where('nip', $user->nip)
             ->orderBy('presence_date', 'desc')
             ->paginate(5);
         return ResponseFormatter::success([
@@ -70,14 +70,14 @@ class PresenceController extends Controller
 
     public function bussinessTrip(Request $request)
     {
-        if (BussinessTrip::where('employee_id', $request->employee_id)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
+        if (BussinessTrip::where('nip', $request->nip)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
             return ResponseFormatter::error([
                 'error' => 'Perjalanan dinas sudah diajukan',
             ], 'Perjalanan dinas sudah diajukan', 400);
         }
         if ($request->start_date == $request->end_date) {
             $data = $request->validate([
-                'employee_id' => 'required',
+                'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
                 'start_date' => 'required|date',
@@ -93,7 +93,7 @@ class PresenceController extends Controller
             return ResponseFormatter::success($bussinessTrip, 'Berhasil mengajukan perjalanan dinas');
         } else {
             $data = $request->validate([
-                'employee_id' => 'required',
+                'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
                 'start_date' => 'required|date|before:end_date',
@@ -115,7 +115,7 @@ class PresenceController extends Controller
     {
         try {
             $request->validate([
-                'employee_id' => 'required',
+                'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
                 'date' => 'required|date',
@@ -123,7 +123,7 @@ class PresenceController extends Controller
             ]);
 
             if (
-                PermissionAndSick::where('employee_id', $request->employee_id)
+                PermissionAndSick::where('nip', $request->nip)
                     ->where('date', $request->date)->exists()
             ) {
                 return ResponseFormatter::error([
@@ -150,14 +150,14 @@ class PresenceController extends Controller
 
     public function vacation(Request $request)
     {
-        if (Vacation::where('employee_id', $request->employee_id)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
+        if (Vacation::where('nip', $request->nip)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
             return ResponseFormatter::error([
                 'error' => 'Permintaan Cuti sudah diajukan',
             ], 'Permintaan Cuti sudah diajukan', 400);
         }
         if ($request->start_date == $request->end_date) {
             $data = $request->validate([
-                'employee_id' => 'required',
+                'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
                 'start_date' => 'required|date',
@@ -172,7 +172,7 @@ class PresenceController extends Controller
             return ResponseFormatter::success($vacation, 'Berhasil mengajukan Cuti');
         } else {
             $data = $request->validate([
-                'employee_id' => 'required',
+                'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
                 'start_date' => 'required|date|before:end_date',

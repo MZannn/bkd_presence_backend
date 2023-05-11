@@ -28,7 +28,7 @@
                                     @csrf
                                     <tr>
                                         <input type="hidden" name="id" value="{{ $item->id }}">
-                                        <input type="hidden" name="employee_id" value="{{ $item->employee_id }}">
+                                        <input type="hidden" name="nip" value="{{ $item->nip }}">
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td> {{ $item->office->name }} </td>

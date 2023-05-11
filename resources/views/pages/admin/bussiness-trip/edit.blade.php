@@ -26,10 +26,10 @@
                 <form action="{{ route('bussinessTrip.validation') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="employee_id">Nama</label>
-                        <input type="text" class="form-control" name='employee_id' value="{{ $items->employee_id }}"
+                        <label for="nip">Nama</label>
+                        <input type="text" class="form-control" name='nip' value="{{ $items->nip }}"
                             readonly>
-                        {{-- <input type="hidden" name="employee_id" value="{{ $items->employee_id }}"> --}}
+                        {{-- <input type="hidden" name="nip" value="{{ $items->nip }}"> --}}
                     </div>
                     <div class="form-group">
                         <label for="name">Nama</label>

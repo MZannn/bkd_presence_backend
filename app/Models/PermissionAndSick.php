@@ -10,7 +10,7 @@ class PermissionAndSick extends Model
     use HasFactory;
     protected $table = 'permission_and_sick';
     protected $fillable = [
-        'employee_id',
+        'nip',
         'office_id',
         'presence_id',
         'date',
@@ -25,7 +25,7 @@ class PermissionAndSick extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id', 'nip');
+        return $this->belongsTo(Employee::class, 'nip', 'nip');
     }
 
     public function office()

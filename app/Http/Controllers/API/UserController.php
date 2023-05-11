@@ -22,7 +22,7 @@ class UserController extends Controller
     public function fetch(Request $request)
     {
         $user = Auth::user()->load('office');
-        $presence = Presence::where('employee_id', $user->nip)
+        $presence = Presence::where('nip', $user->nip)
             ->where('presence_date', Carbon::today())
             ->first();
         $isHoliday = new TanggalMerah();
@@ -30,11 +30,11 @@ class UserController extends Controller
         $isHoliday = $isHoliday->is_holiday();
         if (!$presence && Carbon::today()->isWeekday() && !$isHoliday) {
             Presence::create([
-                'employee_id' => $user->nip,
+                'nip' => $user->nip,
                 'office_id' => $user->office_id,
                 'presence_date' => Carbon::today()->toDateString(),
             ]);
-            $presence = Presence::where('employee_id', $user->nip)
+            $presence = Presence::where('nip', $user->nip)
                 ->orderBy('presence_date', 'desc')
                 ->paginate(5);
             return ResponseFormatter::success([
@@ -43,7 +43,7 @@ class UserController extends Controller
             ], 'Data profile user berhasil diambil');
         }
 
-        $presence = Presence::where('employee_id', $user->nip)
+        $presence = Presence::where('nip', $user->nip)
             ->orderBy('presence_date', 'desc')
             ->paginate(5);
         return ResponseFormatter::success([
@@ -65,7 +65,7 @@ class UserController extends Controller
             }
             $user = Auth::user()->load('office');
             $user->update($data);
-            $presences = Presence::where('employee_id', $user->nip)->orderBy('presence_date', 'desc')->get();
+            $presences = Presence::where('nip', $user->nip)->orderBy('presence_date', 'desc')->get();
 
             return ResponseFormatter::success([
                 'user' => $user,
@@ -84,13 +84,13 @@ class UserController extends Controller
     }
     public function reportChangeDevice(Request $request)
     {
-        if (ReportChangeDevice::where('employee_id', $request->employee_id)->exists()) {
+        if (ReportChangeDevice::where('nip', $request->nip)->exists()) {
             return ResponseFormatter::error([
                 'error' => 'Laporan perubahan device sudah diajukan',
             ], 'Laporan perubahan device sudah diajukan', 400);
         }
         $data = $request->validate([
-            'employee_id' => 'required',
+            'nip' => 'required',
             'office_id' => 'required',
             'reason' => 'required',
         ]);

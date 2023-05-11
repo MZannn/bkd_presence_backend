@@ -68,7 +68,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <tr>
-                                        <input type="hidden" name="employee_id" value="{{ $item->employee_id }}">
+                                        <input type="hidden" name="nip" value="{{ $item->nip }}">
                                         <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                                         <input type="hidden" name="presence_id" value="{{ $item->presence_id }}">
                                         <input type="hidden" name="start_date" value="{{ $item->start_date }}">

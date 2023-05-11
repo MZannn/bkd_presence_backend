@@ -30,7 +30,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         $presences = Presence::with(['office', 'employee'])
             ->where('presences.office_id', $this->office_id)
             ->whereBetween('presence_date', [$this->start_date, $this->end_date])
-            ->join('employees', 'employees.nip', '=', 'presences.employee_id')
+            ->join('employees', 'employees.nip', '=', 'presences.nip')
             ->select('presences.*', 'employees.nip')
             ->orderBy('employees.nip')
             ->get();
@@ -76,7 +76,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             foreach ($presences as $presence) {
                 $attendance_date = Carbon::parse($this->start_date);
                 for ($attendance_date; $attendance_date < Carbon::parse($this->end_date); $attendance_date->addDay()) {
-                    if ($presence->employee_id === $nip) {
+                    if ($presence->nip === $nip) {
                         $presence_date = Carbon::parse($presence->presence_date);
                         if ($attendance_date->eq($presence_date)) {
                             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {

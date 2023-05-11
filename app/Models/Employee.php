@@ -41,6 +41,6 @@ class Employee extends Model
     }
     public function presences()
     {
-        return $this->hasMany(Presence::class, 'employee_id', 'nip');
+        return $this->hasMany(Presence::class, 'nip', 'nip');
     }
 }

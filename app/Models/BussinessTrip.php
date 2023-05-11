@@ -10,7 +10,7 @@ class BussinessTrip extends Model
     use HasFactory;
     protected $table = 'bussiness_trip';
     protected $fillable = [
-        'employee_id',
+        'nip',
         'office_id',
         'presence_id',
         'start_date',
@@ -27,7 +27,7 @@ class BussinessTrip extends Model
     ];
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id', 'nip');
+        return $this->belongsTo(Employee::class, 'nip', 'nip');
     }
     public function office()
     {
