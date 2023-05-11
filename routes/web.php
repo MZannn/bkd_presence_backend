@@ -46,5 +46,11 @@ Route::prefix('/')
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
         Route::get('/vacation', [VacationController::class, 'index'])->name('vacation');
         Route::post('/vacation', [VacationController::class, 'validation'])->name('vacation.validation');
+        Route::get('/insert-template',[templateController::class,'index'])->name('employee.insertTemplate');
+        Route::post('/insert-template',[templateController::class,'store'])->name('employee.storeTemplate');
+        Route::get('/change-template',[templateController::class,'edit'])->name('employee.changeTemplate');
+        Route::post('/change-template',[templateController::class,'update'])->name('employee.updateTemplate');
+
+
     });
 Auth::routes(['register' => false]);

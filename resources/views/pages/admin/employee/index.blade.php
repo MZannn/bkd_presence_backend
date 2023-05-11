@@ -17,7 +17,23 @@
         <div class="row d-sm-flex justify-content-sm-between">
             <div class="col-sm-4">
                 <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm"><i
-                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i></a>
+                        class="fas fa-file-import fa-md text-white mx-2 my-2"> Import Data Pegawai</i>
+                </a>
+                @if (Auth::user()->roles == 'ADMIN')
+                    <a href="{{ url(Storage::url($template->file)) }}" class="btn btn-success">
+                        Template Import Data Pegawai
+                    </a>
+                @elseif (Auth::user()->roles == 'SUPER ADMIN')
+                    @if ($template->file != null)
+                        <a href="{{ route('employee.insertTemplate') }}" class="btn btn-success">
+                            Tambahkan Template Import Data Pegawai
+                        </a>
+                    @else
+                        <a href="{{ route('employee.changeTemplate') }}" class="btn btn-success">
+                            Ganti Template Import Data Pegawai
+                        </a>
+                    @endif
+                @endif
             </div>
 
             <div class="col-sm-8">
@@ -38,11 +54,6 @@
                         </div>
                     </form>
                 @endif
-                {{-- @if (Auth::user()->roles == 'ADMIN')
-                    <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-success">
-                        Template Import Data Pegawai
-                    </a>
-                @endif --}}
                 <form action="{{ route('employee.index') }}" method="GET" class="d-sm-flex justify-content-sm-end">
                     <label for="search" class="col-sm-3 col-form-label d-sm-flex justify-content-sm-end">Cari
                         Pegawai</label>
