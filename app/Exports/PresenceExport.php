@@ -114,9 +114,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         $office = Office::findOrFail($this->office_id);
+        $start_date = Carbon::parse($this->start_date)->format('d-m-Y');
+        $end_date = Carbon::parse($this->end_date)->format('d-m-Y');
         return [
             ['Kantor:', $office->name],
-            ['Periode:', $this->start_date . ' s/d ' . $this->end_date],
+            ['Periode:', $start_date . ' s/d ' . $end_date],
             [''],
             [
                 'NIP',
