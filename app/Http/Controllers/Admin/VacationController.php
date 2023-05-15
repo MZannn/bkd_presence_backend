@@ -130,9 +130,10 @@ class VacationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vacation $vacation)
+    public function show($id)
     {
-        //
+        $item = Vacation::with(['employee', 'office', 'presence'])->findOrFail($id);
+        return view('pages.admin.vacation.show', compact('item'));
     }
 
     /**
