@@ -114,6 +114,6 @@ class VacationController extends Controller
     public function edit($id)
     {
         $item = Vacation::with(['employee', 'office', 'presence'])->findOrFail($id);
-        return view('pages.admin.vacation.show', compact('item'));
+        return view('pages.admin.vacation.edit', compact('item'));
     }
 }
