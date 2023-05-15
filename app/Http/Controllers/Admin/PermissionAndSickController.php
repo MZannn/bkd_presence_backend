@@ -61,4 +61,9 @@ class PermissionAndSickController extends Controller
         }
         return redirect()->route('permissionAndSick')->with('success', 'Data berhasil divalidasi');
     }
+
+    public function edit($id){
+        $item = PermissionAndSick::findOrFail($id);
+        return view('pages.admin.permission-and-sick.edit', compact('item'));
+    }
 }

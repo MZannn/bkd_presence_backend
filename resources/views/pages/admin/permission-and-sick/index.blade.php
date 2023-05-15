@@ -77,7 +77,7 @@
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td width="15%"> {{ $item->office->name }} </td>
-                                        <td>{{ \Carbon\Carbon::parse($item->date)->format('d-m-Y') }} </td>
+                                        <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }}</td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
                                                 <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary">
@@ -100,9 +100,9 @@
                                             </select>
                                         </td>
                                         <td width="13%">
-                                            {{-- <a href="{{ route('bussinessTrip.edit', $item->id) }}" class="btn btn-info">
+                                            <a href="{{ route('permissionAndSick.edit', $item->id) }}" class="btn btn-info">
                                                 <i class="fa fa-pencil-alt"></i>
-                                            </a> --}}
+                                            </a>
                                             <button type="submit" class="btn btn-primary d-sm-inline">
                                                 Validasi
                                             </button>
