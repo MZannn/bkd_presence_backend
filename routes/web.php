@@ -45,7 +45,7 @@ Route::prefix('/')
         Route::get('/report-change-device', [ReportChangeDeviceController::class, 'index'])->name('reportChangeDevice');
         Route::post('/report-change-device', [ReportChangeDeviceController::class, 'approved'])->name('reportChangeDevice.approved');
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
-        Route::get('/vacation', [VacationController::class, 'index'])->name('vacation');
+        Route::resource('/vacation', VacationController::class);
         Route::post('/vacation', [VacationController::class, 'validation'])->name('vacation.validation');
         Route::get('/insert-template', [EmployeeController::class, 'insertTemplate'])->name('employee.insertTemplate');
         Route::post('/insert-template', [EmployeeController::class, 'storeTemplate'])->name('employee.storeTemplate');
