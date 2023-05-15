@@ -118,13 +118,14 @@ class PresenceController extends Controller
                 'nip' => 'required',
                 'office_id' => 'required',
                 'presence_id' => 'required',
-                'date' => 'required|date',
+                'start_date' => 'required|date|before:end_date',
+                'end_date' => 'required|date|after:start_date',
                 'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
             ]);
 
             if (
                 PermissionAndSick::where('nip', $request->nip)
-                    ->where('date', $request->date)->exists()
+                    ->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()
             ) {
                 return ResponseFormatter::error([
                     'error' => 'Izin atau sakit sudah diajukan',
