@@ -4,8 +4,8 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Validasi Perjalanan Dinas</h1>
+        <div class="d-sm-flex align-item-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Edit Permintaan Cuti</h1>
         </div>
 
 
@@ -23,57 +23,44 @@
         <div class="row">
             <div class="card-body">
 
-                <form action="{{ route('bussinessTrip.validation') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('vacation.validation') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="nip">NIP</label>
-                        <input type="text" class="form-control" name='nip' value="{{ $items->nip }}" readonly>
-                        {{-- <input type="hidden" name="nip" value="{{ $items->nip }}"> --}}
+                        <input type="text" class="form-control" name='nip' value="{{ $item->nip }}" readonly>
+                        {{-- <input type="hidden" name="nip" value="{{ $item->nip }}"> --}}
                     </div>
                     <div class="form-group">
                         <label for="name">Nama</label>
-                        <input type="text" class="form-control" name='name' value="{{ $items->employee->name }}"
+                        <input type="text" class="form-control" name='name' value="{{ $item->employee->name }}"
                             readonly>
                     </div>
                     <div class="form-group">
                         <label for="office_name">Kantor</label>
-                        <input type="text" class="form-control" name='office_name' value="{{ $items->office->name }}"
+                        <input type="text" class="form-control" name='office_name' value="{{ $item->office->name }}"
                             readonly>
-                        <input type="hidden" name="office_id" value="{{ $items->office_id }}">
+                        <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                     </div>
                     <div class="form-group row" style="margin-left: -12px">
                         <div class="col-auto">
                             <label for="start_date" class="d-sm-flex justify-content-end">Dimulai dari tanggal </label>
-                            <input type="date" class="form-control" name='start_date' value="{{ $items->start_date }}">
+                            <input type="date" class="form-control" name='start_date' value="{{ $item->start_date }}">
                         </div>
                         <div class="col-auto" style="margin-left: -15px; margin-right:-15px">
                             <label for="">-</label>
                         </div>
                         <div class="col-auto">
                             <label for="end_date">Hingga Tanggal </label>
-                            <input type="date" class="form-control" name='end_date' value="{{ $items->end_date }}">
-                        </div>
-                    </div>
-                    <div class="form-group row" style="margin-left: -12px">
-                        <div class="col-auto">
-                            <label for="start_time" class="d-sm-flex justify-content-end">Dimulai dari jam </label>
-                            <input type="time" class="form-control" name='start_time' value="{{ $items->start_time }}">
-                        </div>
-                        <div class="col-auto" style="margin-left: -15px; margin-right:-15px">
-                            <label for="">-</label>
-                        </div>
-                        <div class="col-auto">
-                            <label for="end_time">Hingga jam </label>
-                            <input type="time" class="form-control" name='end_time' value="{{ $items->end_time }}">
+                            <input type="date" class="form-control" name='end_date' value="{{ $item->end_date }}">
                         </div>
                     </div>
                     <div class="form-group" style="margin-left: -12px">
                         <div class="col-auto">
                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
-                                <a href="{{ url(Storage::url($items->file)) }}" class="btn btn-danger">Download
+                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-danger">Download
                                     PDF</a>
                             @else
-                                <a href="{{ url(Storage::url($items->file)) }}"><img src="{{ Storage::url($item->file) }}"
+                                <a href="{{ url(Storage::url($item->file)) }}"><img src="{{ Storage::url($item->file) }}"
                                         alt="" style="width: 150px" class="img-thumbnail"></a>
                             @endif
                         </div>
@@ -82,7 +69,7 @@
                         <label for="status">Status</label>
                         <select class="form-select form-control" name="status" id=""
                             aria-label="Default select example">
-                            <option value="{{ $items->status }}" selected>{{ $items->status }}
+                            <option value="{{ $item->status }}" selected>{{ $item->status }}
                             </option>
                             <option value="KONFIRMASI">KONFIRMASI</option>
                             <option value="TOLAK">TOLAK</option>

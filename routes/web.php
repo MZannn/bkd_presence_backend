@@ -51,7 +51,7 @@ Route::prefix('/')
         Route::post('/insert-template',[EmployeeController::class,'storeTemplate'])->name('employee.storeTemplate');
         Route::get('/change-template',[EmployeeController::class,'editTemplate'])->name('employee.changeTemplate');
         Route::post('/change-template',[EmployeeController::class,'updateTemplate'])->name('employee.updateTemplate');
-
-
+        Route::get('/vacation/{id}', [VacationController::class, 'edit'])->name('vacation.edit');
+        
     });
 Auth::routes(['register' => false]);

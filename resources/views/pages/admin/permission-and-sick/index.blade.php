@@ -56,8 +56,8 @@
                             <tr>
                                 <th>NIP</th>
                                 <th>Nama</th>
-                                <th>Kantor</th>
-                                <th>Tanggal</th>
+                                <th width="15%">Kantor</th>
+                                <th width="15%">Tanggal</th>
                                 <th>Surat Izin atau Sakit</th>
                                 <th>Status</th>
                                 <th>Action</th>

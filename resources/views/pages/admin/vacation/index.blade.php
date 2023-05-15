@@ -102,6 +102,9 @@
                                             </select>
                                         </td>
                                         <td width="13%">
+                                            <a href="{{ route('vacation.edit', $item->id) }}" class="btn btn-info">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
                                             <button type="submit" class="btn btn-primary d-sm-inline">
                                                 Validasi
                                             </button>
