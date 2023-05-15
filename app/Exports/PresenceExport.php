@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Employee;
+use App\Models\Office;
 use App\Models\Presence;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -112,8 +113,9 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
     public function headings(): array
     {
+        $office = Office::findOrFail($this->office_id);
         return [
-            ['Kantor:', $this->office_id],
+            ['Kantor:', $office->name],
             ['Periode:', $this->start_date . ' s/d ' . $this->end_date],
             [''],
             [
