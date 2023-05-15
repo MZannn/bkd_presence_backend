@@ -23,7 +23,7 @@
         <div class="row">
             <div class="card-body">
 
-                <form action="{{ route('bussinessTrip.validation') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('permissionAndSick.validation') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="nip">NIP</label>
@@ -66,7 +66,7 @@
                             aria-label="Default select example">
                             <option value="{{ $item->status }}" selected>{{ $item->status }}
                             </option>
-                            <option value="HADIR">HADIR</option>
+                            <option value="DITERIMA">DITERIMA</option>
 
                         </select>
                     </div>
