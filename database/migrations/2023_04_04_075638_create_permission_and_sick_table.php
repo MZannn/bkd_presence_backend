@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('nip')->references('nip')->on('employees')->onDelete('cascade');
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->foreignId('presence_id')->constrained('presences')->onDelete('cascade');
-            $table->date('date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->text('file');
             $table->string('status')->default('PENDING');
             $table->timestamps();

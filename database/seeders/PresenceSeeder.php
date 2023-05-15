@@ -15,9 +15,9 @@ class PresenceSeeder extends Seeder
     public function run(): void
     {
         $nip = '2001081320230408079';
-        $office_id = 1; // Ganti dengan ID kantor yang sesuai
+        $office_id = 1; 
     
-        $date = Carbon::create(2023, 5, 1, 0, 0, 0); // Tanggal awal
+        $date = Carbon::create(2023, 5, 2, 0, 0, 0); // Tanggal awal
     
         // Buat 10 data kehadiran
         for ($i = 1; $i <= 10; $i++) {
@@ -27,7 +27,7 @@ class PresenceSeeder extends Seeder
                 continue;
             }
     
-            $clock = $date->copy()->addHours(mt_rand(7, 9))->addMinutes(mt_rand(0, 59))->addSeconds(mt_rand(0, 59)); // Jam datang antara 07:00:00 - 09:59:59
+            $clock = $date->copy()->addHours(mt_rand(7, 7))->addMinutes(mt_rand(0, 59))->addSeconds(mt_rand(0, 59)); // Jam datang antara 07:00:00 - 09:59:59
             $clock_out = $date->copy()->addHours(mt_rand(15, 19))->addMinutes(mt_rand(0, 59))->addSeconds(mt_rand(0, 59)); // Jam pulang antara 15:00:00 - 19:59:59
             $entry_position = 'Entrance Position ' . $i;
             $entry_distance = mt_rand(0, 50) / 1000;
