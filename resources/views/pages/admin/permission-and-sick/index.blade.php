@@ -90,7 +90,7 @@
                                                         style="width: 150px" class="img-thumbnail"></a>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td width="20%">
                                             <select class="form-select form-control" name="status" id=""
                                                 aria-label="Default select example">
                                                 <option value="{{ $item->status }}" selected>
