@@ -113,17 +113,22 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'NIP',
-            'Nama',
-            'Kantor',
-            'Hari Kerja',
-            'Hadir',
-            'Izin Atau Sakit',
-            'Perjalanan Dinas',
-            'Cuti',
-            'Tidak Hadir',
-            'Terlambat',
-            'Terlambat Dalam Menit',
+            ['Kantor:', $this->office_id],
+            ['Periode:', $this->start_date . ' s/d ' . $this->end_date],
+            [''],
+            [
+                'NIP',
+                'Nama',
+                'Kantor',
+                'Hari Kerja',
+                'Hadir',
+                'Izin Atau Sakit',
+                'Perjalanan Dinas',
+                'Cuti',
+                'Tidak Hadir',
+                'Terlambat',
+                'Terlambat Dalam Menit',
+            ]
         ];
     }
 
