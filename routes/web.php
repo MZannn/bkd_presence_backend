@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/')
-    ->middleware(['web','auth'])
+    ->middleware(['web', 'auth'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('office', OfficeController::class);
@@ -47,11 +47,10 @@ Route::prefix('/')
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
         Route::get('/vacation', [VacationController::class, 'index'])->name('vacation');
         Route::post('/vacation', [VacationController::class, 'validation'])->name('vacation.validation');
-        Route::get('/insert-template',[EmployeeController::class,'insertTemplate'])->name('employee.insertTemplate');
-        Route::post('/insert-template',[EmployeeController::class,'storeTemplate'])->name('employee.storeTemplate');
-        Route::get('/change-template',[EmployeeController::class,'editTemplate'])->name('employee.changeTemplate');
-        Route::post('/change-template',[EmployeeController::class,'updateTemplate'])->name('employee.updateTemplate');
-        Route::get('/vacation/{id}', [VacationController::class, 'edit'])->name('vacation.edit');
-        
+        Route::get('/insert-template', [EmployeeController::class, 'insertTemplate'])->name('employee.insertTemplate');
+        Route::post('/insert-template', [EmployeeController::class, 'storeTemplate'])->name('employee.storeTemplate');
+        Route::get('/change-template', [EmployeeController::class, 'editTemplate'])->name('employee.changeTemplate');
+        Route::post('/change-template', [EmployeeController::class, 'updateTemplate'])->name('employee.updateTemplate');
+
     });
 Auth::routes(['register' => false]);
