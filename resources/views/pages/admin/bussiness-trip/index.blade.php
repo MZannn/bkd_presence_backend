@@ -78,7 +78,7 @@
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td> {{ $item->office->name }} </td>
-                                        <td width="15%"> {{ $item->start_date }} - {{ $item->end_date }}
+                                        <td width="15%"> {{ /Carbon/Carbon::parse($item->start_date)->format('d-m-Y') }} s/d {{ /Carbon/Carbon::parse($item->end_date)->format('d-m-Y') }}
                                         </td>
                                         <td> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }} </td>
                                         <td>
