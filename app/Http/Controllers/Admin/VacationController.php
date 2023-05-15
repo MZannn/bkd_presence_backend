@@ -111,52 +111,9 @@ class VacationController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function edit($id)
     {
         $item = Vacation::with(['employee', 'office', 'presence'])->findOrFail($id);
         return view('pages.admin.vacation.show', compact('item'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Vacation $vacation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Vacation $vacation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Vacation $vacation)
-    {
-        //
     }
 }
