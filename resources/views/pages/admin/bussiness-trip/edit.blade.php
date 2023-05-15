@@ -81,7 +81,8 @@
                             aria-label="Default select example">
                             <option value="{{ $items->status }}" selected>{{ $items->status }}
                             </option>
-                            <option value="HADIR">HADIR</option>
+                            <option value="KONFIRMASI">KONFIRMASI</option>
+                            <option value="TOLAK">TOLAK</option>
 
                         </select>
                     </div>

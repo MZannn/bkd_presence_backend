@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Office;
 use App\Models\PermissionAndSick;
 use App\Models\Presence;
+use Carbon\Carbon;
+use Grei\TanggalMerah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,9 +44,9 @@ class PermissionAndSickController extends Controller
     }
 
     public function validation(Request $request)
-    {     
+    {
         $request->validate([
-            'id'=> 'required',
+            'id' => 'required',
             'nip' => 'required',
             'office_id' => 'required',
             'presence_id' => 'required',
@@ -52,17 +54,69 @@ class PermissionAndSickController extends Controller
             // 'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status' => 'required',
         ]);
-        if ($request->status != 'PENDING') {
-            Presence::where('id', $request->presence_id)->update([
-                'attendance_entry_status' => $request->status,
-                'attendance_exit_status' => $request->status,
-            ]);
-            PermissionAndSick::where('id', $request->id)->delete();  
+        if ($request->status == "SAKIT" || $request->status == "IZIN") {
+            if ($request->start_date == $request->end_date) {
+                $presence = Presence::where('id', $request->presence_id)
+                    ->where('presence_date', $request->start_date)
+                    ->where('nip', $request->nip)
+                    ->first();
+                $exists = Presence::where('presence_date', $request->start_date)
+                    ->where('attendance_entry_status', "HADIR")
+                    ->where('nip', $request->nip)
+                    ->exists();
+                if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                    Presence::create([
+                        'presence_date' => $request->start_date,
+                        'nip' => $request->nip,
+                        'office_id' => $request->office_id,
+                        'attendance_entry_status' => $request->status,
+                        'attendance_exit_status' => $request->status,
+                    ]);
+                } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                    $presence->update([
+                        'attendance_entry_status' => $request->status,
+                        'attendance_exit_status' => $request->status,
+                    ]);
+                } else if (Carbon::parse($request->start_date)->isWeekend()) {
+                    PermissionAndSick::findOrFail($request->id)->delete();
+                    return redirect()->route('permission-and-sick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
+                } else if ($exists) {
+                    PermissionAndSick::findOrFail($request->id)->delete();
+                    return redirect()->route('permission-and-sick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
+                }
+                return redirect()->route('permission-and-sick.index')->with('success', 'Data berhasil divalidasi');
+            }
+            if ($request->start_date != $request->end_date) {
+                $start_date = Carbon::parse($request->start_date);
+                $end_date = Carbon::parse($request->end_date);
+                $exists = Presence::where('presence_date', '>=', $request->start_date)->where('presence_date', '<=', $request->end_date)->where('attendance_entry_status', "HADIR")->exists();
+                $isHoliday = new TanggalMerah();
+                for ($date=$start_date; $date <= $end_date ; $date->addDay()) { 
+                    $isHoliday->set_date($date->toString());
+                    $presence = Presence::where('nip', $request->nip)->where('presence_date',$date->format('Y-m-d'))->first();
+                    if(!$presence && Carbon::parse($date)->isWeekday() &&!$isHoliday->is_holiday() && !$exists){
+                        Presence::create([
+                            'nip' => $request->nip,
+                            'office_id' => $request->office_id,
+                            'presence_date' => $date->format('Y-m-d'),
+                            'attendance_entry_status' => $request->status,
+                            'attendance_exit_status' => $request->status,
+                        ]);
+                    } else if ($presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists){
+                        $presence->update([
+                            'attendance_entry_status' => $request->status,
+                            'attendance_exit_status' => $request->status,
+                        ]);
+                    }
+                }
+                PermissionAndSick::findOrFail($request->id)->delete();
+                return redirect()->route('permission-and-sick.index')->with('success', 'Data berhasil divalidasi');
+            }
         }
-        return redirect()->route('permissionAndSick')->with('success', 'Data berhasil divalidasi');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $item = PermissionAndSick::findOrFail($id);
         return view('pages.admin.permission-and-sick.edit', compact('item'));
     }

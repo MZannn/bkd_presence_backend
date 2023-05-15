@@ -73,7 +73,8 @@
                                         <input type="hidden" name="nip" value="{{ $item->nip }}">
                                         <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                                         <input type="hidden" name="presence_id" value="{{ $item->presence_id }}">
-                                        <input type="hidden" name="date" value="{{ $item->date }}">
+                                        <input type="hidden" name="start_date" value="{{ $item->start_date }}">
+                                        <input type="hidden" name="end_date" value="{{ $item->end_date }}">
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td width="15%"> {{ $item->office->name }} </td>
