@@ -13,7 +13,8 @@ class PermissionAndSick extends Model
         'nip',
         'office_id',
         'presence_id',
-        'date',
+        'start_date',
+        'end_date',
         'file',
         'status',
     ];
