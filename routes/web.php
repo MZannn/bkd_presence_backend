@@ -41,7 +41,7 @@ Route::prefix('/')
         Route::post('/bussiness-trip', [BussinessTripController::class, 'validation'])->name('bussinessTrip.validation');
         Route::get('/permission-and-sick', [PermissionAndSickController::class, 'index'])->name('permissionAndSick');
         Route::post('/permission-and-sick', [PermissionAndSickController::class, 'validation'])->name('permissionAndSick.validation');
-        Route::post('/permission-and-sick', [PermissionAndSickController::class, 'edit'])->name('permissionAndSick.edit');
+        Route::post('/permission-and-sick/{id}', [PermissionAndSickController::class, 'edit'])->name('permissionAndSick.edit');
         Route::get('/report-change-device', [ReportChangeDeviceController::class, 'index'])->name('reportChangeDevice');
         Route::post('/report-change-device', [ReportChangeDeviceController::class, 'approved'])->name('reportChangeDevice.approved');
         Route::post('/export-presence', [PresenceController::class, 'export'])->name('presence.export');
