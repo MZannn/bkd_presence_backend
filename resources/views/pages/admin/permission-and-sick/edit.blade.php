@@ -56,8 +56,13 @@
                     </div>
                     <div class="form-group" style="margin-left: -12px">
                         <div class="col-auto">
-                            <a href="{{ url(Storage::url($item->file)) }}" download="false" class="btn btn-danger">Download
-                                PDF</a>
+                            @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
+                                <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-danger">Download
+                                    PDF</a>
+                            @else
+                                <a href="{{ url(Storage::url($item->file)) }}"><img src="{{ Storage::url($item->file) }}"
+                                        alt="" style="width: 150px" class="img-thumbnail"></a>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
@@ -66,7 +71,8 @@
                             aria-label="Default select example">
                             <option value="{{ $item->status }}" selected>{{ $item->status }}
                             </option>
-                            <option value="DITERIMA">DITERIMA</option>
+                            <option value="SAKIT">SAKIT</option>
+                            <option value="IZIN">IZIN</option>
 
                         </select>
                     </div>
