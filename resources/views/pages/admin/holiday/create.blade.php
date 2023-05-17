@@ -24,10 +24,8 @@
             <div class="card-body">
                 <form action="{{ route('holiday.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="col-auto">
-                        <label for="holiday_date" class="d-sm-flex justify-content-end">Tanggal Libur</label>
-                        <input type="date" class="form-control" name='holiday_date' value="{{ old('holiday_date') }}">
-                    </div>
+                    <label for="holiday_date" class="d-sm-flex">Tanggal Libur</label>
+                    <input type="date" class="form-control mb-2" name='holiday_date' value="{{ old('holiday_date') }}">
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
                 </form>
             </div>

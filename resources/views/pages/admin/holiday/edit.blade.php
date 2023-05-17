@@ -26,10 +26,9 @@
                 <form action="{{ route('holiday.update', $item->id) }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
-                    <div class="col-auto">
-                        <label for="holiday_date" class="d-sm-flex">Tanggal Hari Libur </label>
-                        <input type="date" class="form-control mb-5" name='holiday_date' value="{{ $item->holiday_date }}">
-                    </div>
+
+                    <label for="holiday_date" class="d-sm-flex">Tanggal Hari Libur </label>
+                    <input type="date" class="form-control mb-2" name='holiday_date' value="{{ $item->holiday_date }}">
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
                 </form>
