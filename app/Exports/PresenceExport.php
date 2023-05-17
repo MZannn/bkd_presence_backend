@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Grei\TanggalMerah;
 
 class PresenceExport implements FromCollection, WithHeadings, WithMapping
 {

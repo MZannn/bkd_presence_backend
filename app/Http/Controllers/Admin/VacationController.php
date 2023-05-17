@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Holiday;
 use App\Models\Office;
 use App\Models\Presence;
 use App\Models\Vacation;
 use Carbon\Carbon;
-use Grei\TanggalMerah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,22 +80,21 @@ class VacationController extends Controller
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
                 $exists = Presence::where('presence_date', '>=', $request->start_date)->where('presence_date', '<=', $request->end_date)->where('attendance_entry_status', "HADIR")->exists();
-                $isHoliday = new TanggalMerah();
+                $holidays = Holiday::pluck('holiday_date')->toArray();
                 for ($date = $start_date; $date <= $end_date; $date->addDay()) {
-                    $isHoliday->set_date($date->toDateString());
                     $presence = Presence::where('nip', $request->nip)->where('presence_date', $date->format('Y-m-d'))->first();
-                    if (!$presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
+                    if (!$presence && Carbon::parse($date)->isWeekday() && !in_array($date->toDateString(), $holidays) && !$exists) {
                         Presence::create([
                             'nip' => $request->nip,
                             'office_id' => $request->office_id,
                             'presence_date' => $date->format('Y-m-d'),
-                            'attendance_entry_status' => "CUTI",
-                            'attendance_exit_status' => "CUTI",
+                            'attendance_entry_status' => $request->leave_type,
+                            'attendance_exit_status' => $request->leave_type,
                         ]);
-                    } else if ($presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
+                    } else if ($presence && Carbon::parse($date)->isWeekday() && !in_array($date->toDateString(), $holidays) && !$exists) {
                         $presence->update([
-                            'attendance_entry_status' => "CUTI",
-                            'attendance_exit_status' => "CUTI",
+                            'attendance_entry_status' => $request->leave_type,
+                            'attendance_exit_status' => $request->leave_type,
                         ]);
                     }
                 }

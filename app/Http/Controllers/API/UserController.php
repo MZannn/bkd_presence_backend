@@ -6,6 +6,7 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 
 use App\Mail\SendEmail;
+use App\Models\Holiday;
 use App\Models\Presence;
 use App\Models\ReportChangeDevice;
 use App\Models\User;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Grei\TanggalMerah;
+
 
 class UserController extends Controller
 {
@@ -25,10 +26,9 @@ class UserController extends Controller
         $presence = Presence::where('nip', $user->nip)
             ->where('presence_date', Carbon::today())
             ->first();
-        $isHoliday = new TanggalMerah();
-        $isHoliday->set_date(Carbon::today()->format('Ymd'));
-        $isHoliday = $isHoliday->is_holiday();
-        if (!$presence && Carbon::today()->isWeekday() && !$isHoliday) {
+        $holidays = Holiday::pluck('holiday_date')->toArray();
+        
+        if (!$presence && Carbon::today()->isWeekday() && in_array(Carbon::today()->toDateString(), $holidays)) {
             Presence::create([
                 'nip' => $user->nip,
                 'office_id' => $user->office_id,
