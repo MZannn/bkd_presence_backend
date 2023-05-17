@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Employee;
-use App\Models\Holiday;
 use App\Models\Office;
 use App\Models\Presence;
 use Carbon\Carbon;
@@ -41,19 +40,15 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             ->orderBy('nip')
             ->get();
         // Menghitung jumlah hari kerja
+        $calculator = new TanggalMerah();
         $attendance_counts = [];
         $working_days = 0;
         $current_date = Carbon::parse($this->start_date);
         $total_late = 0;
-        $holidays = Holiday::pluck('holiday_date')->toArray();
-
         while ($current_date->lte(Carbon::parse($this->end_date))) {
-            // Memeriksa apakah tanggal saat ini bukan hari libur
-            if (!in_array($current_date->toDateString(), $holidays)) {
-                // Memeriksa apakah tanggal saat ini merupakan hari kerja (hari biasa)
-                if ($current_date->isWeekday()) {
-                    $working_days++;
-                }
+            $calculator->set_date($current_date->toDateString());
+            if (!$calculator->is_holiday() && $current_date->isWeekday()) {
+                $working_days++;
             }
             $current_date->addDay();
         }
