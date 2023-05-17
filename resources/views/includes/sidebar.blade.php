@@ -30,7 +30,14 @@
                  <i class="fas fa-fw fa-building"></i>
                  <span>Kantor</span></a>
          </li>
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('holiday.index') }}">
+                 <i class="fas fa-fw fa-building"></i>
+                 <span>Tanggal Hari Libur</span></a>
+         </li>
+
      @endif
+
      <li class="nav-item">
          <a class="nav-link" href="{{ route('employee.index') }}">
              <i class="fas fa-fw fa-user"></i>
