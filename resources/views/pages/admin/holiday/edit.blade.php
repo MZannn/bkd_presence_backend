@@ -23,7 +23,7 @@
         <div class="row">
             <div class="card-body">
 
-                <form action="{{ route('employee.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('holiday.update', $item->id) }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="col-auto">

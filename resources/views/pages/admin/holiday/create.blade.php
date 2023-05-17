@@ -22,7 +22,7 @@
         <!-- Content Row -->
         <div class="row">
             <div class="card-body">
-                <form action="{{ route('employee.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('holiday.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="col-auto">
                         <label for="holiday_date" class="d-sm-flex justify-content-end">Tanggal Libur</label>

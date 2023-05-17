@@ -22,7 +22,7 @@
         <!-- Content Row -->
         <div class="row">
             <div class="card-body">
-                <form action="{{ route('presence.export') }}" method="post">
+                <form action="{{ route('holiday.storeScrape') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="form-group col-sm-3">

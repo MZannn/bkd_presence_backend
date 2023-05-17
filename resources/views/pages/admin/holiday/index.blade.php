@@ -5,13 +5,13 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Tanggal Libur Nasional </h1>
-            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-primary shadow-sm"><i
+            <a href="{{ route('holiday.create') }}" class="btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white">
                     Tambah Hari Libur</i></a>
         </div>
         <div class="row d-sm-flex justify-content-sm-between">
             <div class="col-sm-4">
-                <a href="{{ route('employee.import') }}" class="btn btn-sm btn-success shadow-sm mb-2"><i
+                <a href="{{ route('holiday.scrape') }}" class="btn btn-sm btn-success shadow-sm mb-2"><i
                         class="fas fa-file-import fa-md text-white mx-2 my-2">Scrape Hari Libur</i>
                 </a>
             </div>
@@ -33,10 +33,10 @@
                                 <tr>
                                     <td> {{ $item->holiday_date }} </td>
                                     <td>
-                                        <a href="{{ route('employee.edit', $item->id) }}" class="btn btn-info">
+                                        <a href="{{ route('holiday.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <form action="{{ route('employee.destroy', $item->id) }}" method="POST"
+                                        <form action="{{ route('holiday.destroy', $item->id) }}" method="POST"
                                             class="d-sm-inline" id="form-delete-{{ $item->id }}">
                                             @csrf
                                             @method('delete')
