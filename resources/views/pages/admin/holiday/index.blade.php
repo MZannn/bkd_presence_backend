@@ -31,7 +31,7 @@
                         <tbody>
                             @forelse ($items as $item)
                                 <tr>
-                                    <td> {{ $item->holiday_date }} </td>
+                                    <td> {{ \Carbon\Carbon::parse($item->holiday_date)->format('d-m-Y') }} </td>
                                     <td>
                                         <a href="{{ route('holiday.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
