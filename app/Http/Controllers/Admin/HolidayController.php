@@ -15,7 +15,7 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        $items = Holiday::all();
+        $items = Holiday::get();
         return view('pages.admin.holiday.index', compact('items'));
     }
 
