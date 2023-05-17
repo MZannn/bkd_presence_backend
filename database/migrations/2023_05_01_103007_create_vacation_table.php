@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->date('start_date');
             $table->date('end_date');
             $table->string('reason');
+            $table->string('leave_type');
             $table->text('file');
             $table->string('status')->default('PENDING');
             $table->timestamps();

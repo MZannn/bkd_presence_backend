@@ -41,6 +41,17 @@
                             readonly>
                         <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                     </div>
+                    <div class="form-group">
+                        <label for="leave_type">Jenis Cuti</label>
+                        <input type="text" class="form-control" name='leave_type' value="{{ $item->leave_type }}"
+                            readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Alasan Cuti</label>
+                        <input type="text" class="form-control" name='reason' value="{{ $item->reason }}"
+                            readonly>
+                    </div>
+
                     <div class="form-group row" style="margin-left: -12px">
                         <div class="col-auto">
                             <label for="start_date" class="d-sm-flex justify-content-end">Dimulai dari tanggal </label>

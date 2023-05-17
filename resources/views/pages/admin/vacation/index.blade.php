@@ -56,6 +56,7 @@
                                 <th>Nama</th>
                                 <th>Kantor</th>
                                 <th>Tanggal Mulai - Tanggal Berakhir</th>
+                                <th>Jenis Cuti</th>
                                 <th>Alasan Cuti</th>
                                 <th>Surat Cuti</th>
                                 <th>Status</th>
@@ -76,8 +77,10 @@
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td> {{ $item->office->name }} </td>
-                                        <td width="15%"> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }} s/d {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }}
+                                        <td width="15%"> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}
+                                            s/d {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }}
                                         </td>
+                                        <td>{{ $item->leave_type }}</td>
                                         <td> {{ $item->reason }}</td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')

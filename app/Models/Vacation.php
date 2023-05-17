@@ -19,6 +19,7 @@ class Vacation extends Model
         'start_date',
         'end_date',
         'reason',
+        'leave_type',
         'file',
         'status'
     ];
