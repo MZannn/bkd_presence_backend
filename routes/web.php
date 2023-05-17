@@ -54,7 +54,7 @@ Route::prefix('/')
         Route::post('/change-template',[EmployeeController::class,'updateTemplate'])->name('employee.updateTemplate');
         Route::get('/vacation/{id}', [VacationController::class, 'edit'])->name('vacation.edit');
         Route::resource('/holiday',HolidayController::class);
-        Route::get('/holiday/scrape', [HolidayController::class, 'toScrape'])->name('holiday.scrape');
+        Route::get('/holiday/scrape', [HolidayController::class, 'scrape'])->name('holiday.scrape');
         Route::post('/holiday/scrape', [HolidayController::class, 'scrapingHolidayDate'])->name('holiday.storeScrape');
     });
 Auth::routes(['register' => false]);

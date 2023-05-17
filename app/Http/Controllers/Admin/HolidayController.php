@@ -75,7 +75,7 @@ class HolidayController extends Controller
         return redirect()->route('holiday.index')->with('alert', 'Data berhasil dihapus');
     }
 
-    public function toScrape()
+    public function scrape()
     {
         return view('pages.admin.holiday.scrape');
     }
