@@ -97,7 +97,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 }
                             } elseif (strtoupper($presence->attendance_entry_status) === 'PERJALANAN DINAS' || strtoupper($presence->attendance_exit_status) === 'PERJALANAN DINAS') {
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'CUTI' && strtoupper($presence->attendance_exit_status) === 'CUTI') {
+                            } elseif (stripos(strtoupper($presence->attendance_entry_status), 'CUTI') !== false && stripos(strtoupper($presence->attendance_exit_status), 'CUTI') !== false) {
                                 $attendance_counts[$nip]['cuti']++;
                             }
                         }
