@@ -46,9 +46,14 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         $current_date = Carbon::parse($this->start_date);
         $total_late = 0;
         $holidays = Holiday::pluck('holiday_date')->toArray();
+
         while ($current_date->lte(Carbon::parse($this->end_date))) {
-            if (!in_array($current_date->toDateString(), $holidays) && $current_date->isWeekday()) {
-                $working_days++;
+            // Memeriksa apakah tanggal saat ini bukan hari libur
+            if (!in_array($current_date->toDateString(), $holidays)) {
+                // Memeriksa apakah tanggal saat ini merupakan hari kerja (hari biasa)
+                if ($current_date->isWeekday()) {
+                    $working_days++;
+                }
             }
             $current_date->addDay();
         }
