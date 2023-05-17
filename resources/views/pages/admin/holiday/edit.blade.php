@@ -27,8 +27,8 @@
                     @method('PUT')
                     @csrf
                     <div class="col-auto">
-                        <label for="holiday_date" class="d-sm-flex justify-content-end">Tanggal Hari Libur </label>
-                        <input type="date" class="form-control" name='holiday_date' value="{{ $item->holiday_date }}">
+                        <label for="holiday_date" class="d-sm-flex">Tanggal Hari Libur </label>
+                        <input type="date" class="form-control mb-5" name='holiday_date' value="{{ $item->holiday_date }}">
                     </div>
                     <button type="submit" class="btn btn-primary px-5">Submit</button>
 
