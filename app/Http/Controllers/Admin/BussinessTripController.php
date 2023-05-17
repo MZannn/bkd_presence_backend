@@ -38,57 +38,41 @@ class BussinessTripController extends Controller
 
         if ($request->status == 'KONFIRMASI') {
             if ($request->start_date == $request->end_date) {
-                if ($request->end_time <= '13:30:00') {
-                    Presence::findOrFail($request->presence_id)->update([
-                        'attendance_clock' => $request->start_time,
+
+                $presence = Presence::where('id', $request->presence_id)
+                    ->where('presence_date', $request->start_date)
+                    ->where('nip', $request->nip)
+                    ->first();
+                $exists = Presence::where('presence_date', $request->start_date)
+                    ->where('attendance_entry_status', "HADIR")
+                    ->where('nip', $request->nip)
+                    ->exists();
+                // untuk request 1 hari dan hari kerja
+                if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                    Presence::create([
+                        'nip' => $request->nip,
+                        'office_id' => $request->office_id,
                         'presence_date' => $request->start_date,
                         'attendance_entry_status' => "PERJALANAN DINAS",
-                    ]);
-                } else if ($request->start_time >= '13:30:00' && $request->end_time <= '15:30:00') {
-                    Presence::findOrFail($request->presence_id)->update([
-                        'attendance_clock_out' => $request->end_time,
-                        'presence_date' => $request->end_date,
                         'attendance_exit_status' => "PERJALANAN DINAS",
                     ]);
-                } else {
-                    $presence = Presence::where('id', $request->presence_id)
-                        ->where('presence_date', $request->start_date)
-                        ->where('nip', $request->nip)
-                        ->first();
-                    $exists = Presence::where('presence_date', $request->start_date)
-                        ->where('attendance_entry_status', "HADIR")
-                        ->where('nip', $request->nip)
-                        ->exists();
-                    // untuk request 1 hari dan hari kerja
-                    if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
-                        Presence::create([
-                            'nip' => $request->nip,
-                            'office_id' => $request->office_id,
-                            'attendance_clock' => $request->start_time,
-                            'attendance_clock_out' => $request->end_time,
-                            'presence_date' => $request->start_date,
-                            'attendance_entry_status' => "PERJALANAN DINAS",
-                            'attendance_exit_status' => "PERJALANAN DINAS",
-                        ]);
-                    } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
-                        Presence::findOrFail($request->presence_id)->update([
-                            'attendance_clock' => $request->start_time,
-                            'attendance_clock_out' => $request->end_time,
-                            'presence_date' => $request->start_date,
-                            'attendance_entry_status' => "PERJALANAN DINAS",
-                            'attendance_exit_status' => "PERJALANAN DINAS",
-                        ]);
+                } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                    Presence::findOrFail($request->presence_id)->update([
+                        'presence_date' => $request->start_date,
+                        'attendance_entry_status' => "PERJALANAN DINAS",
+                        'attendance_exit_status' => "PERJALANAN DINAS",
+                    ]);
 
-                    } else if (Carbon::parse($request->start_date)->isWeekend()) {
-                        BussinessTrip::findOrFail($data->id)->delete();
-                        return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena hari libur');
-                    } else if ($exists) {
-                        BussinessTrip::findOrFail($data->id)->delete();
-                        return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
-                    }
+                } else if (Carbon::parse($request->start_date)->isWeekend()) {
                     BussinessTrip::findOrFail($data->id)->delete();
-                    return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
+                    return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena hari libur');
+                } else if ($exists) {
+                    BussinessTrip::findOrFail($data->id)->delete();
+                    return redirect()->route('bussinessTrip')->with('alert', 'Data tidak bisa di validasi karena sudah ada data presensi');
                 }
+                BussinessTrip::findOrFail($data->id)->delete();
+                return redirect()->route('bussinessTrip')->with('alert', 'Data berhasil di validasi');
+
             } else {
                 // untuk request lebih dari 1 hari
                 $start_date = Carbon::parse($request->start_date);
@@ -102,16 +86,12 @@ class BussinessTripController extends Controller
                         Presence::create([
                             'nip' => $request->nip,
                             'office_id' => $request->office_id,
-                            'attendance_clock' => $request->start_time,
-                            'attendance_clock_out' => $request->end_time,
                             'presence_date' => $date->format('Y-m-d'),
                             'attendance_entry_status' => "PERJALANAN DINAS",
                             'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);
                     } else if ($presence && Carbon::parse($date)->isWeekday() && !$isHoliday->is_holiday() && !$exists) {
                         $presence->update([
-                            'attendance_clock' => $request->start_time,
-                            'attendance_clock_out' => $request->end_time,
                             'attendance_entry_status' => "PERJALANAN DINAS",
                             'attendance_exit_status' => "PERJALANAN DINAS",
                         ]);

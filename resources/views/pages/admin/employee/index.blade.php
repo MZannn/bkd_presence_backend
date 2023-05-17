@@ -100,10 +100,10 @@
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                         <form action="{{ route('employee.destroy', $item->nip) }}" method="POST"
-                                            class="d-sm-inline" id="form-delete-{{$item->id}}">
+                                            class="d-sm-inline" id="form-delete-{{$item->nip}}">
                                             @csrf
                                             @method('delete')
-                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->id}})">
+                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->nip}})">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>

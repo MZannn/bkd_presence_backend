@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BussinessTripController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\HolidayController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionAndSickController;
 use App\Http\Controllers\Admin\ReportChangeDeviceController;
@@ -52,6 +53,8 @@ Route::prefix('/')
         Route::get('/change-template',[EmployeeController::class,'editTemplate'])->name('employee.changeTemplate');
         Route::post('/change-template',[EmployeeController::class,'updateTemplate'])->name('employee.updateTemplate');
         Route::get('/vacation/{id}', [VacationController::class, 'edit'])->name('vacation.edit');
-        
+        Route::resource('/holiday',HolidayController::class);
+        Route::get('/holiday/scrape', [HolidayController::class, 'scrape'])->name('holiday.scrape');
+        Route::post('/holiday/scrape', [HolidayController::class, 'scrapingHolidayDate'])->name('holiday.storeScrape');
     });
 Auth::routes(['register' => false]);

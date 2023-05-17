@@ -15,8 +15,6 @@ class BussinessTrip extends Model
         'presence_id',
         'start_date',
         'end_date',
-        'start_time',
-        'end_time',
         'file',
         'status',
     ];

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,14 +12,12 @@ return new class extends Migration
     {
         Schema::create('bussiness_trip', function (Blueprint $table) {
             $table->id();
-            $table->string('nip',30);
+            $table->string('nip', 30);
             $table->foreign('nip')->references('nip')->on('employees')->onDelete('cascade');
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->foreignId('presence_id')->constrained('presences')->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
-            $table->time('start_time');
-            $table->time('end_time');
             $table->text('file');
             $table->string('status')->default('PENDING');
             $table->timestamps();

@@ -29,7 +29,7 @@
 
                     <div class="form-group">
                         <label for="nip">NIP</label>
-                        <input type="text" class="form-control" name='nip' value="{{ $employee->nip }}">
+                        <input type="text" class="form-control" name='nip' value="{{ $employee->nip }}" readonly>
                     </div>
                     {{-- <div class="form-group">
                             <label for="password">Password</label>

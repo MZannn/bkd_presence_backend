@@ -54,19 +54,7 @@
                             <input type="date" class="form-control" name='end_date' value="{{ $items->end_date }}">
                         </div>
                     </div>
-                    <div class="form-group row" style="margin-left: -12px">
-                        <div class="col-auto">
-                            <label for="start_time" class="d-sm-flex justify-content-end">Dimulai dari jam </label>
-                            <input type="time" class="form-control" name='start_time' value="{{ $items->start_time }}">
-                        </div>
-                        <div class="col-auto" style="margin-left: -15px; margin-right:-15px">
-                            <label for="">-</label>
-                        </div>
-                        <div class="col-auto">
-                            <label for="end_time">Hingga jam </label>
-                            <input type="time" class="form-control" name='end_time' value="{{ $items->end_time }}">
-                        </div>
-                    </div>
+
                     <div class="form-group" style="margin-left: -12px">
                         <div class="col-auto">
                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')

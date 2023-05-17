@@ -56,7 +56,6 @@
                                 <th>Nama</th>
                                 <th>Kantor</th>
                                 <th>Tanggal Mulai - Tanggal Berakhir</th>
-                                <th>Jam Mulai - Jam Berakhir</th>
                                 <th>Surat Dinas</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -71,16 +70,14 @@
                                         <input type="hidden" name="nip" value="{{ $item->nip }}">
                                         <input type="hidden" name="office_id" value="{{ $item->office_id }}">
                                         <input type="hidden" name="presence_id" value="{{ $item->presence_id }}">
-                                        <input type="hidden" name="start_time" value="{{ $item->start_time }}">
-                                        <input type="hidden" name="end_time" value="{{ $item->end_time }}">
                                         <input type="hidden" name="start_date" value="{{ $item->start_date }}">
                                         <input type="hidden" name="end_date" value="{{ $item->end_date }}">
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td> {{ $item->office->name }} </td>
-                                        <td width="15%"> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }} s/d {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }}
+                                        <td width="15%"> {{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}
+                                            s/d {{ \Carbon\Carbon::parse($item->end_date)->format('d-m-Y') }}
                                         </td>
-                                        <td> {{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }} </td>
                                         <td>
                                             @if (pathinfo($item->file, PATHINFO_EXTENSION) == 'pdf')
                                                 <a href="{{ url(Storage::url($item->file)) }}" class="btn btn-primary">
