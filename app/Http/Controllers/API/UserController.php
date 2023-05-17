@@ -27,8 +27,8 @@ class UserController extends Controller
             ->where('presence_date', Carbon::today())
             ->first();
         $holidays = Holiday::pluck('holiday_date')->toArray();
-        
-        if (!$presence && Carbon::today()->isWeekday() && in_array(Carbon::today()->toDateString(), $holidays)) {
+
+        if (!$presence && Carbon::today()->isWeekday() && !in_array(Carbon::today()->toDateString(), $holidays) !== false) {
             Presence::create([
                 'nip' => $user->nip,
                 'office_id' => $user->office_id,
