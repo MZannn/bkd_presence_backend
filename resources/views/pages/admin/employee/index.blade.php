@@ -29,7 +29,7 @@
                         <a href="{{ route('employee.insertTemplate') }}" class="btn btn-success">
                             Tambahkan Template Import Data Pegawai
                         </a>
-                    @elseif (Auth::user()->roles == "SUPER ADMIN" && $template->count() > 0)
+                    @elseif (Auth::user()->roles == 'SUPER ADMIN' && $template->count() > 0)
                         <a href="{{ route('employee.changeTemplate') }}" class="btn btn-success">
                             Ganti Template Import Data Pegawai
                         </a>
@@ -100,10 +100,13 @@
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                         <form action="{{ route('employee.destroy', $item->nip) }}" method="POST"
-                                            class="d-sm-inline" id="form-delete-{{$item->nip}}">
+                                            class="d-sm-inline" id="form-delete-{{ $item->nip }}">
                                             @csrf
                                             @method('delete')
-                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->nip}})">
+                                            {{-- <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->nip}})">
+                                                <i class="fa fa-trash"></i>
+                                            </button> --}}
+                                            <button type="button" class="btn btn-danger">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
