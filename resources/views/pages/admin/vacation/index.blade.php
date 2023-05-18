@@ -117,7 +117,7 @@
                                 </form>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">
+                                    <td colspan="12" class="text-center">
                                         Data Tidak Ada
                                     </td>
                                 </tr>
