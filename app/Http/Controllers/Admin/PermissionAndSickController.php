@@ -51,7 +51,8 @@ class PermissionAndSickController extends Controller
             'nip' => 'required',
             'office_id' => 'required',
             'presence_id' => 'required',
-            'date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             // 'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status' => 'required',
         ]);
