@@ -132,9 +132,9 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        DB::table('employees')->where('nip', $id)->delete();
+        Employee::findOrfail($id)->delete();
         return redirect()->route('employee.index')->with('alert', 'Data berhasil dihapus');
     }
 
