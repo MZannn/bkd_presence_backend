@@ -65,7 +65,8 @@ class PermissionAndSickController extends Controller
                     ->where('attendance_entry_status', "HADIR")
                     ->where('nip', $request->nip)
                     ->exists();
-                if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                $holidays = Holiday::pluck('holiday_date')->toArray();
+                if (!$presence && Carbon::parse($request->start_date)->isWeekday() && !in_array($request->start_date, $holidays) && !$exists) {
                     Presence::create([
                         'presence_date' => $request->start_date,
                         'nip' => $request->nip,
@@ -73,7 +74,7 @@ class PermissionAndSickController extends Controller
                         'attendance_entry_status' => $request->status,
                         'attendance_exit_status' => $request->status,
                     ]);
-                } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
+                } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !in_array($request->start_date, $holidays) && !$exists) {
                     $presence->update([
                         'attendance_entry_status' => $request->status,
                         'attendance_exit_status' => $request->status,
