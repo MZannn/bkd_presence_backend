@@ -153,6 +153,7 @@ class PresenceController extends Controller
             'presence_id' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
+            'leave_type' => 'required',
             'reason' => 'required',
             'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
         ]);
@@ -175,6 +176,7 @@ class PresenceController extends Controller
                 'presence_id' => 'required',
                 'start_date' => 'required|date|before:end_date',
                 'end_date' => 'required|date|after:start_date',
+                'leave_type' => 'required',
                 'reason' => 'required',
                 'file' => 'required|file|mimes:pdf,jpeg,jpg,png|max:2048',
             ]);
