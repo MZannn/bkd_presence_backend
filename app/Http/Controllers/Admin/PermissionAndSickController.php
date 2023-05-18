@@ -86,7 +86,7 @@ class PermissionAndSickController extends Controller
                     PermissionAndSick::findOrFail($request->id)->delete();
                     return redirect()->route('permission-and-sick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
                 }
-                return redirect()->route('permission-and-sick.index')->with('success', 'Data berhasil divalidasi');
+                return redirect()->route('permission-and-sick.index')->with('alert', 'Data berhasil divalidasi');
             }
             if ($request->start_date != $request->end_date) {
                 $start_date = Carbon::parse($request->start_date);
@@ -111,7 +111,7 @@ class PermissionAndSickController extends Controller
                     }
                 }
                 PermissionAndSick::findOrFail($request->id)->delete();
-                return redirect()->route('permission-and-sick.index')->with('success', 'Data berhasil divalidasi');
+                return redirect()->route('permission-and-sick.index')->with('alert', 'Data berhasil divalidasi');
             }
         }
     }
