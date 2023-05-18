@@ -114,22 +114,36 @@
      }
  </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDelete(id) {
-        Swal.fire({
-            title: 'Apakah kamu yakin?',
-            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('form-delete-' + id).submit();
-            }
-        })
-    }
-</script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script>
+     function confirmDelete(id) {
+         Swal.fire({
+             title: 'Apakah kamu yakin?',
+             text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonColor: '#dc3545',
+             cancelButtonColor: '#6c757d',
+             confirmButtonText: 'Ya, hapus!',
+             cancelButtonText: 'Batal'
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 document.getElementById('form-delete-' + id).submit();
+             }
+         })
+     }
+ </script>
+
+ <script>
+     function confirmDeleteOffice(id) {
+         Swal.fire({
+             title: 'Data kantor tidak bisa dihapus karena masih ada data pegawai yang terkait silahkan hapus data pegawai terlebih dahulu!',
+             showClass: {
+                 popup: 'animate__animated animate__fadeInDown'
+             },
+             hideClass: {
+                 popup: 'animate__animated animate__fadeOutUp'
+             }
+         })
+     }
+ </script>

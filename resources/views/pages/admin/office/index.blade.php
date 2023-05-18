@@ -52,6 +52,15 @@
                                                 </button>
                                             </form>
                                         @else
+                                            <form action="{{ route('office.destroy', $item->id) }}" method="POST"
+                                                class="d-sm-inline" id="form-delete-{{ $item->id }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="confirmDeleteOffice({{ $item->id }})">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
                                         @endif
 
                                     </td>
