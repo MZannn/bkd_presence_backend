@@ -41,14 +41,18 @@
                                         <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <form action="{{ route('office.destroy', $item->id) }}" method="POST"
-                                            class="d-sm-inline" id="form-delete-{{$item->id}}">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->id}})">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        @if (\Employee::where('office_id', $item->id)->count() == 0)
+                                            <form action="{{ route('office.destroy', $item->id) }}" method="POST"
+                                                class="d-sm-inline" id="form-delete-{{ $item->id }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="confirmDelete({{ $item->id }})">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                        @endif
 
                                     </td>
                                 </tr>
