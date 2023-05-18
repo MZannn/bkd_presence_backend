@@ -74,6 +74,7 @@
                                         <input type="hidden" name="presence_id" value="{{ $item->presence_id }}">
                                         <input type="hidden" name="start_date" value="{{ $item->start_date }}">
                                         <input type="hidden" name="end_date" value="{{ $item->end_date }}">
+                                        <input type="hidden" name="leave_type" value="{{ $item->leave_type }}">
                                         <td> {{ $item->employee->nip }} </td>
                                         <td> {{ $item->employee->name }} </td>
                                         <td> {{ $item->office->name }} </td>

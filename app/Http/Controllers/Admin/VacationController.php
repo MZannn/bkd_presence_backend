@@ -55,14 +55,14 @@ class VacationController extends Controller
                         'nip' => $request->nip,
                         'office_id' => $request->office_id,
                         'presence_date' => $request->start_date,
-                        'attendance_entry_status' => "CUTI",
-                        'attendance_exit_status' => "CUTI",
+                        'attendance_entry_status' => $request->leave_type,
+                        'attendance_exit_status' => $request->leave_type,
                     ]);
                 } else if ($presence && Carbon::parse($request->start_date)->isWeekday() && !$exists) {
                     Presence::findOrFail($request->presence_id)->update([
                         'presence_date' => $request->start_date,
-                        'attendance_entry_status' => "CUTI",
-                        'attendance_exit_status' => "CUTI",
+                        'attendance_entry_status' => $request->leave_type,
+                        'attendance_exit_status' => $request->leave_type,
                     ]);
 
                 } else if (Carbon::parse($request->start_date)->isWeekend()) {
