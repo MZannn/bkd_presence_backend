@@ -87,8 +87,7 @@ class PermissionAndSickController extends Controller
                     return redirect()->route('permission-and-sick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
                 }
                 return redirect()->route('permission-and-sick.index')->with('alert', 'Data berhasil divalidasi');
-            }
-            if ($request->start_date != $request->end_date) {
+            } else if ($request->start_date != $request->end_date) {
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
                 $exists = Presence::where('presence_date', '>=', $request->start_date)->where('presence_date', '<=', $request->end_date)->where('attendance_entry_status', "HADIR")->exists();
