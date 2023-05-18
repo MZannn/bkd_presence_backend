@@ -82,12 +82,12 @@ class PermissionAndSickController extends Controller
                     ]);
                 } else if (Carbon::parse($request->start_date)->isWeekend()) {
                     PermissionAndSick::findOrFail($request->id)->delete();
-                    return redirect()->route('permissionAndSick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
+                    return redirect()->route('permissionAndSick')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
                 } else if ($exists) {
                     PermissionAndSick::findOrFail($request->id)->delete();
-                    return redirect()->route('permissionAndSick.index')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
+                    return redirect()->route('permissionAndSick')->with('alert', 'Data tidak bisa divalidasi karena sudah ada data kehadiran');
                 }
-                return redirect()->route('permissionAndSick.index')->with('alert', 'Data berhasil divalidasi');
+                return redirect()->route('permissionAndSick')->with('alert', 'Data berhasil divalidasi');
             } else if ($request->start_date != $request->end_date) {
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
@@ -111,7 +111,7 @@ class PermissionAndSickController extends Controller
                     }
                 }
                 PermissionAndSick::findOrFail($request->id)->delete();
-                return redirect()->route('permissionAndSick.index')->with('alert', 'Data berhasil divalidasi');
+                return redirect()->route('permissionAndSick')->with('alert', 'Data berhasil divalidasi');
             }
         }
     }
