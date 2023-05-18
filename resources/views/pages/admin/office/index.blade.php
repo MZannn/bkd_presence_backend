@@ -41,7 +41,7 @@
                                         <a href="{{ route('office.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        @if (\Employee::where('office_id', $item->id)->count() == 0)
+                                        @if (\App\Models\Employee::where('office_id', $item->id)->count() == 0)
                                             <form action="{{ route('office.destroy', $item->id) }}" method="POST"
                                                 class="d-sm-inline" id="form-delete-{{ $item->id }}">
                                                 @csrf
