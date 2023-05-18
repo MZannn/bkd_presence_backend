@@ -134,7 +134,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        Employee::findOrfail($id)->delete();
+        Employee::findOrFail($id)->delete();
         return redirect()->route('employee.index')->with('alert', 'Data berhasil dihapus');
     }
 
