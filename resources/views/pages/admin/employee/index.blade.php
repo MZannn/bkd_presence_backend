@@ -103,10 +103,8 @@
                                             class="d-sm-inline" id="form-delete-{{ $item->nip }}">
                                             @csrf
                                             @method('delete')
-                                            {{-- <button type="button" class="btn btn-danger" onclick="confirmDelete({{$item->nip}})">
-                                                <i class="fa fa-trash"></i>
-                                            </button> --}}
-                                            <button type="button" class="btn btn-danger">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="confirmDelete('{{ $item->nip }}')">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
