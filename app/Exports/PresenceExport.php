@@ -99,18 +99,17 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             } elseif (strtoupper($presence->attendance_entry_status) === 'PERJALANAN DINAS' || strtoupper($presence->attendance_exit_status) === 'PERJALANAN DINAS') {
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
                             } elseif (stripos(strtoupper($presence->attendance_entry_status), 'CUTI') !== false && stripos(strtoupper($presence->attendance_exit_status), 'CUTI') !== false) {
-                                $attendance_counts[$nip]['cuti']++;
+                                $durasi_cuti = Carbon::parse($presence->presence_date)->diffInDays($presence->end_date);
+                                $attendance_counts[$nip]['cuti'] += $durasi_cuti;
+
                                 $jenis_cuti = $presence->attendance_entry_status;
                                 if (!isset($attendance_counts[$nip]['jenis_cuti'][$jenis_cuti])) {
                                     $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] = 0;
                                 }
-                                $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti]++;
+                                $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] += $durasi_cuti;
 
-                                $durasi_cuti = Carbon::parse($presence->presence_date)->diffInDays($presence->end_date);
                                 $keterangan_cuti = $presence->attendance_entry_status . ' selama ' . $durasi_cuti . ' hari';
-                                if (!in_array($keterangan_cuti, $attendance_counts[$nip]['keterangan_cuti'])) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
-                                }
+                                $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
                             }
                         }
                     }
