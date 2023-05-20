@@ -99,17 +99,43 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                             } elseif (strtoupper($presence->attendance_entry_status) === 'PERJALANAN DINAS' || strtoupper($presence->attendance_exit_status) === 'PERJALANAN DINAS') {
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
                             } elseif (stripos(strtoupper($presence->attendance_entry_status), 'CUTI') !== false && stripos(strtoupper($presence->attendance_exit_status), 'CUTI') !== false) {
-                                $durasi_cuti = Carbon::parse($presence->presence_date)->diffInDays($presence->end_date);
-                                $attendance_counts[$nip]['cuti'] += $durasi_cuti;
-
+                                $attendance_counts[$nip]['cuti']++;
                                 $jenis_cuti = $presence->attendance_entry_status;
-                                if (!isset($attendance_counts[$nip]['jenis_cuti'][$jenis_cuti])) {
-                                    $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] = 0;
+                                if (!in_array($jenis_cuti, $attendance_counts[$nip]['jenis_cuti'])) {
+                                    array_push($attendance_counts[$nip]['jenis_cuti'], $jenis_cuti);
                                 }
-                                $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] += $durasi_cuti;
+                                $annual_leave = 0;
+                                $big_leave = 0;
+                                $sick_leave = 0;
+                                $maternity_leave = 0;
+                                $important_leave = 0;
+                                if (strtoupper($presence->attendance_entry_status) == 'CUTI TAHUNAN') {
+                                    $annual_leave++;
+                                } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI BESAR') {
+                                    $big_leave++;
+                                } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI SAKIT') {
+                                    $sick_leave++;
+                                } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI HAMIL') {
+                                    $maternity_leave++;
+                                } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI ALASAN PENTING') {
+                                    $important_leave++;
+                                }
+                                if ($annual_leave > 0) {
+                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Tahunan Selama " . $annual_leave . " Hari";
+                                }
+                                if ($big_leave > 0) {
+                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Besar Selama " . $big_leave . " Hari";
+                                }
+                                if ($sick_leave > 0) {
+                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Sakit Selama " . $sick_leave . " Hari";
+                                }
+                                if ($maternity_leave > 0) {
+                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Hamil Selama " . $maternity_leave . " Hari";
+                                }
+                                if ($important_leave > 0) {
+                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Alasan Penting Selama " . $important_leave . " Hari";
+                                }
 
-                                $keterangan_cuti = $presence->attendance_entry_status . ' selama ' . $durasi_cuti . ' hari';
-                                $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
                             }
                         }
                     }
