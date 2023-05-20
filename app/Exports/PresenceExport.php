@@ -72,6 +72,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
                     'total_terlambat_dalam_menit' => 0,
+                    'keterangan_cuti' => [],
                 ];
             }
 
@@ -99,14 +100,15 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
                             } elseif (stripos(strtoupper($presence->attendance_entry_status), 'CUTI') !== false && stripos(strtoupper($presence->attendance_exit_status), 'CUTI') !== false) {
                                 $attendance_counts[$nip]['cuti']++;
-                                if (!isset($attendance_counts[$nip]['jenis_cuti'])) {
-                                    $attendance_counts[$nip]['jenis_cuti'] = [];
-                                }
-                                $jenis_cuti = $presence->keterangan_cuti; // Ubah ke kolom yang sesuai di tabel presensi
+                                $jenis_cuti = $presence->attendance_entry_status;
                                 if (!isset($attendance_counts[$nip]['jenis_cuti'][$jenis_cuti])) {
                                     $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] = 0;
                                 }
                                 $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti]++;
+
+                                $durasi_cuti = Carbon::parse($presence->presence_date)->diffInDays($presence->end_date);
+                                $keterangan_cuti = $presence->attendance_entry_status . ' selama ' . $durasi_cuti . ' hari';
+                                $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
                             }
                         }
                     }
@@ -157,7 +159,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['izin_atau_sakit'],
             $row['perjalanan_dinas'],
             $row['cuti'],
-            $row['jenis_cuti'],
+            implode(', ', $row['keterangan_cuti']),
             $row['tidak_hadir'],
             $row['terlambat'],
             $row['total_terlambat_dalam_menit'],
