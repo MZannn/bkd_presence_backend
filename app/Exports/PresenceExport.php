@@ -45,6 +45,11 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
         $current_date = Carbon::parse($this->start_date);
         $total_late = 0;
         $holidays = Holiday::pluck('holiday_date')->toArray();
+        $annual_leave = 0;
+        $big_leave = 0;
+        $sick_leave = 0;
+        $maternity_leave = 0;
+        $important_leave = 0;
         while ($current_date->lte(Carbon::parse($this->end_date))) {
             // Memeriksa apakah tanggal saat ini bukan hari libur dan merupakan hari kerja (hari biasa)
             if (!in_array($current_date->toDateString(), $holidays) && $current_date->isWeekday()) {
@@ -104,11 +109,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 if (!in_array($jenis_cuti, $attendance_counts[$nip]['jenis_cuti'])) {
                                     array_push($attendance_counts[$nip]['jenis_cuti'], $jenis_cuti);
                                 }
-                                $annual_leave = 0;
-                                $big_leave = 0;
-                                $sick_leave = 0;
-                                $maternity_leave = 0;
-                                $important_leave = 0;
+
                                 if (strtoupper($presence->attendance_entry_status) == 'CUTI TAHUNAN') {
                                     $annual_leave++;
                                 } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI BESAR') {
@@ -120,25 +121,24 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 } elseif (strtoupper($presence->attendance_entry_status) == 'CUTI ALASAN PENTING') {
                                     $important_leave++;
                                 }
-                                if ($annual_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Tahunan Selama " . $annual_leave . " Hari";
-                                }
-                                if ($big_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Besar Selama " . $big_leave . " Hari";
-                                }
-                                if ($sick_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Sakit Selama " . $sick_leave . " Hari";
-                                }
-                                if ($maternity_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Hamil Selama " . $maternity_leave . " Hari";
-                                }
-                                if ($important_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Alasan Penting Selama " . $important_leave . " Hari";
-                                }
-
                             }
                         }
                     }
+                }
+                if ($annual_leave > 0) {
+                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Tahunan Selama " . $annual_leave . " Hari";
+                }
+                if ($big_leave > 0) {
+                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Besar Selama " . $big_leave . " Hari";
+                }
+                if ($sick_leave > 0) {
+                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Sakit Selama " . $sick_leave . " Hari";
+                }
+                if ($maternity_leave > 0) {
+                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Hamil Selama " . $maternity_leave . " Hari";
+                }
+                if ($important_leave > 0) {
+                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Alasan Penting Selama " . $important_leave . " Hari";
                 }
                 $attendance_counts[$nip]['tidak_hadir'] = $working_days - $attendance_counts[$nip]['hadir'];
                 $attendance_counts[$nip]['hari_kerja'] = $working_days;
