@@ -68,6 +68,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'izin_atau_sakit' => 0,
                     'perjalanan_dinas' => 0,
                     'cuti' => 0,
+                    'jenis_cuti' => [],
                     'tidak_hadir' => 0,
                     'terlambat' => 0,
                     'total_terlambat_dalam_menit' => 0,
@@ -98,6 +99,14 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                 $attendance_counts[$nip]['perjalanan_dinas']++;
                             } elseif (stripos(strtoupper($presence->attendance_entry_status), 'CUTI') !== false && stripos(strtoupper($presence->attendance_exit_status), 'CUTI') !== false) {
                                 $attendance_counts[$nip]['cuti']++;
+                                if (!isset($attendance_counts[$nip]['jenis_cuti'])) {
+                                    $attendance_counts[$nip]['jenis_cuti'] = [];
+                                }
+                                $jenis_cuti = $presence->keterangan_cuti; // Ubah ke kolom yang sesuai di tabel presensi
+                                if (!isset($attendance_counts[$nip]['jenis_cuti'][$jenis_cuti])) {
+                                    $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti] = 0;
+                                }
+                                $attendance_counts[$nip]['jenis_cuti'][$jenis_cuti]++;
                             }
                         }
                     }
@@ -129,6 +138,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 'Izin Atau Sakit',
                 'Perjalanan Dinas',
                 'Cuti',
+                'Keterangan Cuti',
                 'Tidak Hadir',
                 'Terlambat',
                 'Terlambat Dalam Menit',
@@ -147,6 +157,7 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['izin_atau_sakit'],
             $row['perjalanan_dinas'],
             $row['cuti'],
+            $row['jenis_cuti'],
             $row['tidak_hadir'],
             $row['terlambat'],
             $row['total_terlambat_dalam_menit'],

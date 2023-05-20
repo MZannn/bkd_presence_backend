@@ -15,7 +15,7 @@ class PresenceSeeder extends Seeder
     public function run(): void
     {
         $nip = '2001081320230408079';
-        $office_id = 1; 
+        $office_id = 2; 
     
         $date = Carbon::create(2023, 5, 2, 0, 0, 0); // Tanggal awal
     
