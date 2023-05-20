@@ -108,7 +108,9 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
 
                                 $durasi_cuti = Carbon::parse($presence->presence_date)->diffInDays($presence->end_date);
                                 $keterangan_cuti = $presence->attendance_entry_status . ' selama ' . $durasi_cuti . ' hari';
-                                $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
+                                if (!in_array($keterangan_cuti, $attendance_counts[$nip]['keterangan_cuti'])) {
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = $keterangan_cuti;
+                                }
                             }
                         }
                     }
