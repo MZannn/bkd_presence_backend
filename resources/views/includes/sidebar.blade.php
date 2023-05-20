@@ -56,10 +56,10 @@
          </li>
      @endif
 
-     <li class="nav-item">
+     {{-- <li class="nav-item">
          <a class="nav-link" href="{{ route('permissionAndSick') }}">
              <i class="fas fa-fw fa-virus"></i>
-             <span>Izin dan Sakit</span></a>
+             <span>Izin dan Sakit</span></a> --}}
      </li>
      <li class="nav-item">
          <a class="nav-link" href="{{ route('bussinessTrip') }}">
