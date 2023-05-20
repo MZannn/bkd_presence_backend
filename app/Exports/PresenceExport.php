@@ -121,19 +121,19 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                                     $important_leave++;
                                 }
                                 if ($annual_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Tahunan Selama " . $annual_leave . " Hari";
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Tahunan Selama " . $annual_leave . " Hari";
                                 }
                                 if ($big_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Besar Selama " . $big_leave . " Hari";
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Besar Selama " . $big_leave . " Hari";
                                 }
                                 if ($sick_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Sakit Selama " . $sick_leave . " Hari";
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Sakit Selama " . $sick_leave . " Hari";
                                 }
                                 if ($maternity_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Hamil Selama " . $maternity_leave . " Hari";
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Hamil Selama " . $maternity_leave . " Hari";
                                 }
                                 if ($important_leave > 0) {
-                                    $attendance_counts[$nip]['keterangan_cuti'] = "Cuti Alasan Penting Selama " . $important_leave . " Hari";
+                                    $attendance_counts[$nip]['keterangan_cuti'][] = "Cuti Alasan Penting Selama " . $important_leave . " Hari";
                                 }
 
                             }
