@@ -70,7 +70,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                     'kantor' => $employee->office->name,
                     'hari_kerja' => 0,
                     'hadir' => 0,
-                    'izin_atau_sakit' => 0,
                     'perjalanan_dinas' => 0,
                     'cuti' => 0,
                     'jenis_cuti' => [],
@@ -89,8 +88,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                         if ($attendance_date->eq($presence_date)) {
                             if (strtoupper($presence->attendance_entry_status) === 'HADIR' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                                 $attendance_counts[$nip]['hadir']++;
-                            } elseif (strtoupper($presence->attendance_entry_status) === 'IZIN' && strtoupper($presence->attendance_exit_status) === 'IZIN' || strtoupper($presence->attendance_entry_status) === 'SAKIT' || strtoupper($presence->attendance_exit_status) === 'SAKIT') {
-                                $attendance_counts[$nip]['izin_atau_sakit']++;
                             } elseif (strtoupper($presence->attendance_entry_status) === 'TERLAMBAT' && strtoupper($presence->attendance_exit_status) === 'HADIR') {
                                 $attendance_counts[$nip]['hadir']++;
                                 $attendance_counts[$nip]['terlambat']++;
@@ -164,7 +161,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
                 'Kantor',
                 'Hari Kerja',
                 'Hadir',
-                'Izin Atau Sakit',
                 'Perjalanan Dinas',
                 'Cuti',
                 'Keterangan Cuti',
@@ -183,7 +179,6 @@ class PresenceExport implements FromCollection, WithHeadings, WithMapping
             $row['kantor'],
             $row['hari_kerja'],
             $row['hadir'],
-            $row['izin_atau_sakit'],
             $row['perjalanan_dinas'],
             $row['cuti'],
             implode(', ', $row['keterangan_cuti']),
