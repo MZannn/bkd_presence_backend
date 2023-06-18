@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    // fetch data user
     public function fetch(Request $request)
     {
         $user = Auth::user()->load('office');
@@ -52,7 +53,7 @@ class UserController extends Controller
         ], 'Data profile user berhasil diambil');
     }
 
-
+    // update profile user
     public function updateProfile(Request $request)
     {
         try {
@@ -82,6 +83,7 @@ class UserController extends Controller
             );
         }
     }
+    // change device
     public function reportChangeDevice(Request $request)
     {
         if (ReportChangeDevice::where('nip', $request->nip)->exists()) {

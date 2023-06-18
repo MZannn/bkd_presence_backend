@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     use PasswordValidationRules;
-    // login
+    // login function
     public function login(Request $request)
     {
         try {

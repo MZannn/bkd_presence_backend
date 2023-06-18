@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PresenceController extends Controller
 {
+    // fetch data presensi
     public function all(Request $request)
     {
         $user = Auth::user();
@@ -24,7 +25,7 @@ class PresenceController extends Controller
             'Data Presensi berhasil diambil'
         );
     }
-
+    // get detail presensi
     public function detailPresence(Request $request, $id)
     {
         $user = Auth::user();
@@ -36,6 +37,7 @@ class PresenceController extends Controller
             'Data Presensi berhasil diambil'
         );
     }
+    // function for presence in
     public function presenceIn(Request $request, $id)
     {
         $data = $request->all();
@@ -51,7 +53,7 @@ class PresenceController extends Controller
             'presences' => $presence->items()
         ], 'Presensi Masuk berhasil');
     }
-
+    // function for presence out
     public function presenceOut(Request $request, $id)
     {
         $data = $request->all();
@@ -67,7 +69,7 @@ class PresenceController extends Controller
             'presences' => $presence->items()
         ], 'Presensi Keluar berhasil');
     }
-
+    // function for submit business trip
     public function bussinessTrip(Request $request)
     {
         if (BussinessTrip::where('nip', $request->nip)->where('start_date', $request->start_date)->where('end_date', $request->end_date)->exists()) {
@@ -107,6 +109,7 @@ class PresenceController extends Controller
         }
     }
 
+    // function for submit permission and sick
     public function permissionAndSick(Request $request)
     {
         try {
@@ -145,6 +148,7 @@ class PresenceController extends Controller
         }
     }
 
+    // function for submit vacation
     public function vacation(Request $request)
     {
         $data = $request->validate([
