@@ -57,7 +57,7 @@
                                                 @csrf
                                                 @method('delete')
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="confirmDeleteOffice({{ $item->id }}, {{ $item->name }})">
+                                                    onclick="confirmDeleteOffice({{ $item->id }}, '{{ $item->name }}')">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
