@@ -137,7 +137,9 @@
  <script>
      function confirmDeleteOffice(id, office_name) {
          Swal.fire({
-             title: 'Data kantor '+office_name+' tidak bisa dihapus karena masih ada data pegawai pada kantor '+office_name+'. Silahkan hapus data pegawai pada kantor '+office_name+'terlebih dahulu!',
+             title: 'Data kantor ' + office_name +
+                 ' tidak bisa dihapus karena masih ada data pegawai pada kantor ' + office_name +
+                 '. Silahkan hapus data pegawai pada kantor ' + office_name + 'terlebih dahulu!',
              showClass: {
                  popup: 'animate__animated animate__fadeInDown'
              },
