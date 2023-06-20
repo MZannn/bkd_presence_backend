@@ -35,6 +35,11 @@
                  <i class="fas fa-fw fa-building"></i>
                  <span>Tanggal Hari Libur</span></a>
          </li>
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('leaveRules.index') }}">
+                 <i class="fas fa-fw fa-book"></i>
+                 <span>Aturan Cuti</span></a>
+         </li>
 
      @endif
 

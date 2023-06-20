@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BussinessTripController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\HolidayController;
+use App\Http\Controllers\Admin\LeaveRulesController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionAndSickController;
 use App\Http\Controllers\Admin\ReportChangeDeviceController;
@@ -56,5 +57,6 @@ Route::prefix('/')
         Route::resource('/holiday',HolidayController::class);
         Route::get('/scrape', [HolidayController::class, 'scrape'])->name('holiday.scrape');
         Route::post('/holiday/scrape', [HolidayController::class, 'scrapingHolidayDate'])->name('holiday.storeScrape');
+        Route::resource('/leave-rules', LeaveRulesController::class);
     });
 Auth::routes(['register' => false]);
