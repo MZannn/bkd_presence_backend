@@ -50,9 +50,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div class="d-sm-flex justify-content-sm-end mb-2">
-                        {{ $items->links('pagination::bootstrap-4') }}
-                    </div>
                 </div>
             </div>
         </div>
