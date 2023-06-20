@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Mail\SendEmail;
 use App\Models\Holiday;
+use App\Models\LeaveRules;
 use App\Models\Presence;
 use App\Models\ReportChangeDevice;
 use App\Models\User;
@@ -28,7 +29,7 @@ class UserController extends Controller
             ->where('presence_date', Carbon::today())
             ->first();
         $holidays = Holiday::pluck('holiday_date')->toArray();
-
+        $leaveRules = LeaveRules::pluck('leave_name')->toArray();
         if (!$presence && Carbon::today()->isWeekday() && !in_array(Carbon::today()->toDateString(), $holidays)) {
             Presence::create([
                 'nip' => $user->nip,
@@ -40,7 +41,8 @@ class UserController extends Controller
                 ->paginate(5);
             return ResponseFormatter::success([
                 'user' => $user,
-                'presences' => $presence->items()
+                'presences' => $presence->items(),
+                'leaveRules' => $leaveRules,
             ], 'Data profile user berhasil diambil');
         }
 
@@ -49,7 +51,8 @@ class UserController extends Controller
             ->paginate(5);
         return ResponseFormatter::success([
             'user' => $user,
-            'presences' => $presence->items()
+            'presences' => $presence->items(),
+            'leaveRules' => $leaveRules,
         ], 'Data profile user berhasil diambil');
     }
 
