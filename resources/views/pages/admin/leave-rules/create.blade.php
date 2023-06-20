@@ -22,7 +22,7 @@
         <!-- Content Row -->
         <div class="row">
             <div class="card-body">
-                <form action="{{ route('leaveRules.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('leave-rules.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <label for="leave_name" class="d-sm-flex">Jenis Cuti</label>
                     <input type="text" class="form-control mb-2" name='leave_name' value="{{ old('leave_name') }}">

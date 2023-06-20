@@ -57,6 +57,6 @@ Route::prefix('/')
         Route::resource('/holiday',HolidayController::class);
         Route::get('/scrape', [HolidayController::class, 'scrape'])->name('holiday.scrape');
         Route::post('/holiday/scrape', [HolidayController::class, 'scrapingHolidayDate'])->name('holiday.storeScrape');
-        Route::resource('/leave-rules', LeaveRulesController::class);
+        Route::resource('leave-rules', LeaveRulesController::class);
     });
 Auth::routes(['register' => false]);

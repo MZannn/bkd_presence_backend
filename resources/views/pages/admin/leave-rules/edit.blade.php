@@ -23,7 +23,7 @@
         <div class="row">
             <div class="card-body">
 
-                <form action="{{ route('leaveRules.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('leave-rules.update', $item->id) }}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <label for="leave_name" class="d-sm-flex">Jenis Cuti </label>

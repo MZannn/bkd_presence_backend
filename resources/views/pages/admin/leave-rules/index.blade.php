@@ -26,10 +26,10 @@
                                 <tr>
                                     <td> {{ $item->leave_name }}</td>
                                     <td>
-                                        <a href="{{ route('leaveRules.edit', $item->id) }}" class="btn btn-info">
+                                        <a href="{{ route('leave-rules.edit', $item->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <form action="{{ route('leaveRules.destroy', $item->id) }}" method="POST"
+                                        <form action="{{ route('leave-rules.destroy', $item->id) }}" method="POST"
                                             class="d-sm-inline" id="form-delete-{{ $item->id }}">
                                             @csrf
                                             @method('delete')
