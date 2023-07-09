@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeSeeder extends Seeder
 {
@@ -16,11 +17,11 @@ class EmployeeSeeder extends Seeder
         DB::table('employees')->insert([
             'nip' => '2001081320230408079',
             'name' => 'Muhammad Fauzan',
-            'password'=>'2001081320230408079',
-            'position'=>"Anggota Sub Bagian Pengelolaan Data",
-            'phone_number'=>"081234567890",
-            'device_id'=>null,
-            'office_id'=>1,
+            'password' => Hash::make('2001081320230408079'),
+            'position' => "Anggota Sub Bagian Pengelolaan Data",
+            'phone_number' => "081234567890",
+            'device_id' => null,
+            'office_id' => 1,
         ]);
     }
 }
